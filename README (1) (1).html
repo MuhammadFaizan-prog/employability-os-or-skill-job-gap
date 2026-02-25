@@ -1,0 +1,1869 @@
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmployabilityOS PRD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f3f4f6;
+            --paper: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --heading: #0f172a;
+            --accent: #4f46e5;
+            --accent-light: #e0e7ff;
+            --border: #e2e8f0;
+        }
+
+        body.document-body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            padding: 4rem 1rem;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .document-container {
+            background-color: var(--paper);
+            max-width: 850px;
+            width: 100%;
+            padding: 5rem 6rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+        }
+
+        @media (max-width: 768px) {
+            .document-container {
+                padding: 2.5rem 2rem;
+            }
+            body.document-body {
+                padding: 1rem;
+            }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--heading);
+            font-weight: 700;
+            margin-top: 2em;
+            margin-bottom: 0.75em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            letter-spacing: -0.025em;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            letter-spacing: -0.015em;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #1e293b;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: #4338ca;
+            border-bottom-color: #4338ca;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.75rem;
+            font-size: 1.05rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        li::marker {
+            color: var(--text-muted);
+        }
+
+        blockquote {
+            border-left: 4px solid var(--accent);
+            background: var(--accent-light);
+            margin: 2.5rem 0;
+            padding: 1.5rem 1.75rem;
+            border-radius: 0 12px 12px 0;
+            color: #3730a3;
+            font-style: italic;
+            font-size: 1.15rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+        }
+
+        blockquote p {
+            color: #3730a3;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2.5rem 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: var(--heading);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            color: #db2777;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85em;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body class="document-body">
+    <div class="document-container">
+<h1 id="employabilityos">EmployabilityOS</h1>
+      <blockquote>
+      <p>AI-Powered Career Readiness &amp; Employability Scoring Platform</p>
+      </blockquote>
+      <hr />
+      <h2 id="table-of-contents">Table of Contents</h2>
+      <ol type="1">
+      <li><a href="#app-idea">App Idea</a></li>
+      <li><a href="#why--problem-statement">Why — Problem Statement</a></li>
+      <li><a href="#how--solution-approach">How — Solution Approach</a></li>
+      <li><a href="#what--core-features">What — Core Features</a></li>
+      <li><a href="#impact-on-society--creator">Impact on Society &amp;
+      Creator</a></li>
+      <li><a href="#target-user-persona">Target User Persona</a></li>
+      <li><a href="#product-vision">Product Vision</a></li>
+      <li><a href="#core-value-proposition">Core Value Proposition</a></li>
+      <li><a href="#product-scope--mvp-modules">Product Scope — MVP
+      Modules</a></li>
+      <li><a href="#pages--navigation-map">Pages &amp; Navigation Map</a></li>
+      <li><a href="#database-schema-supabase">Database Schema
+      (Supabase)</a></li>
+      <li><a href="#api-routes--backend-logic">API Routes &amp; Backend
+      Logic</a></li>
+      <li><a href="#backend-architecture-diagram">Backend Architecture
+      Diagram</a></li>
+      <li><a href="#ai--scoring-logic">AI &amp; Scoring Logic</a></li>
+      <li><a href="#revenue-model">Revenue Model</a></li>
+      <li><a href="#non-functional-requirements">Non-Functional
+      Requirements</a></li>
+      <li><a href="#12-week-sprint-roadmap">12-Week Sprint Roadmap</a></li>
+      <li><a href="#mvp-validation--beta-plan">MVP Validation &amp; Beta
+      Plan</a></li>
+      <li><a href="#feature-timeline-phased">Feature Timeline
+      (Phased)</a></li>
+      <li><a href="#risks--mitigation">Risks &amp; Mitigation</a></li>
+      <li><a href="#investor-pitch-outline">Investor Pitch Outline</a></li>
+      <li><a href="#strategic-summary">Strategic Summary</a></li>
+      </ol>
+      <hr />
+      <h2 id="app-idea">App Idea</h2>
+      <p><strong>EmployabilityOS</strong> is a semi-AI powered platform
+      designed to bridge the skill–job gap for final-year students and fresh
+      graduates. The platform evaluates, structures, and improves a user’s job
+      readiness through personalized career roadmaps, skill gap analysis,
+      project recommendations, resume analysis, interview preparation, and a
+      dynamic <strong>Employability Score</strong>.</p>
+      <p>The core objective is to transform career preparation from random
+      effort into <strong>measurable progress</strong>.</p>
+      <hr />
+      <h2 id="why-problem-statement">Why — Problem Statement</h2>
+      <h3 id="the-skilljob-gap-a-structural-market-failure">🥇 The Skill–Job
+      Gap: A Structural Market Failure</h3>
+      <p>This is not about “students being lazy” or “companies being picky.”
+      It is a <strong>coordination breakdown</strong> between education
+      systems, learners, and employers.</p>
+      <h4 id="the-real-issue">The Real Issue</h4>
+      <p><strong>Students:</strong> - Don’t know what skills are required -
+      Don’t know in what order to learn - Don’t know what projects to build -
+      Don’t know how to prepare for interviews - Follow random YouTube
+      tutorials</p>
+      <p><strong>Companies:</strong> - Want job-ready talent - Don’t want to
+      train from scratch</p>
+      <p>This creates a <strong>structural mismatch</strong>.</p>
+      <h4 id="why-this-is-a-high-impact-problem">Why This Is a High-Impact
+      Problem</h4>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Factor</th>
+      <th>Rating</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Market Size</td>
+      <td>Very High</td>
+      </tr>
+      <tr class="even">
+      <td>Monetization</td>
+      <td>Very High</td>
+      </tr>
+      <tr class="odd">
+      <td>Scalability</td>
+      <td>Very High</td>
+      </tr>
+      <tr class="even">
+      <td>Urgency</td>
+      <td>Very High</td>
+      </tr>
+      </tbody>
+      </table>
+      <ol type="1">
+      <li><strong>Massive &amp; Growing Market</strong> — Millions of students
+      graduate every year but remain underemployed. Companies say “no skilled
+      candidates,” while candidates say “no jobs.” That disconnect is a
+      billion-dollar inefficiency.</li>
+      <li><strong>Emotionally Charged Pain Point</strong> — Career uncertainty
+      creates stress, self-doubt, financial pressure, and family expectations.
+      Problems tied to identity and income are powerful drivers of
+      adoption.</li>
+      <li><strong>Recurring Demand</strong> — Every year → new students. Every
+      few years → career switchers. This creates continuous user inflow.</li>
+      <li><strong>Strong Monetization Potential</strong> — Premium career
+      roadmaps, mock interviews, skill assessments, recruiter partnerships,
+      corporate upskilling programs.</li>
+      <li><strong>Aligns With Future Trends</strong> — AI-driven hiring,
+      remote work, portfolio-based careers, skill-based recruitment — all
+      growing globally.</li>
+      </ol>
+      <h4 id="root-level-breakdown">Root-Level Breakdown</h4>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Failure Type</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td><strong>Signaling Failure</strong></td>
+      <td>Everyone has certificates. Employers cannot verify capability
+      quickly. No standardized, practical proof layer for most skills.</td>
+      </tr>
+      <tr class="even">
+      <td><strong>Sequencing Failure</strong></td>
+      <td>Students jump between random YouTube tutorials, inconsistent advice.
+      Result: fragmented knowledge, no mastery.</td>
+      </tr>
+      <tr class="odd">
+      <td><strong>Feedback Failure</strong></td>
+      <td>Most learners don’t know if they’re job-ready, if their portfolio is
+      competitive, or if their resume is strong enough.</td>
+      </tr>
+      <tr class="even">
+      <td><strong>Market Translation Failure</strong></td>
+      <td>Job descriptions are in corporate language. Students can’t translate
+      employer expectations into actionable preparation.</td>
+      </tr>
+      <tr class="odd">
+      <td><strong>Decision Paralysis</strong></td>
+      <td>Fear of choosing wrong path, comparison with peers, overthinking
+      “future-proof” skills, starting many things and finishing none.</td>
+      </tr>
+      </tbody>
+      </table>
+      <h4 id="why-this-problem-is-growing">Why This Problem Is Growing</h4>
+      <ul>
+      <li><strong>AI Acceleration</strong> — Skill half-life is shrinking.
+      Entry-level jobs are changing. Employers expect higher baseline
+      productivity.</li>
+      <li><strong>Remote Work Expansion</strong> — Students compete globally,
+      not locally. That raises the skill bar.</li>
+      <li><strong>Education Is Not Market-Synced</strong> — Universities
+      operate on outdated curricula (3–5 years behind industry trends).
+      Industry evolves quarterly; academia updates slowly.</li>
+      <li><strong>Information Overload</strong> — 1000+ YouTube tutorials,
+      200+ bootcamps, 50+ “Top skills” articles, endless LinkedIn advice. More
+      information → Less clarity.</li>
+      </ul>
+      <h4 id="why-existing-solutions-are-incomplete">Why Existing Solutions
+      Are Incomplete</h4>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Solution</th>
+      <th>Limitation</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Universities</td>
+      <td>Theory-heavy</td>
+      </tr>
+      <tr class="even">
+      <td>Bootcamps</td>
+      <td>Skill-heavy but narrow</td>
+      </tr>
+      <tr class="odd">
+      <td>MOOCs</td>
+      <td>Content-heavy but guidance-light</td>
+      </tr>
+      <tr class="even">
+      <td>Job Boards</td>
+      <td>Opportunity-heavy but preparation-light</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>No one fully integrates: <strong>Guidance + Sequencing + Validation +
+      Proof + Placement</strong></p>
+      <h4 id="the-core-problem-in-one-sentence">The Core Problem in One
+      Sentence</h4>
+      <blockquote>
+      <p>There is no intelligent bridge translating career goals into
+      structured, validated, job-ready execution paths.</p>
+      </blockquote>
+      <p>People don’t need “more courses.” They need <strong>decision
+      architecture + execution system + feedback mechanism</strong>.</p>
+      <hr />
+      <h2 id="how-solution-approach">How — Solution Approach</h2>
+      <ol type="1">
+      <li>AI analyzes user goal (e.g., Frontend Developer, Data Analyst)</li>
+      <li>Breaks it into:
+      <ul>
+      <li>Required skills</li>
+      <li>Recommended order</li>
+      <li>Projects to build</li>
+      <li>Portfolio checklist</li>
+      <li>Interview prep roadmap</li>
+      </ul></li>
+      <li>Tracks progress</li>
+      <li>Suggests real-world tasks</li>
+      <li>Provides a dynamic <strong>Employability Score</strong> as a
+      measurable readiness metric</li>
+      </ol>
+      <p><strong>AI Depth (V1):</strong> Semi-AI — GPT-powered recommendations
+      combined with structured competency frameworks. Start lean, evolve into
+      proprietary intelligence later.</p>
+      <hr />
+      <h2 id="what-core-features">What — Core Features</h2>
+      <h3 id="mvp-features">MVP Features</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Feature</th>
+      <th>Priority</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Career Goal Selector</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="even">
+      <td>Skill Gap Assessment</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="odd">
+      <td>AI Career Roadmap Builder</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="even">
+      <td>Projects &amp; Portfolio Builder</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="odd">
+      <td>Employability Score &amp; Progress Tracker</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="even">
+      <td>Dashboard &amp; Insights</td>
+      <td>Essential</td>
+      </tr>
+      <tr class="odd">
+      <td>Resume Analyzer</td>
+      <td>Important (basic)</td>
+      </tr>
+      <tr class="even">
+      <td>Interview Question Bank</td>
+      <td>Optional MVP version</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="advanced-phase-2-features-post-mvp">Advanced / Phase 2 Features
+      (Post-MVP)</h3>
+      <ul>
+      <li>Skill Validation &amp; Micro-Certifications</li>
+      <li>Mentor / Peer Feedback Integration</li>
+      <li>Corporate Partnerships / Recruiter Dashboard</li>
+      <li>Gamification &amp; Social Sharing (leaderboards, badges)</li>
+      <li>AI-powered Job Matching</li>
+      <li>University / Bootcamp Integrations (B2B)</li>
+      </ul>
+      <hr />
+      <h2 id="impact-on-society-creator">Impact on Society &amp; Creator</h2>
+      <h3 id="impact-on-society">🌍 Impact on Society</h3>
+      <ul>
+      <li>Reduces unemployment gap</li>
+      <li>Increases practical skill acquisition</li>
+      <li>Makes career planning structured instead of random</li>
+      <li>Encourages skill-based hiring</li>
+      <li>Supports developing economies especially</li>
+      </ul>
+      <h3 id="impact-on-you-as-creator">👤 Impact on You (as Creator)</h3>
+      <ul>
+      <li>Positions you in EdTech / AI intersection</li>
+      <li>Massive portfolio credibility</li>
+      <li>Strong LinkedIn authority potential</li>
+      <li>Scalable startup opportunity</li>
+      <li>Potential investor attraction</li>
+      <li>Deep understanding of market needs</li>
+      </ul>
+      <hr />
+      <h2 id="target-user-persona">Target User Persona</h2>
+      <h3 id="primary-persona-final-year-tech-student-age-2024">Primary
+      Persona: Final-Year Tech Student (Age 20–24)</h3>
+      <p><strong>Profile:</strong> - CS / IT / Engineering background -
+      Moderate technical exposure - Consumes YouTube tutorials - Has basic
+      projects but no structured roadmap - Feels placement pressure - Active
+      on LinkedIn</p>
+      <p><strong>Pain Points:</strong> - Unsure if job-ready - Resume
+      rejections - Overwhelmed by advice - No performance benchmark</p>
+      <h3 id="geography-for-mvp">Geography for MVP</h3>
+      <p><strong>Pakistan</strong> (or one city/university cluster first) —
+      easier validation, lower CAC, strong unmet mentorship demand, less
+      competition vs global market. Local dominance first, then scale
+      regionally.</p>
+      <hr />
+      <h2 id="product-vision">Product Vision</h2>
+      <p>To become the <strong>standardized employability intelligence
+      layer</strong> for emerging talent in developing markets.</p>
+      <p><strong>Long-term vision:</strong> - Skill validation ecosystem -
+      Hiring signal platform - University integration partner - Corporate
+      upskilling SaaS</p>
+      <hr />
+      <h2 id="core-value-proposition">Core Value Proposition</h2>
+      <blockquote>
+      <p>“Measure and improve your job readiness with a real-time
+      Employability Score.”</p>
+      </blockquote>
+      <hr />
+      <h2 id="product-scope-mvp-modules">Product Scope — MVP Modules</h2>
+      <h3 id="a-career-goal-selector">A) Career Goal Selector</h3>
+      <p>User selects target role: Frontend Developer, Backend Developer, Data
+      Analyst, AI/ML Engineer, Mobile Developer. System loads structured
+      competency framework.</p>
+      <h3 id="b-skill-gap-assessment">B) Skill Gap Assessment</h3>
+      <p>User inputs known skills, tools familiarity, project experience,
+      internship history. System compares against role competency model.
+      Output: Skill gap map, strength indicators, priority focus areas.</p>
+      <h3 id="c-employability-score-engine-core-differentiator">C)
+      Employability Score Engine (Core Differentiator)</h3>
+      <p>Score based on weighted dimensions:</p>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Dimension</th>
+      <th>Weight</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Technical Skills</td>
+      <td>40%</td>
+      </tr>
+      <tr class="even">
+      <td>Projects &amp; Portfolio</td>
+      <td>20%</td>
+      </tr>
+      <tr class="odd">
+      <td>Resume Quality</td>
+      <td>15%</td>
+      </tr>
+      <tr class="even">
+      <td>Practical Experience</td>
+      <td>15%</td>
+      </tr>
+      <tr class="odd">
+      <td>Interview Readiness</td>
+      <td>10%</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>Score range: 0–100. Dynamic recalculation as progress updates.</p>
+      <h3 id="d-personalized-roadmap-generator">D) Personalized Roadmap
+      Generator</h3>
+      <p>AI-assisted system generates: Skill sequence, estimated timeline,
+      suggested projects, portfolio checklist, interview milestones. Semi-AI
+      logic (structured templates + GPT refinement).</p>
+      <h3 id="e-project-builder-suggestions">E) Project Builder
+      Suggestions</h3>
+      <p>For each role: Beginner, Intermediate, and Advanced portfolio-level
+      projects. Each includes problem statement, required stack, expected
+      output, and evaluation criteria.</p>
+      <h3 id="f-resume-analyzer">F) Resume Analyzer</h3>
+      <p>User uploads resume. System evaluates: ATS compatibility, skill
+      alignment, keyword density, clarity, quantification of achievements.
+      Provides improvement recommendations.</p>
+      <h3 id="g-interview-question-bank">G) Interview Question Bank</h3>
+      <p>Role-specific: Technical, behavioral, and practical case questions.
+      Categorized by difficulty level.</p>
+      <hr />
+      <h2 id="pages-navigation-map">Pages &amp; Navigation Map</h2>
+      <h3 id="landing-welcome-page">1. Landing / Welcome Page</h3>
+      <ul>
+      <li>Signup / Login buttons</li>
+      <li>Key benefits (e.g., “Track your employability score”)</li>
+      <li><strong>Connects to:</strong> Signup → Onboarding | Login →
+      Dashboard</li>
+      </ul>
+      <h3 id="onboarding-role-selection-page">2. Onboarding / Role Selection
+      Page</h3>
+      <ul>
+      <li>Role selection (Frontend, Backend, Data Analyst…)</li>
+      <li>Optional brief skill self-assessment</li>
+      <li><strong>Connects to:</strong> Submit → Dashboard / Skill Gap
+      Assessment</li>
+      </ul>
+      <h3 id="dashboard-central-hub">3. Dashboard (Central Hub)</h3>
+      <ul>
+      <li>Employability Score overview</li>
+      <li>Skill progress (strengths / gaps)</li>
+      <li>Project completion overview</li>
+      <li>Resume &amp; interview readiness status</li>
+      <li>Suggested next steps / roadmap highlights</li>
+      <li><strong>Connects to:</strong> All other pages</li>
+      </ul>
+      <h3 id="skill-gap-skills-page">4. Skill Gap / Skills Page</h3>
+      <ul>
+      <li>Skill list with proficiency (1–5)</li>
+      <li>Highlight gaps &amp; priority skills</li>
+      <li>AI suggestion for next skill</li>
+      <li><strong>Connects to:</strong> Mark skill → Updates Dashboard &amp;
+      Score</li>
+      </ul>
+      <h3 id="roadmap-page">5. Roadmap Page</h3>
+      <ul>
+      <li>Ordered skills + milestones</li>
+      <li>Suggested projects per skill</li>
+      <li>Timeline / estimated completion</li>
+      <li>Progress tracker</li>
+      <li><strong>Connects to:</strong> Skill Detail, Project Page,
+      Dashboard</li>
+      </ul>
+      <h3 id="project-page">6. Project Page</h3>
+      <ul>
+      <li>Project title, description, difficulty, required skills</li>
+      <li>Expected deliverables / GitHub-ready output</li>
+      <li>Completion toggle</li>
+      <li><strong>Connects to:</strong> Updates Score &amp; Dashboard</li>
+      </ul>
+      <h3 id="resume-analyzer-page">7. Resume Analyzer Page</h3>
+      <ul>
+      <li>Upload resume (PDF / DOCX)</li>
+      <li>AI analysis: ATS match, keyword gaps, formatting</li>
+      <li>Recommendations &amp; resume score</li>
+      <li><strong>Connects to:</strong> Updates Resume score in Dashboard</li>
+      </ul>
+      <h3 id="interview-prep-page">8. Interview Prep Page</h3>
+      <ul>
+      <li>Technical / behavioral question list</li>
+      <li>Difficulty filter (easy → advanced)</li>
+      <li>Optional AI mock interview simulation</li>
+      <li>Track completion</li>
+      <li><strong>Connects to:</strong> Updates Interview score &amp;
+      Dashboard</li>
+      </ul>
+      <h3 id="profile-settings-page">9. Profile / Settings Page</h3>
+      <ul>
+      <li>Name, email, role, subscription type</li>
+      <li>Upload resume, preferences</li>
+      <li><strong>Connects to:</strong> Dashboard updates, subscription
+      upgrade</li>
+      </ul>
+      <h3 id="notifications-milestones-page-optional">10. Notifications /
+      Milestones Page (Optional)</h3>
+      <ul>
+      <li>Milestone unlocks, suggested next actions</li>
+      <li><strong>Connects to:</strong> Roadmap / Project / Skill pages</li>
+      </ul>
+      <h3 id="navigation-flow-summary">Navigation Flow Summary</h3>
+      <pre><code>Landing → Signup/Login → Onboarding → Dashboard
+      Dashboard → Skill Gap → Skill Detail → Roadmap → Project Page
+      Dashboard → Roadmap → Skill / Project / Milestone
+      Dashboard → Resume Analyzer
+      Dashboard → Interview Prep
+      Dashboard → Profile / Settings
+      Dashboard → Notifications / Milestones</code></pre>
+      <hr />
+      <h2 id="database-schema-supabase">Database Schema (Supabase)</h2>
+      <h3 id="users"><code>users</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Supabase auth user ID</td>
+      </tr>
+      <tr class="even">
+      <td>name</td>
+      <td>text</td>
+      <td>Full name</td>
+      </tr>
+      <tr class="odd">
+      <td>email</td>
+      <td>text</td>
+      <td>From auth</td>
+      </tr>
+      <tr class="even">
+      <td>role_selected</td>
+      <td>text</td>
+      <td>e.g., “Frontend Developer”</td>
+      </tr>
+      <tr class="odd">
+      <td>subscription_type</td>
+      <td>text</td>
+      <td>“free” / “premium”</td>
+      </tr>
+      <tr class="even">
+      <td>created_at</td>
+      <td>timestamp</td>
+      <td>default now()</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="skills"><code>skills</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Unique skill ID</td>
+      </tr>
+      <tr class="even">
+      <td>name</td>
+      <td>text</td>
+      <td>Skill name</td>
+      </tr>
+      <tr class="odd">
+      <td>role</td>
+      <td>text</td>
+      <td>Role this skill belongs to</td>
+      </tr>
+      <tr class="even">
+      <td>difficulty</td>
+      <td>int</td>
+      <td>1–3 (beginner → advanced)</td>
+      </tr>
+      <tr class="odd">
+      <td>weight</td>
+      <td>numeric</td>
+      <td>Used for scoring</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="user_skills"><code>user_skills</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Auto</td>
+      </tr>
+      <tr class="even">
+      <td>user_id</td>
+      <td>UUID</td>
+      <td>FK → users.id</td>
+      </tr>
+      <tr class="odd">
+      <td>skill_id</td>
+      <td>UUID</td>
+      <td>FK → skills.id</td>
+      </tr>
+      <tr class="even">
+      <td>proficiency</td>
+      <td>int</td>
+      <td>1–5</td>
+      </tr>
+      <tr class="odd">
+      <td>last_updated</td>
+      <td>timestamp</td>
+      <td>default now()</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="projects"><code>projects</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Unique project ID</td>
+      </tr>
+      <tr class="even">
+      <td>title</td>
+      <td>text</td>
+      <td>Name of project</td>
+      </tr>
+      <tr class="odd">
+      <td>role</td>
+      <td>text</td>
+      <td>Role type</td>
+      </tr>
+      <tr class="even">
+      <td>difficulty</td>
+      <td>int</td>
+      <td>1–3</td>
+      </tr>
+      <tr class="odd">
+      <td>required_skills</td>
+      <td>jsonb</td>
+      <td>Array of skill IDs</td>
+      </tr>
+      <tr class="even">
+      <td>evaluation_criteria</td>
+      <td>text</td>
+      <td>Notes on assessment</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="user_projects"><code>user_projects</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Auto</td>
+      </tr>
+      <tr class="even">
+      <td>user_id</td>
+      <td>UUID</td>
+      <td>FK → users.id</td>
+      </tr>
+      <tr class="odd">
+      <td>project_id</td>
+      <td>UUID</td>
+      <td>FK → projects.id</td>
+      </tr>
+      <tr class="even">
+      <td>completed</td>
+      <td>boolean</td>
+      <td>default false</td>
+      </tr>
+      <tr class="odd">
+      <td>last_updated</td>
+      <td>timestamp</td>
+      <td>default now()</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="scores"><code>scores</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Auto</td>
+      </tr>
+      <tr class="even">
+      <td>user_id</td>
+      <td>UUID</td>
+      <td>FK → users.id</td>
+      </tr>
+      <tr class="odd">
+      <td>technical</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="even">
+      <td>projects</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="odd">
+      <td>resume</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="even">
+      <td>interview</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="odd">
+      <td>practical</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="even">
+      <td>final_score</td>
+      <td>numeric</td>
+      <td>0–100</td>
+      </tr>
+      <tr class="odd">
+      <td>last_calculated</td>
+      <td>timestamp</td>
+      <td>default now()</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="interview_questions"><code>interview_questions</code></h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Auto</td>
+      </tr>
+      <tr class="even">
+      <td>question_text</td>
+      <td>text</td>
+      <td>The question</td>
+      </tr>
+      <tr class="odd">
+      <td>role</td>
+      <td>text</td>
+      <td>Role-specific</td>
+      </tr>
+      <tr class="even">
+      <td>difficulty_level</td>
+      <td>int</td>
+      <td>1–3</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="user_roadmap-optional"><code>user_roadmap</code> (Optional)</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>id</td>
+      <td>UUID (PK)</td>
+      <td>Auto</td>
+      </tr>
+      <tr class="even">
+      <td>user_id</td>
+      <td>UUID</td>
+      <td>FK → users.id</td>
+      </tr>
+      <tr class="odd">
+      <td>roadmap_json</td>
+      <td>jsonb</td>
+      <td>AI-generated roadmap</td>
+      </tr>
+      <tr class="even">
+      <td>last_updated</td>
+      <td>timestamp</td>
+      <td>default now()</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="entity-relationships">Entity Relationships</h3>
+      <pre><code>users 1──N user_skills
+      users 1──N user_projects
+      users 1──1 scores
+      skills 1──N user_skills
+      projects 1──N user_projects
+      users 1──1 user_roadmap</code></pre>
+      <hr />
+      <h2 id="api-routes-backend-logic">API Routes &amp; Backend Logic</h2>
+      <p>All API routes are serverless <strong>Supabase Edge
+      Functions</strong>.</p>
+      <h3 id="auth-routes">Auth Routes</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>POST</td>
+      <td>/auth/signup</td>
+      <td>Supabase Auth</td>
+      </tr>
+      <tr class="even">
+      <td>POST</td>
+      <td>/auth/login</td>
+      <td>Supabase Auth</td>
+      </tr>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/auth/me</td>
+      <td>Get current user profile</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="user-profile-role">User Profile &amp; Role</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/users/:id</td>
+      <td>Fetch profile</td>
+      </tr>
+      <tr class="even">
+      <td>PATCH</td>
+      <td>/users/:id</td>
+      <td>Update profile / role / subscription</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="skill-management">Skill Management</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/skills?role=Frontend Developer</td>
+      <td>Fetch skills for role</td>
+      </tr>
+      <tr class="even">
+      <td>POST</td>
+      <td>/user_skills</td>
+      <td>Add skill progress</td>
+      </tr>
+      <tr class="odd">
+      <td>PATCH</td>
+      <td>/user_skills/:id</td>
+      <td>Update proficiency</td>
+      </tr>
+      <tr class="even">
+      <td>GET</td>
+      <td>/user_skills/:user_id</td>
+      <td>Fetch user skill progress</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="project-management">Project Management</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/projects?role=Backend Developer</td>
+      <td>Get recommended projects</td>
+      </tr>
+      <tr class="even">
+      <td>POST</td>
+      <td>/user_projects</td>
+      <td>Mark project as completed</td>
+      </tr>
+      <tr class="odd">
+      <td>PATCH</td>
+      <td>/user_projects/:id</td>
+      <td>Update completion</td>
+      </tr>
+      <tr class="even">
+      <td>GET</td>
+      <td>/user_projects/:user_id</td>
+      <td>Get user project status</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="score-management">Score Management</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/scores/:user_id</td>
+      <td>Fetch user score</td>
+      </tr>
+      <tr class="even">
+      <td>POST</td>
+      <td>/scores/calculate/:user_id</td>
+      <td>Calculate and save user score</td>
+      </tr>
+      </tbody>
+      </table>
+      <p><strong>Score Calculation Logic:</strong></p>
+      <div class="sourceCode" id="cb3"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">calculateScore</span>(user_id) {</span>
+      <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> userSkills <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="fu">from</span>(<span class="st">&#39;user_skills&#39;</span>)<span class="op">.</span><span class="fu">select</span>(<span class="st">&#39;*&#39;</span>)<span class="op">.</span><span class="fu">eq</span>(<span class="st">&#39;user_id&#39;</span><span class="op">,</span> user_id)</span>
+      <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> userProjects <span class="op">=</span> <span class="cf">await</span> db<span class="op">.</span><span class="fu">from</span>(<span class="st">&#39;user_projects&#39;</span>)<span class="op">.</span><span class="fu">select</span>(<span class="st">&#39;*&#39;</span>)<span class="op">.</span><span class="fu">eq</span>(<span class="st">&#39;user_id&#39;</span><span class="op">,</span> user_id)</span>
+      <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> resumeScore <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetchResumeScore</span>(user_id)</span>
+      <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> interviewScore <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetchInterviewScore</span>(user_id)</span>
+      <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> practicalScore <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetchPracticalScore</span>(user_id)</span>
+      <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+      <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> technicalScore <span class="op">=</span> <span class="fu">weightedSkillScore</span>(userSkills)</span>
+      <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> projectScore <span class="op">=</span> <span class="fu">weightedProjectScore</span>(userProjects)</span>
+      <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+      <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> finalScore <span class="op">=</span></span>
+      <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        technicalScore <span class="op">*</span> <span class="fl">0.4</span> <span class="op">+</span></span>
+      <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        projectScore <span class="op">*</span> <span class="fl">0.2</span> <span class="op">+</span></span>
+      <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        resumeScore <span class="op">*</span> <span class="fl">0.15</span> <span class="op">+</span></span>
+      <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        interviewScore <span class="op">*</span> <span class="fl">0.1</span> <span class="op">+</span></span>
+      <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        practicalScore <span class="op">*</span> <span class="fl">0.15</span></span>
+      <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+      <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> db<span class="op">.</span><span class="fu">from</span>(<span class="st">&#39;scores&#39;</span>)<span class="op">.</span><span class="fu">upsert</span>({</span>
+      <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        user_id<span class="op">,</span></span>
+      <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        technical<span class="op">:</span> technicalScore<span class="op">,</span></span>
+      <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        projects<span class="op">:</span> projectScore<span class="op">,</span></span>
+      <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        resume<span class="op">:</span> resumeScore<span class="op">,</span></span>
+      <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        interview<span class="op">:</span> interviewScore<span class="op">,</span></span>
+      <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        practical<span class="op">:</span> practicalScore<span class="op">,</span></span>
+      <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        final_score<span class="op">:</span> finalScore<span class="op">,</span></span>
+      <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        last_calculated<span class="op">:</span> <span class="kw">new</span> <span class="bu">Date</span>()</span>
+      <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    })</span>
+      <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+      <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> finalScore</span>
+      <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+      <h3 id="roadmap-generation-semi-ai">Roadmap Generation (Semi-AI)</h3>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/roadmap/:user_id</td>
+      <td>Returns ordered skills + projects + timeline</td>
+      </tr>
+      </tbody>
+      </table>
+      <p><strong>Logic:</strong> Fetch role template → Fetch user_skills to
+      identify gaps → Use GPT prompt with gaps to generate stepwise roadmap →
+      Return roadmap JSON.</p>
+      <h3 id="resume-analysis">Resume Analysis</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>POST</td>
+      <td>/resume/analyze</td>
+      <td>User uploads resume</td>
+      </tr>
+      </tbody>
+      </table>
+      <p><strong>Logic:</strong> Parse resume via Supabase Storage → Analyze
+      keywords / ATS compliance / skill match (via GPT or NLP) → Return score
+      + suggestions → Update <code>scores.resume</code>.</p>
+      <h3 id="interview-questions">Interview Questions</h3>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Method</th>
+      <th>Route</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>GET</td>
+      <td>/interview/:role</td>
+      <td>Returns curated question bank</td>
+      </tr>
+      <tr class="even">
+      <td>POST</td>
+      <td>/interview/answer</td>
+      <td>User submits mock answers (optional scoring)</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="backend-architecture-diagram">Backend Architecture Diagram</h2>
+      <pre><code>[Frontend App]
+            |
+            v
+      +------------------+
+      | Auth (Supabase)  |
+      +------------------+
+            |
+            v
+      +------------------+
+      | Users API        |
+      | GET /users/:id   |
+      | PATCH /users/:id |
+      +------------------+
+            |
+            v
+      +------------------+         +------------------+
+      | Skills API       |         | Projects API     |
+      | GET /skills      |         | GET /projects    |
+      | POST /user_skills|         | POST /user_proj  |
+      | PATCH /user_skills|        | PATCH /user_proj |
+      +------------------+         +------------------+
+            |                             |
+            +-------------+---------------+
+                        |
+                        v
+                  +------------------+
+                  | Scores API       |
+                  | POST /scores/calc|
+                  | GET /scores/:id  |
+                  +------------------+
+                        |
+                        v
+                  +------------------+
+                  | Roadmap API      |
+                  | GET /roadmap/:id |
+                  +------------------+
+                        |
+                        v
+                  +------------------+
+                  | Resume API       |
+                  | POST /resume/    |
+                  +------------------+</code></pre>
+      <h3 id="supabase-features-used">Supabase Features Used</h3>
+      <ul>
+      <li><strong>Auth</strong> → User login/signup</li>
+      <li><strong>Database Tables</strong> → users, skills, user_skills,
+      projects, user_projects, scores</li>
+      <li><strong>Edge Functions</strong> → Scoring, roadmap generation,
+      resume analysis</li>
+      <li><strong>Storage</strong> → Resume uploads (PDF, DOCX)</li>
+      <li><strong>RLS (Row-Level Security)</strong> → Users can only access
+      their data</li>
+      <li><strong>Realtime</strong> → Optional live progress dashboard</li>
+      </ul>
+      <h3 id="rls-example">RLS Example</h3>
+      <div class="sourceCode" id="cb5"><pre
+      class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> POLICY <span class="ot">&quot;User can only access their skills&quot;</span></span>
+      <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ON</span> user_skills</span>
+      <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">FOR</span> <span class="kw">SELECT</span>, <span class="kw">INSERT</span>, <span class="kw">UPDATE</span>, <span class="kw">DELETE</span></span>
+      <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">USING</span> (user_id <span class="op">=</span> auth.<span class="fu">uid</span>());</span></code></pre></div>
+      <h3 id="recommended-edge-function-structure">Recommended Edge Function
+      Structure</h3>
+      <pre><code>/functions
+      ├─ auth/
+      │   ├─ signup.ts
+      │   └─ login.ts
+      ├─ users/
+      │   ├─ getUser.ts
+      │   └─ updateUser.ts
+      ├─ skills/
+      │   ├─ getSkills.ts
+      │   ├─ addUserSkill.ts
+      │   └─ updateUserSkill.ts
+      ├─ projects/
+      │   ├─ getProjects.ts
+      │   └─ updateUserProject.ts
+      ├─ scores/
+      │   └─ calculateScore.ts
+      ├─ roadmap/
+      │   └─ generateRoadmap.ts
+      └─ resume/
+      └─ analyze.ts</code></pre>
+      <hr />
+      <h2 id="ai-scoring-logic">AI &amp; Scoring Logic</h2>
+      <h3 id="employability-score-algorithm-v1">Employability Score Algorithm
+      (V1)</h3>
+      <p><strong>Total Score = Weighted Aggregate (0–100)</strong></p>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Component</th>
+      <th>Weight</th>
+      <th>Formula</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Technical Skills</td>
+      <td>40%</td>
+      <td>(sum of skill proficiency × skill weight) ÷ total possible
+      weight</td>
+      </tr>
+      <tr class="even">
+      <td>Projects</td>
+      <td>20%</td>
+      <td>Beginner = 5 pts, Intermediate = 10 pts, Advanced = 20 pts</td>
+      </tr>
+      <tr class="odd">
+      <td>Resume Quality</td>
+      <td>15%</td>
+      <td>Keyword alignment + quantification + ATS readability +
+      formatting</td>
+      </tr>
+      <tr class="even">
+      <td>Practical Experience</td>
+      <td>15%</td>
+      <td>Internship = +10, Freelance = +5, Open-source = +5</td>
+      </tr>
+      <tr class="odd">
+      <td>Interview Readiness</td>
+      <td>10%</td>
+      <td>Practice completion % + mock simulation attempts</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>All normalized to 100. Dynamic recalculation on any user progress
+      update.</p>
+      <blockquote>
+      <p><strong>Important:</strong> Transparency panel must show score
+      breakdown to build trust.</p>
+      </blockquote>
+      <h3 id="ai-roadmap-generation">AI Roadmap Generation</h3>
+      <ul>
+      <li><strong>Inputs:</strong> User role, current skills &amp;
+      proficiency, career goal</li>
+      <li><strong>Outputs:</strong> Ordered skill acquisition path,
+      recommended projects per skill, timeline milestones, portfolio
+      checklist</li>
+      <li><strong>Implementation:</strong> GPT-based Edge function. Roadmap
+      stored as JSON in <code>user_roadmap</code> table. Adjustable based on
+      market demand and difficulty progression.</li>
+      </ul>
+      <h3 id="resume-analysis-1">Resume Analysis</h3>
+      <ul>
+      <li>Upload → Parse text (PDF/DOCX)</li>
+      <li>NLP or GPT-based evaluation: keyword match, achievements quantified,
+      formatting &amp; ATS compliance</li>
+      <li>Result stored in <code>scores.resume</code></li>
+      <li>Suggestions provided (e.g., “Add 2–3 projects relevant to Frontend
+      Developer”)</li>
+      </ul>
+      <h3 id="interview-question-logic">Interview Question Logic</h3>
+      <ul>
+      <li>Questions stored in <code>interview_questions</code> table
+      (question_text, role, difficulty_level)</li>
+      <li>Basic scoring via keyword matching</li>
+      <li>Optional AI evaluation for deeper feedback</li>
+      <li>Score stored in <code>scores.interview</code></li>
+      </ul>
+      <hr />
+      <h2 id="revenue-model">Revenue Model</h2>
+      <h3 id="freemium-tier-free">Freemium Tier (Free)</h3>
+      <ul>
+      <li>Basic Employability Score</li>
+      <li>Limited roadmap view</li>
+      <li>Limited interview questions</li>
+      </ul>
+      <h3 id="premium-tier-paid">Premium Tier (Paid)</h3>
+      <ul>
+      <li>Full roadmap access</li>
+      <li>Detailed resume analysis</li>
+      <li>Advanced project guidance</li>
+      <li>Mock interview simulations</li>
+      <li>Priority AI recommendations</li>
+      </ul>
+      <h3 id="future-revenue-streams">Future Revenue Streams</h3>
+      <ul>
+      <li>Recruiter dashboard</li>
+      <li>B2B university packages</li>
+      <li>Corporate upskilling SaaS</li>
+      </ul>
+      <hr />
+      <h2 id="non-functional-requirements">Non-Functional Requirements</h2>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Requirement</th>
+      <th>Target</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Score calculation</td>
+      <td>Under 3 seconds</td>
+      </tr>
+      <tr class="even">
+      <td>Resume analysis</td>
+      <td>Under 10 seconds</td>
+      </tr>
+      <tr class="odd">
+      <td>Architecture</td>
+      <td>Modular, role templates expandable</td>
+      </tr>
+      <tr class="even">
+      <td>Security</td>
+      <td>Secure resume storage, encrypted user data</td>
+      </tr>
+      <tr class="odd">
+      <td>Auth</td>
+      <td>Supabase Auth with JWT tokens</td>
+      </tr>
+      <tr class="even">
+      <td>Data access</td>
+      <td>RLS ensures strict user data isolation</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="week-sprint-roadmap">12-Week Sprint Roadmap</h2>
+      <h3 id="phase-0-foundation-week-12">Phase 0 — Foundation (Week 1–2)</h3>
+      <ul>
+      <li>Final competency frameworks for 3 roles (Frontend, Backend, Data
+      Analyst)</li>
+      <li>Skill taxonomy (Beginner → Intermediate → Advanced)</li>
+      <li>Employability Score weight validation</li>
+      <li>Low-fidelity UX wireframes</li>
+      <li>Database schema finalized</li>
+      </ul>
+      <h3 id="phase-1-core-infrastructure-week-35">Phase 1 — Core
+      Infrastructure (Week 3–5)</h3>
+      <p><strong>Backend:</strong> User authentication, role selection API,
+      skill storage model, score calculation engine, roadmap template engine.
+      <strong>Frontend:</strong> Onboarding flow, career goal selection, skill
+      input dashboard, basic score display UI. <strong>Milestone:</strong>
+      User can sign up → select role → input skills → see initial
+      Employability Score.</p>
+      <h3 id="phase-2-intelligence-layer-week-68">Phase 2 — Intelligence Layer
+      (Week 6–8)</h3>
+      <ul>
+      <li>GPT-powered roadmap refinement</li>
+      <li>Skill gap analysis output formatting</li>
+      <li>Project recommendation generator</li>
+      <li>Resume upload + parsing pipeline</li>
+      <li>Resume feedback module (basic)</li>
+      </ul>
+      <p><strong>Milestone:</strong> User receives structured roadmap +
+      project suggestions + resume feedback.</p>
+      <h3 id="phase-3-validation-layer-week-910">Phase 3 — Validation Layer
+      (Week 9–10)</h3>
+      <ul>
+      <li>Interview question bank</li>
+      <li>Difficulty tagging system</li>
+      <li>Progress tracking dashboard</li>
+      <li>Score recalculation logic</li>
+      <li>Gamification (progress bar, milestones)</li>
+      </ul>
+      <p><strong>Milestone:</strong> Score updates dynamically based on user
+      progress.</p>
+      <h3 id="phase-4-monetization-polish-week-1112">Phase 4 — Monetization
+      &amp; Polish (Week 11–12)</h3>
+      <ul>
+      <li>Freemium restrictions</li>
+      <li>Premium feature gating</li>
+      <li>Payment integration</li>
+      <li>UI refinement</li>
+      <li>Performance optimization</li>
+      <li>Beta testing with 50–100 users</li>
+      </ul>
+      <p><strong>Milestone:</strong> Launch-ready MVP.</p>
+      <hr />
+      <h2 id="mvp-validation-beta-plan">MVP Validation &amp; Beta Plan</h2>
+      <h3 id="validation-goals">Validation Goals</h3>
+      <ul>
+      <li>Ensure roadmap is understandable and actionable</li>
+      <li>Employability score is clear, motivating, and accurate</li>
+      <li>Users complete skills/projects &amp; observe progress</li>
+      <li>Identify bugs in AI scoring / resume analysis / roadmap
+      generation</li>
+      </ul>
+      <h3 id="beta-user-segments">Beta User Segments</h3>
+      <ul>
+      <li>Students &amp; recent graduates</li>
+      <li>Early career professionals / career switchers</li>
+      <li>Focus: Pakistan, India, South Asia</li>
+      </ul>
+      <h3 id="kpis">KPIs</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Metric</th>
+      <th>Target</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Onboarding completion rate</td>
+      <td>≥ 80%</td>
+      </tr>
+      <tr class="even">
+      <td>Skill input completion</td>
+      <td>≥ 70% of users</td>
+      </tr>
+      <tr class="odd">
+      <td>Dashboard engagement</td>
+      <td>≥ 60% weekly return</td>
+      </tr>
+      <tr class="even">
+      <td>Roadmap completion rate</td>
+      <td>≥ 40% in first 2–3 months</td>
+      </tr>
+      <tr class="odd">
+      <td>Score change visibility</td>
+      <td>Users see improvement within 2 weeks</td>
+      </tr>
+      <tr class="even">
+      <td>Resume upload &amp; feedback</td>
+      <td>≥ 50% of users participate</td>
+      </tr>
+      <tr class="odd">
+      <td>Premium conversion rate</td>
+      <td>5–10%</td>
+      </tr>
+      <tr class="even">
+      <td>20% score improvement</td>
+      <td>Within 60 days</td>
+      </tr>
+      <tr class="odd">
+      <td>Weekly retention</td>
+      <td>40%</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="feedback-iteration">Feedback &amp; Iteration</h3>
+      <p><strong>Qualitative:</strong> “Is the roadmap clear?”, “Do you
+      understand your score?”, “Which projects helped the most?”
+      <strong>Quantitative:</strong> Average score improvement, time spent per
+      milestone, completion rate. <strong>Adjust:</strong> AI roadmap prompts,
+      scoring weights, project recommendations.</p>
+      <h3 id="beta-launch-steps">Beta Launch Steps</h3>
+      <ol type="1">
+      <li>Invite 50–100 early users (universities, student groups)</li>
+      <li>Track behavior via Supabase + analytics</li>
+      <li>Weekly surveys + optional interviews</li>
+      <li>Refine roadmap generation, score calculation, UX flow</li>
+      <li>Prep for public MVP launch</li>
+      </ol>
+      <hr />
+      <h2 id="feature-timeline-phased">Feature Timeline (Phased)</h2>
+      <h3 id="phase-1-mvp-02-months">Phase 1 — MVP (0–2 months)</h3>
+      <ul>
+      <li><strong>Pages:</strong> Landing, Onboarding, Dashboard, Skills,
+      Projects, Roadmap</li>
+      <li><strong>Features:</strong> Skill tracking, project tracking, score
+      calculation, roadmap generation, dashboard visualization</li>
+      </ul>
+      <h3 id="phase-2-advanced-features-35-months">Phase 2 — Advanced Features
+      (3–5 months)</h3>
+      <ul>
+      <li><strong>Pages:</strong> Resume Analyzer, Interview Prep,
+      Notifications / Milestones</li>
+      <li><strong>Features:</strong> Resume scoring, AI interview feedback,
+      timeline milestones, portfolio checklist integration, realtime
+      updates</li>
+      </ul>
+      <h3 id="phase-3-premium-growth-6-months">Phase 3 — Premium / Growth (6+
+      months)</h3>
+      <ul>
+      <li><strong>Features:</strong> Mentor / peer reviews, job matching,
+      micro-certifications, skill badges, gamification (leaderboards),
+      corporate partnerships</li>
+      <li><strong>Pages:</strong> Premium dashboard enhancements, advanced
+      analytics for users &amp; admins</li>
+      </ul>
+      <hr />
+      <h2 id="risks-mitigation">Risks &amp; Mitigation</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Risk</th>
+      <th>Mitigation</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Becoming “just another roadmap tool”</td>
+      <td>Focus heavily on Employability Score + measurable improvement</td>
+      </tr>
+      <tr class="even">
+      <td>Over-engineering AI</td>
+      <td>Start with structured competency framework</td>
+      </tr>
+      <tr class="odd">
+      <td>Low trust in scoring</td>
+      <td>Transparent scoring dimensions</td>
+      </tr>
+      <tr class="even">
+      <td>Becoming a course aggregator</td>
+      <td>Focus on execution tracking, not content</td>
+      </tr>
+      <tr class="odd">
+      <td>Becoming motivational content</td>
+      <td>Ensure outcome tracking and measurable progress</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="investor-pitch-outline">Investor Pitch Outline</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Slide</th>
+      <th>Content</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>1 — Problem</td>
+      <td>Millions of graduates. Hiring inefficiency. Structural skill
+      mismatch.</td>
+      </tr>
+      <tr class="even">
+      <td>2 — Market Opportunity</td>
+      <td>Youth employment crisis + digital skill demand surge.</td>
+      </tr>
+      <tr class="odd">
+      <td>3 — Current Solutions Fail</td>
+      <td>Universities (slow), MOOCs (unguided), Bootcamps (narrow).</td>
+      </tr>
+      <tr class="even">
+      <td>4 — Our Solution</td>
+      <td>AI-driven Employability Score + structured roadmap.</td>
+      </tr>
+      <tr class="odd">
+      <td>5 — Product Demo Flow</td>
+      <td>Goal → Assessment → Score → Roadmap → Improvement.</td>
+      </tr>
+      <tr class="even">
+      <td>6 — Market Focus</td>
+      <td>Pakistan → South Asia → Emerging markets.</td>
+      </tr>
+      <tr class="odd">
+      <td>7 — Business Model</td>
+      <td>Freemium → Premium → B2B → Recruiter marketplace.</td>
+      </tr>
+      <tr class="even">
+      <td>8 — Traction Metrics</td>
+      <td>Retention, score improvement, job placement rate.</td>
+      </tr>
+      <tr class="odd">
+      <td>9 — Competitive Advantage</td>
+      <td>Measurement layer + validation engine.</td>
+      </tr>
+      <tr class="even">
+      <td>10 — Vision</td>
+      <td>Become employability infrastructure for emerging talent.</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="strategic-summary">Strategic Summary</h2>
+      <h3 id="positioning">Positioning</h3>
+      <p>This product sits at the intersection of <strong>EdTech + HRTech +
+      AI</strong>.</p>
+      <p><strong>Core differentiation:</strong> Measurement + Structure +
+      Execution + Validation</p>
+      <h3 id="strategic-direction">Strategic Direction</h3>
+      <table>
+      <thead>
+      <tr class="header">
+      <th>Dimension</th>
+      <th>Choice</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Target</td>
+      <td>Final-year students in Pakistan</td>
+      </tr>
+      <tr class="even">
+      <td>Core Hook</td>
+      <td>Employability Score</td>
+      </tr>
+      <tr class="odd">
+      <td>Model</td>
+      <td>Freemium</td>
+      </tr>
+      <tr class="even">
+      <td>AI Level</td>
+      <td>Semi-intelligent (GPT + structured logic)</td>
+      </tr>
+      <tr class="odd">
+      <td>Vision</td>
+      <td>Venture-scale ecosystem</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="why-this-wins">Why This Wins</h3>
+      <table>
+      <colgroup>
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Problem</th>
+      <th>Market Size</th>
+      <th>Monetization</th>
+      <th>Scalability</th>
+      <th>Urgency</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Mental Health</td>
+      <td>High</td>
+      <td>Moderate</td>
+      <td>High</td>
+      <td>Medium</td>
+      </tr>
+      <tr class="even">
+      <td>Financial Literacy</td>
+      <td>High</td>
+      <td>Moderate</td>
+      <td>High</td>
+      <td>Medium</td>
+      </tr>
+      <tr class="odd">
+      <td>Focus Issues</td>
+      <td>Medium</td>
+      <td>Low</td>
+      <td>Medium</td>
+      <td>Medium</td>
+      </tr>
+      <tr class="even">
+      <td><strong>Skill–Job Gap</strong></td>
+      <td><strong>Very High</strong></td>
+      <td><strong>Very High</strong></td>
+      <td><strong>Very High</strong></td>
+      <td><strong>Very High</strong></td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 id="long-term-evolution-path">Long-Term Evolution Path</h3>
+      <ul>
+      <li>Hiring marketplace</li>
+      <li>Skill certification ecosystem</li>
+      <li>Corporate training SaaS</li>
+      <li>University partnerships</li>
+      </ul>
+      <h3 id="the-core-truth">The Core Truth</h3>
+      <blockquote>
+      <p>The Skill–Job Gap exists because the world moved to skill-based
+      hiring faster than education adapted. Until those two systems
+      synchronize, the gap remains. And synchronization is a massive
+      opportunity.</p>
+      </blockquote>
+      <p><strong>You are not building a course platform. You are building a
+      measurable employability intelligence system.</strong></p>
+      <hr />
+      <h2 id="tech-stack">Tech Stack</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Layer</th>
+      <th>Technology</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Frontend</td>
+      <td>React (Vite + TypeScript + Tailwind CSS)</td>
+      </tr>
+      <tr class="even">
+      <td>Backend</td>
+      <td>Supabase (Auth, Database, Edge Functions, Storage)</td>
+      </tr>
+      <tr class="odd">
+      <td>AI Layer</td>
+      <td>GPT API (structured prompting system)</td>
+      </tr>
+      <tr class="even">
+      <td>Resume Parsing</td>
+      <td>NLP library + GPT refinement</td>
+      </tr>
+      <tr class="odd">
+      <td>Scoring Engine</td>
+      <td>Rule-based weighted logic (initially static weights)</td>
+      </tr>
+      <tr class="even">
+      <td>State Management</td>
+      <td>React Query</td>
+      </tr>
+      <tr class="odd">
+      <td>Styling</td>
+      <td>Tailwind CSS + shadcn/ui</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <p><em>Built with conviction. Designed to solve a real, high-impact,
+      structurally persistent problem.</em></p>
+    </div>
+</body>
+</html>

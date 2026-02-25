@@ -1,0 +1,1019 @@
+<html vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">EmployabilityOS Documentation</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17" vid="5"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" vid="6">
+    <style vid="7">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EAECE9;
+            color: #152219;
+        }
+        pre, code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #EAECE9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #9BBF89;
+            border: 2px solid #EAECE9;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #152219;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        ::selection {
+            background-color: #9BBF89;
+            color: #152219;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden" vid="8">
+
+    
+    <header class="h-16 border-b border-[#152219]/10 bg-[#EAECE9] flex items-center px-6 shrink-0 z-20" vid="9">
+        <div class="flex items-center gap-3" vid="10">
+            <div class="w-8 h-8 bg-[#152219] flex items-center justify-center text-[#9BBF89] font-bold text-sm rounded-none" vid="11">E</div>
+            <span class="font-bold text-[#152219] tracking-tight text-lg" vid="12">EmployabilityOS</span>
+            <span class="bg-[#9BBF89] text-[#152219] text-xs px-2 py-1 font-semibold rounded-none" vid="13">v1.0</span>
+        </div>
+        <div class="ml-auto flex items-center gap-6 text-sm font-medium text-[#152219]/70" vid="14">
+            <a href="#" class="hover:text-[#152219] transition-colors" vid="15">Documentation</a>
+            <a href="#" class="hover:text-[#152219] transition-colors" vid="16">API Reference</a>
+            <a href="#" class="text-[#152219] hover:bg-[#9BBF89] px-2 py-1 transition-colors" style="background-color: transparent;" vid="17">Github</a>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden" vid="18">
+        
+        
+        <aside class="w-72 bg-[#9BBF89] flex flex-col shrink-0 overflow-hidden" vid="19">
+            <div class="p-6" vid="20">
+                <div class="relative" vid="21">
+                    <svg class="absolute left-3 top-2.5 h-4 w-4 text-[#152219]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" vid="22"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" vid="23"></path></svg>
+                    <input type="text" placeholder="Search..." class="w-full bg-[#EAECE9] border-none rounded-none pl-10 pr-3 py-2 text-sm text-[#152219] placeholder-[#152219]/50 focus:outline-none focus:ring-2 focus:ring-[#152219] transition-all" vid="24">
+                </div>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto sidebar-scroll px-6 pb-8 space-y-8" vid="25">
+                <div vid="26">
+                    <h3 class="text-xs font-bold text-[#152219] uppercase tracking-widest mb-3 border-b border-[#152219]/20 pb-1" vid="27">Introduction</h3>
+                    <ul class="space-y-1" vid="28">
+                        <li vid="29"><a href="#app-idea" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="30">App Idea</a></li>
+                        <li vid="31"><a href="#why-problem" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="32">Problem Statement</a></li>
+                        <li vid="33"><a href="#how-solution" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="34">Solution Approach</a></li>
+                        <li vid="35"><a href="#core-features" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="36">Core Features</a></li>
+                    </ul>
+                </div>
+
+                <div vid="37">
+                    <h3 class="text-xs font-bold text-[#152219] uppercase tracking-widest mb-3 border-b border-[#152219]/20 pb-1" vid="38">Product Strategy</h3>
+                    <ul class="space-y-1" vid="39">
+                        <li vid="40"><a href="#impact" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="41">Impact on Society</a></li>
+                        <li vid="42"><a href="#persona" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="43">Target User Persona</a></li>
+                        <li vid="44"><a href="#vision" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="45">Product Vision</a></li>
+                        <li vid="46"><a href="#value-prop" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="47">Value Proposition</a></li>
+                        <li vid="48"><a href="#scope" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="49">Product Scope (MVP)</a></li>
+                        <li vid="50"><a href="#navigation" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="51">Pages &amp; Navigation</a></li>
+                    </ul>
+                </div>
+
+                <div vid="52">
+                    <h3 class="text-xs font-bold text-[#152219] uppercase tracking-widest mb-3 border-b border-[#152219]/20 pb-1" vid="53">Technical Architecture</h3>
+                    <ul class="space-y-1" vid="54">
+                        <li vid="55"><a href="#database" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="56">Database Schema</a></li>
+                        <li vid="57"><a href="#api" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="58">API Routes</a></li>
+                        <li vid="59"><a href="#backend-diagram" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="60">Backend Architecture</a></li>
+                        <li vid="61"><a href="#ai-logic" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="62">AI &amp; Scoring Logic</a></li>
+                        <li vid="63"><a href="#non-functional" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="64">Non-Functional Reqs</a></li>
+                        <li vid="65"><a href="#tech-stack" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="66">Tech Stack</a></li>
+                    </ul>
+                </div>
+
+                <div vid="67">
+                    <h3 class="text-xs font-bold text-[#152219] uppercase tracking-widest mb-3 border-b border-[#152219]/20 pb-1" vid="68">Business &amp; Roadmap</h3>
+                    <ul class="space-y-1" vid="69">
+                        <li vid="70"><a href="#revenue" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="71">Revenue Model</a></li>
+                        <li vid="72"><a href="#sprint-roadmap" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="73">12-Week Roadmap</a></li>
+                        <li vid="74"><a href="#validation" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="75">MVP Validation</a></li>
+                        <li vid="76"><a href="#feature-timeline" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="77">Feature Timeline</a></li>
+                        <li vid="78"><a href="#risks" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="79">Risks &amp; Mitigation</a></li>
+                        <li vid="80"><a href="#pitch" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="81">Investor Pitch</a></li>
+                        <li vid="82"><a href="#strategy" class="block py-1.5 text-sm text-[#152219] hover:translate-x-1 transition-transform font-medium" vid="83">Strategic Summary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        
+        <main class="flex-1 overflow-y-auto bg-[#EAECE9]" vid="84">
+            <div class="max-w-5xl mx-auto px-12 py-20" vid="85">
+                
+                
+                <div class="mb-20 pb-12 border-b-2 border-[#152219]" vid="86">
+                    <h1 class="text-6xl font-bold text-[#152219] tracking-tighter mb-6" vid="87">EmployabilityOS</h1>
+                    <p class="text-2xl text-[#152219]/80 font-normal leading-relaxed" vid="88">AI-Powered Career Readiness &amp; Employability Scoring Platform</p>
+                </div>
+
+                
+                <section class="mb-20" vid="89">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8 pb-4 border-b border-[#152219]/20" vid="90">Table of Contents</h2>
+                    <ol class="list-decimal pl-5 space-y-2 text-[#152219] font-medium marker:font-bold marker:text-[#152219]" vid="91">
+                        <li vid="92"><a href="#app-idea" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="93">App Idea</a></li>
+                        <li vid="94"><a href="#why-problem" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="95">Why — Problem Statement</a></li>
+                        <li vid="96"><a href="#how-solution" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="97">How — Solution Approach</a></li>
+                        <li vid="98"><a href="#core-features" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="99">What — Core Features</a></li>
+                        <li vid="100"><a href="#impact" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="101">Impact on Society &amp; Creator</a></li>
+                        <li vid="102"><a href="#persona" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="103">Target User Persona</a></li>
+                        <li vid="104"><a href="#vision" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="105">Product Vision</a></li>
+                        <li vid="106"><a href="#value-prop" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="107">Core Value Proposition</a></li>
+                        <li vid="108"><a href="#scope" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="109">Product Scope — MVP Modules</a></li>
+                        <li vid="110"><a href="#navigation" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="111">Pages &amp; Navigation Map</a></li>
+                        <li vid="112"><a href="#database" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="113">Database Schema (Supabase)</a></li>
+                        <li vid="114"><a href="#api" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="115">API Routes &amp; Backend Logic</a></li>
+                        <li vid="116"><a href="#backend-diagram" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="117">Backend Architecture Diagram</a></li>
+                        <li vid="118"><a href="#ai-logic" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="119">AI &amp; Scoring Logic</a></li>
+                        <li vid="120"><a href="#revenue" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="121">Revenue Model</a></li>
+                        <li vid="122"><a href="#non-functional" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="123">Non-Functional Requirements</a></li>
+                        <li vid="124"><a href="#sprint-roadmap" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="125">12-Week Sprint Roadmap</a></li>
+                        <li vid="126"><a href="#validation" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="127">MVP Validation &amp; Beta Plan</a></li>
+                        <li vid="128"><a href="#feature-timeline" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="129">Feature Timeline (Phased)</a></li>
+                        <li vid="130"><a href="#risks" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="131">Risks &amp; Mitigation</a></li>
+                        <li vid="132"><a href="#pitch" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="133">Investor Pitch Outline</a></li>
+                        <li vid="134"><a href="#strategy" class="hover:bg-[#9BBF89] px-1 transition-colors" vid="135">Strategic Summary</a></li>
+                    </ol>
+                </section>
+
+                <section id="app-idea" class="mb-20" vid="136">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="137">App Idea</h2>
+                    <p class="text-[#152219] leading-relaxed mb-4 text-lg" vid="138">
+                        <strong class="bg-[#9BBF89] px-1 text-[#152219]" vid="139">EmployabilityOS</strong> is a semi-AI powered platform designed to bridge the skill–job gap for final-year students and fresh graduates. The platform evaluates, structures, and improves a user's job readiness through personalized career roadmaps, skill gap analysis, project recommendations, resume analysis, interview preparation, and a dynamic <strong class="bg-[#9BBF89] px-1 text-[#152219]" vid="140">Employability Score</strong>.
+                    </p>
+                    <p class="text-[#152219] leading-relaxed text-lg" vid="141">
+                        The core objective is to transform career preparation from random effort into <strong class="bg-[#9BBF89] px-1 text-[#152219]" vid="142">measurable progress</strong>.
+                    </p>
+                </section>
+
+                <section id="why-problem" class="mb-20" vid="143">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="144">Why — Problem Statement</h2>
+                    
+                    <h3 class="text-xl font-bold text-[#152219] mt-10 mb-4 flex items-center gap-2" vid="145"><span class="text-[#152219]" vid="146">🥇</span> The Skill–Job Gap: A Structural Market Failure</h3>
+                    <p class="text-[#152219] leading-relaxed mb-4" vid="147">This is not about "students being lazy" or "companies being picky." It is a <strong vid="148">coordination breakdown</strong> between education systems, learners, and employers.</p>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-3 uppercase tracking-wide" vid="149">The Real Issue</h4>
+                    <p class="text-[#152219] leading-relaxed mb-2 font-bold" vid="150">Students:</p>
+                    <ul class="list-disc pl-5 mb-4 text-[#152219] space-y-1 marker:text-[#152219]" vid="151">
+                        <li vid="152">Don't know what skills are required</li>
+                        <li vid="153">Don't know in what order to learn</li>
+                        <li vid="154">Don't know what projects to build</li>
+                        <li vid="155">Don't know how to prepare for interviews</li>
+                        <li vid="156">Follow random YouTube tutorials</li>
+                    </ul>
+                    <p class="text-[#152219] leading-relaxed mb-2 font-bold" vid="157">Companies:</p>
+                    <ul class="list-disc pl-5 mb-4 text-[#152219] space-y-1 marker:text-[#152219]" vid="158">
+                        <li vid="159">Want job-ready talent</li>
+                        <li vid="160">Don't want to train from scratch</li>
+                    </ul>
+                    <p class="text-[#152219] leading-relaxed mb-8" vid="161">This creates a <strong class="bg-[#9BBF89] px-1" vid="162">structural mismatch</strong>.</p>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-4 uppercase tracking-wide" vid="163">Why This Is a High-Impact Problem</h4>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="164">
+                        <table class="w-full text-sm text-left" vid="165">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="166">
+                                <tr vid="167">
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="168">Factor</th>
+                                    <th class="px-6 py-4" vid="169">Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="170">
+                                <tr vid="171"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="172">Market Size</td><td class="px-6 py-3" vid="173">Very High</td></tr>
+                                <tr vid="174"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="175">Monetization</td><td class="px-6 py-3" vid="176">Very High</td></tr>
+                                <tr vid="177"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="178">Scalability</td><td class="px-6 py-3" vid="179">Very High</td></tr>
+                                <tr vid="180"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="181">Urgency</td><td class="px-6 py-3" vid="182">Very High</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <ol class="list-decimal pl-5 space-y-4 text-[#152219] mb-10 marker:font-bold" vid="183">
+                        <li vid="184"><strong vid="185">Massive &amp; Growing Market</strong> — Millions of students graduate every year but remain underemployed. Companies say "no skilled candidates," while candidates say "no jobs." That disconnect is a billion-dollar inefficiency.</li>
+                        <li vid="186"><strong vid="187">Emotionally Charged Pain Point</strong> — Career uncertainty creates stress, self-doubt, financial pressure, and family expectations. Problems tied to identity and income are powerful drivers of adoption.</li>
+                        <li vid="188"><strong vid="189">Recurring Demand</strong> — Every year → new students. Every few years → career switchers. This creates continuous user inflow.</li>
+                        <li vid="190"><strong vid="191">Strong Monetization Potential</strong> — Premium career roadmaps, mock interviews, skill assessments, recruiter partnerships, corporate upskilling programs.</li>
+                        <li vid="192"><strong vid="193">Aligns With Future Trends</strong> — AI-driven hiring, remote work, portfolio-based careers, skill-based recruitment — all growing globally.</li>
+                    </ol>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-4 uppercase tracking-wide" vid="194">Root-Level Breakdown</h4>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="195">
+                        <table class="w-full text-sm text-left" vid="196">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="197">
+                                <tr vid="198">
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20 w-1/3" vid="199">Failure Type</th>
+                                    <th class="px-6 py-4" vid="200">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="201">
+                                <tr vid="202">
+                                    <td class="px-6 py-3 font-bold text-[#152219] border-r border-[#152219]/10" vid="203">Signaling Failure</td>
+                                    <td class="px-6 py-3 text-[#152219]/80" vid="204">Everyone has certificates. Employers cannot verify capability quickly. No standardized, practical proof layer for most skills.</td>
+                                </tr>
+                                <tr vid="205">
+                                    <td class="px-6 py-3 font-bold text-[#152219] border-r border-[#152219]/10" vid="206">Sequencing Failure</td>
+                                    <td class="px-6 py-3 text-[#152219]/80" vid="207">Students jump between random YouTube tutorials, inconsistent advice. Result: fragmented knowledge, no mastery.</td>
+                                </tr>
+                                <tr vid="208">
+                                    <td class="px-6 py-3 font-bold text-[#152219] border-r border-[#152219]/10" vid="209">Feedback Failure</td>
+                                    <td class="px-6 py-3 text-[#152219]/80" vid="210">Most learners don't know if they're job-ready, if their portfolio is competitive, or if their resume is strong enough.</td>
+                                </tr>
+                                <tr vid="211">
+                                    <td class="px-6 py-3 font-bold text-[#152219] border-r border-[#152219]/10" vid="212">Market Translation Failure</td>
+                                    <td class="px-6 py-3 text-[#152219]/80" vid="213">Job descriptions are in corporate language. Students can't translate employer expectations into actionable preparation.</td>
+                                </tr>
+                                <tr vid="214">
+                                    <td class="px-6 py-3 font-bold text-[#152219] border-r border-[#152219]/10" vid="215">Decision Paralysis</td>
+                                    <td class="px-6 py-3 text-[#152219]/80" vid="216">Fear of choosing wrong path, comparison with peers, overthinking "future-proof" skills, starting many things and finishing none.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-4 uppercase tracking-wide" vid="217">Why This Problem Is Growing</h4>
+                    <ul class="list-disc pl-5 mb-8 text-[#152219] space-y-2 marker:text-[#152219]" vid="218">
+                        <li vid="219"><strong vid="220">AI Acceleration</strong> — Skill half-life is shrinking. Entry-level jobs are changing. Employers expect higher baseline productivity.</li>
+                        <li vid="221"><strong vid="222">Remote Work Expansion</strong> — Students compete globally, not locally. That raises the skill bar.</li>
+                        <li vid="223"><strong vid="224">Education Is Not Market-Synced</strong> — Universities operate on outdated curricula (3–5 years behind industry trends). Industry evolves quarterly; academia updates slowly.</li>
+                        <li vid="225"><strong vid="226">Information Overload</strong> — 1000+ YouTube tutorials, 200+ bootcamps, 50+ "Top skills" articles, endless LinkedIn advice. More information → Less clarity.</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-4 uppercase tracking-wide" vid="227">Why Existing Solutions Are Incomplete</h4>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="228">
+                        <table class="w-full text-sm text-left" vid="229">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="230">
+                                <tr vid="231">
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="232">Solution</th>
+                                    <th class="px-6 py-4" vid="233">Limitation</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="234">
+                                <tr vid="235"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="236">Universities</td><td class="px-6 py-3" vid="237">Theory-heavy</td></tr>
+                                <tr vid="238"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="239">Bootcamps</td><td class="px-6 py-3" vid="240">Skill-heavy but narrow</td></tr>
+                                <tr vid="241"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="242">MOOCs</td><td class="px-6 py-3" vid="243">Content-heavy but guidance-light</td></tr>
+                                <tr vid="244"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="245">Job Boards</td><td class="px-6 py-3" vid="246">Opportunity-heavy but preparation-light</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-[#152219] mb-8 font-medium" vid="247">No one fully integrates: <strong vid="248">Guidance + Sequencing + Validation + Proof + Placement</strong></p>
+
+                    <h4 class="text-lg font-bold text-[#152219] mt-8 mb-4 uppercase tracking-wide" vid="249">The Core Problem in One Sentence</h4>
+                    <blockquote class="border-l-4 border-[#152219] pl-6 py-4 my-6 bg-[#9BBF89] text-[#152219] font-medium text-lg italic" vid="250">
+                        "There is no intelligent bridge translating career goals into structured, validated, job-ready execution paths."
+                    </blockquote>
+                    <p class="text-[#152219]" vid="251">People don't need "more courses." They need <strong class="bg-[#152219] text-[#9BBF89] px-1" vid="252">decision architecture + execution system + feedback mechanism</strong>.</p>
+                </section>
+
+                <section id="how-solution" class="mb-20" vid="253">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="254">How — Solution Approach</h2>
+                    <ol class="list-decimal pl-5 space-y-3 text-[#152219] mb-6 marker:font-bold" vid="255">
+                        <li vid="256">AI analyzes user goal (e.g., Frontend Developer, Data Analyst)</li>
+                        <li vid="257">Breaks it into:
+                            <ul class="list-disc pl-5 mt-2 mb-2 space-y-1 marker:text-[#152219]" vid="258">
+                                <li vid="259">Required skills</li>
+                                <li vid="260">Recommended order</li>
+                                <li vid="261">Projects to build</li>
+                                <li vid="262">Portfolio checklist</li>
+                                <li vid="263">Interview prep roadmap</li>
+                            </ul>
+                        </li>
+                        <li vid="264">Tracks progress</li>
+                        <li vid="265">Suggests real-world tasks</li>
+                        <li vid="266">Provides a dynamic <strong vid="267">Employability Score</strong> as a measurable readiness metric</li>
+                    </ol>
+                    <p class="text-[#152219] bg-white p-4 border border-[#152219] inline-block" vid="268"><strong vid="269">AI Depth (V1):</strong> Semi-AI — GPT-powered recommendations combined with structured competency frameworks. Start lean, evolve into proprietary intelligence later.</p>
+                </section>
+
+                <section id="core-features" class="mb-20" vid="270">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="271">What — Core Features</h2>
+                    
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="272">MVP Features</h3>
+                    <div class="border border-[#152219] mb-10 bg-white" vid="273">
+                        <table class="w-full text-sm text-left" vid="274">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="275">
+                                <tr vid="276">
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="277">Feature</th>
+                                    <th class="px-6 py-4" vid="278">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="279">
+                                <tr vid="280"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="281">Career Goal Selector</td><td class="px-6 py-3" vid="282"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="283">Essential</span></td></tr>
+                                <tr vid="284"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="285">Skill Gap Assessment</td><td class="px-6 py-3" vid="286"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="287">Essential</span></td></tr>
+                                <tr vid="288"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="289">AI Career Roadmap Builder</td><td class="px-6 py-3" vid="290"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="291">Essential</span></td></tr>
+                                <tr vid="292"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="293">Projects &amp; Portfolio Builder</td><td class="px-6 py-3" vid="294"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="295">Essential</span></td></tr>
+                                <tr vid="296"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="297">Employability Score &amp; Progress Tracker</td><td class="px-6 py-3" vid="298"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="299">Essential</span></td></tr>
+                                <tr vid="300"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="301">Dashboard &amp; Insights</td><td class="px-6 py-3" vid="302"><span class="bg-[#152219] text-[#9BBF89] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="303">Essential</span></td></tr>
+                                <tr vid="304"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="305">Resume Analyzer</td><td class="px-6 py-3" vid="306"><span class="bg-[#EAECE9] text-[#152219] border border-[#152219] px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="307">Important</span></td></tr>
+                                <tr vid="308"><td class="px-6 py-3 font-medium border-r border-[#152219]/10" vid="309">Interview Question Bank</td><td class="px-6 py-3" vid="310"><span class="bg-transparent text-[#152219] border border-[#152219]/50 px-2 py-0.5 text-xs font-bold uppercase tracking-wider" vid="311">Optional MVP</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="312">Advanced / Phase 2 Features (Post-MVP)</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-[#152219] marker:text-[#152219]" vid="313">
+                        <li vid="314">Skill Validation &amp; Micro-Certifications</li>
+                        <li vid="315">Mentor / Peer Feedback Integration</li>
+                        <li vid="316">Corporate Partnerships / Recruiter Dashboard</li>
+                        <li vid="317">Gamification &amp; Social Sharing (leaderboards, badges)</li>
+                        <li vid="318">AI-powered Job Matching</li>
+                        <li vid="319">University / Bootcamp Integrations (B2B)</li>
+                    </ul>
+                </section>
+
+                <section id="impact" class="mb-20" vid="320">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="321">Impact on Society &amp; Creator</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-[#152219]" vid="322">
+                        <div class="bg-[#9BBF89] p-8 border-b md:border-b-0 md:border-r border-[#152219]" vid="323">
+                            <h3 class="text-xl font-bold text-[#152219] mb-4 flex items-center gap-2" vid="324">🌍 Impact on Society</h3>
+                            <ul class="space-y-3 text-[#152219]" vid="325">
+                                <li class="flex items-start" vid="326"><span class="mr-2 font-bold" vid="327">•</span> Reduces unemployment gap</li>
+                                <li class="flex items-start" vid="328"><span class="mr-2 font-bold" vid="329">•</span> Increases practical skill acquisition</li>
+                                <li class="flex items-start" vid="330"><span class="mr-2 font-bold" vid="331">•</span> Makes career planning structured instead of random</li>
+                                <li class="flex items-start" vid="332"><span class="mr-2 font-bold" vid="333">•</span> Encourages skill-based hiring</li>
+                                <li class="flex items-start" vid="334"><span class="mr-2 font-bold" vid="335">•</span> Supports developing economies especially</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-8" vid="336">
+                            <h3 class="text-xl font-bold text-[#152219] mb-4 flex items-center gap-2" vid="337">👤 Impact on You (as Creator)</h3>
+                            <ul class="space-y-3 text-[#152219]" vid="338">
+                                <li class="flex items-start" vid="339"><span class="mr-2 text-[#9BBF89] font-bold" vid="340">•</span> Positions you in EdTech / AI intersection</li>
+                                <li class="flex items-start" vid="341"><span class="mr-2 text-[#9BBF89] font-bold" vid="342">•</span> Massive portfolio credibility</li>
+                                <li class="flex items-start" vid="343"><span class="mr-2 text-[#9BBF89] font-bold" vid="344">•</span> Strong LinkedIn authority potential</li>
+                                <li class="flex items-start" vid="345"><span class="mr-2 text-[#9BBF89] font-bold" vid="346">•</span> Scalable startup opportunity</li>
+                                <li class="flex items-start" vid="347"><span class="mr-2 text-[#9BBF89] font-bold" vid="348">•</span> Potential investor attraction</li>
+                                <li class="flex items-start" vid="349"><span class="mr-2 text-[#9BBF89] font-bold" vid="350">•</span> Deep understanding of market needs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="persona" class="mb-20" vid="351">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="352">Target User Persona</h2>
+                    <div class="bg-white border border-[#152219] p-8" vid="353">
+                        <h3 class="text-xl font-bold text-[#152219] mb-4" vid="354">Primary Persona: Final-Year Tech Student (Age 20–24)</h3>
+                        <p class="text-[#152219] mb-3" vid="355"><strong class="uppercase tracking-wide text-xs bg-[#152219] text-[#EAECE9] px-2 py-0.5 mr-2" vid="356">Profile</strong> CS / IT / Engineering background, Moderate technical exposure, Consumes YouTube tutorials, Has basic projects but no structured roadmap, Feels placement pressure, Active on LinkedIn.</p>
+                        <p class="text-[#152219] mb-6" vid="357"><strong class="uppercase tracking-wide text-xs bg-[#9BBF89] text-[#152219] px-2 py-0.5 mr-2" vid="358">Pain Points</strong> Unsure if job-ready, Resume rejections, Overwhelmed by advice, No performance benchmark.</p>
+                        
+                        <div class="border-t border-[#152219]/10 pt-6 mt-6" vid="359">
+                            <h3 class="text-xl font-bold text-[#152219] mb-2" vid="360">Geography for MVP</h3>
+                            <p class="text-[#152219]" vid="361"><strong vid="362">Pakistan</strong> (or one city/university cluster first) — easier validation, lower CAC, strong unmet mentorship demand, less competition vs global market. Local dominance first, then scale regionally.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="vision" class="mb-20" vid="363">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="364">Product Vision</h2>
+                    <p class="text-[#152219] mb-4 text-xl font-light" vid="365">To become the <strong class="font-bold" vid="366">standardized employability intelligence layer</strong> for emerging talent in developing markets.</p>
+                    <p class="text-[#152219] font-medium border-l-2 border-[#9BBF89] pl-4" vid="367"><strong vid="368">Long-term vision:</strong> Skill validation ecosystem, Hiring signal platform, University integration partner, Corporate upskilling SaaS.</p>
+                </section>
+
+                <section id="value-prop" class="mb-20" vid="369">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="370">Core Value Proposition</h2>
+                    <blockquote class="text-4xl font-bold text-center text-[#152219] my-16 leading-tight" vid="371">
+                        "Measure and improve your job readiness with a real-time <span class="bg-[#9BBF89] px-2" vid="372">Employability Score</span>."
+                    </blockquote>
+                </section>
+
+                <section id="scope" class="mb-20" vid="373">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="374">Product Scope — MVP Modules</h2>
+                    
+                    <div class="grid grid-cols-1 gap-6" vid="375">
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="376">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="377">A) Career Goal Selector</h3>
+                            <p class="text-[#152219]/80" vid="378">User selects target role: Frontend Developer, Backend Developer, Data Analyst, AI/ML Engineer, Mobile Developer. System loads structured competency framework.</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="379">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="380">B) Skill Gap Assessment</h3>
+                            <p class="text-[#152219]/80" vid="381">User inputs known skills, tools familiarity, project experience, internship history. System compares against role competency model. Output: Skill gap map, strength indicators, priority focus areas.</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="382">
+                            <h3 class="text-lg font-bold text-[#152219] mb-4 uppercase tracking-wide" vid="383">C) Employability Score Engine (Core Differentiator)</h3>
+                            <p class="text-[#152219]/80 mb-4" vid="384">Score based on weighted dimensions:</p>
+                            <div class="border border-[#152219] overflow-hidden max-w-lg mb-4" vid="385">
+                                <table class="w-full text-sm text-left" vid="386">
+                                    <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="387">
+                                        <tr vid="388"><th class="px-4 py-2 border-r border-[#EAECE9]/20" vid="389">Dimension</th><th class="px-4 py-2" vid="390">Weight</th></tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#152219]/10" vid="391">
+                                        <tr vid="392"><td class="px-4 py-2 border-r border-[#152219]/10 font-medium" vid="393">Technical Skills</td><td class="px-4 py-2" vid="394">40%</td></tr>
+                                        <tr vid="395"><td class="px-4 py-2 border-r border-[#152219]/10 font-medium" vid="396">Projects &amp; Portfolio</td><td class="px-4 py-2" vid="397">20%</td></tr>
+                                        <tr vid="398"><td class="px-4 py-2 border-r border-[#152219]/10 font-medium" vid="399">Resume Quality</td><td class="px-4 py-2" vid="400">15%</td></tr>
+                                        <tr vid="401"><td class="px-4 py-2 border-r border-[#152219]/10 font-medium" vid="402">Practical Experience</td><td class="px-4 py-2" vid="403">15%</td></tr>
+                                        <tr vid="404"><td class="px-4 py-2 border-r border-[#152219]/10 font-medium" vid="405">Interview Readiness</td><td class="px-4 py-2" vid="406">10%</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-[#152219]/80" vid="407">Score range: 0–100. Dynamic recalculation as progress updates.</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="408">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="409">D) Personalized Roadmap Generator</h3>
+                            <p class="text-[#152219]/80" vid="410">AI-assisted system generates: Skill sequence, estimated timeline, suggested projects, portfolio checklist, interview milestones. Semi-AI logic (structured templates + GPT refinement).</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="411">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="412">E) Project Builder Suggestions</h3>
+                            <p class="text-[#152219]/80" vid="413">For each role: Beginner, Intermediate, and Advanced portfolio-level projects. Each includes problem statement, required stack, expected output, and evaluation criteria.</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="414">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="415">F) Resume Analyzer</h3>
+                            <p class="text-[#152219]/80" vid="416">User uploads resume. System evaluates: ATS compatibility, skill alignment, keyword density, clarity, quantification of achievements. Provides improvement recommendations.</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6 hover:bg-[#9BBF89]/10 transition-colors" vid="417">
+                            <h3 class="text-lg font-bold text-[#152219] mb-2 uppercase tracking-wide" vid="418">G) Interview Question Bank</h3>
+                            <p class="text-[#152219]/80" vid="419">Role-specific: Technical, behavioral, and practical case questions. Categorized by difficulty level.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="navigation" class="mb-20" vid="420">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="421">Pages &amp; Navigation Map</h2>
+                    <ol class="list-decimal pl-5 space-y-3 text-[#152219] mb-8 font-medium marker:font-bold" vid="422">
+                        <li vid="423"><strong vid="424">Landing / Welcome Page:</strong> Signup / Login buttons, Key benefits (e.g., "Track your employability score"). <strong vid="425">Connects to:</strong> Signup → Onboarding | Login → Dashboard</li>
+                        <li vid="426"><strong vid="427">Onboarding / Role Selection Page:</strong> Role selection (Frontend, Backend, Data Analyst…), Optional brief skill self-assessment. <strong vid="428">Connects to:</strong> Submit → Dashboard / Skill Gap Assessment</li>
+                        <li vid="429"><strong vid="430">Dashboard (Central Hub):</strong> Employability Score overview, Skill progress (strengths / gaps), Project completion overview, Resume &amp; interview readiness status, Suggested next steps / roadmap highlights. <strong vid="431">Connects to:</strong> All other pages</li>
+                        <li vid="432"><strong vid="433">Skill Gap / Skills Page:</strong> Skill list with proficiency (1–5), Highlight gaps &amp; priority skills, AI suggestion for next skill. <strong vid="434">Connects to:</strong> Mark skill → Updates Dashboard &amp; Score</li>
+                        <li vid="435"><strong vid="436">Roadmap Page:</strong> Ordered skills + milestones, Suggested projects per skill, Timeline / estimated completion, Progress tracker. <strong vid="437">Connects to:</strong> Skill Detail, Project Page, Dashboard</li>
+                        <li vid="438"><strong vid="439">Project Page:</strong> Project title, description, difficulty, required skills, Expected deliverables / GitHub-ready output, Completion toggle. <strong vid="440">Connects to:</strong> Updates Score &amp; Dashboard</li>
+                        <li vid="441"><strong vid="442">Resume Analyzer Page:</strong> Upload resume (PDF / DOCX), AI analysis: ATS match, keyword gaps, formatting, Recommendations &amp; resume score. <strong vid="443">Connects to:</strong> Updates Resume score in Dashboard</li>
+                        <li vid="444"><strong vid="445">Interview Prep Page:</strong> Technical / behavioral question list, Difficulty filter (easy → advanced), Optional AI mock interview simulation, Track completion. <strong vid="446">Connects to:</strong> Updates Interview score &amp; Dashboard</li>
+                        <li vid="447"><strong vid="448">Profile / Settings Page:</strong> Name, email, role, subscription type, Upload resume, preferences. <strong vid="449">Connects to:</strong> Dashboard updates, subscription upgrade</li>
+                        <li vid="450"><strong vid="451">Notifications / Milestones Page (Optional):</strong> Milestone unlocks, suggested next actions. <strong vid="452">Connects to:</strong> Roadmap / Project / Skill pages</li>
+                    </ol>
+
+                    <div class="bg-[#152219] text-[#9BBF89] p-6 font-mono text-sm leading-relaxed" vid="453">
+                        <div class="mb-1" vid="454">Landing → Signup/Login → Onboarding → Dashboard</div>
+                        <div class="mb-1" vid="455">Dashboard → Skill Gap → Skill Detail → Roadmap → Project Page</div>
+                        <div class="mb-1" vid="456">Dashboard → Roadmap → Skill / Project / Milestone</div>
+                        <div class="mb-1" vid="457">Dashboard → Resume Analyzer</div>
+                        <div class="mb-1" vid="458">Dashboard → Interview Prep</div>
+                        <div class="mb-1" vid="459">Dashboard → Profile / Settings</div>
+                        <div vid="460">Dashboard → Notifications / Milestones</div>
+                    </div>
+                </section>
+
+                <section id="database" class="mb-20" vid="461">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="462">Database Schema (Supabase)</h2>
+                    
+                    <div class="space-y-6" vid="463">
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="464">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="465">users</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="466"><thead class="bg-[#152219]/5" vid="467"><tr vid="468"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="469">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="470">Type</th><th class="px-3 py-2 font-bold" vid="471">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="472"><tr vid="473"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="474">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="475">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="476">Supabase auth user ID</td></tr><tr vid="477"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="478">name</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="479">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="480">Full name</td></tr><tr vid="481"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="482">email</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="483">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="484">From auth</td></tr><tr vid="485"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="486">role_selected</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="487">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="488">e.g., "Frontend Developer"</td></tr><tr vid="489"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="490">subscription_type</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="491">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="492">"free" / "premium"</td></tr><tr vid="493"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="494">created_at</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="495">timestamp</td><td class="px-3 py-1.5 text-[#152219]/70" vid="496">default now()</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="497">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="498">skills</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="499"><thead class="bg-[#152219]/5" vid="500"><tr vid="501"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="502">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="503">Type</th><th class="px-3 py-2 font-bold" vid="504">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="505"><tr vid="506"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="507">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="508">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="509">Unique skill ID</td></tr><tr vid="510"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="511">name</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="512">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="513">Skill name</td></tr><tr vid="514"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="515">role</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="516">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="517">Role this skill belongs to</td></tr><tr vid="518"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="519">difficulty</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="520">int</td><td class="px-3 py-1.5 text-[#152219]/70" vid="521">1–3 (beginner → advanced)</td></tr><tr vid="522"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="523">weight</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="524">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="525">Used for scoring</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="526">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="527">user_skills</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="528"><thead class="bg-[#152219]/5" vid="529"><tr vid="530"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="531">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="532">Type</th><th class="px-3 py-2 font-bold" vid="533">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="534"><tr vid="535"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="536">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="537">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="538">Auto</td></tr><tr vid="539"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="540">user_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="541">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="542">FK → users.id</td></tr><tr vid="543"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="544">skill_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="545">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="546">FK → skills.id</td></tr><tr vid="547"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="548">proficiency</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="549">int</td><td class="px-3 py-1.5 text-[#152219]/70" vid="550">1–5</td></tr><tr vid="551"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="552">last_updated</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="553">timestamp</td><td class="px-3 py-1.5 text-[#152219]/70" vid="554">default now()</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="555">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="556">projects</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="557"><thead class="bg-[#152219]/5" vid="558"><tr vid="559"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="560">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="561">Type</th><th class="px-3 py-2 font-bold" vid="562">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="563"><tr vid="564"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="565">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="566">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="567">Unique project ID</td></tr><tr vid="568"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="569">title</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="570">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="571">Name of project</td></tr><tr vid="572"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="573">role</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="574">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="575">Role type</td></tr><tr vid="576"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="577">difficulty</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="578">int</td><td class="px-3 py-1.5 text-[#152219]/70" vid="579">1–3</td></tr><tr vid="580"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="581">required_skills</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="582">jsonb</td><td class="px-3 py-1.5 text-[#152219]/70" vid="583">Array of skill IDs</td></tr><tr vid="584"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="585">evaluation_criteria</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="586">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="587">Notes on assessment</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="588">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="589">user_projects</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="590"><thead class="bg-[#152219]/5" vid="591"><tr vid="592"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="593">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="594">Type</th><th class="px-3 py-2 font-bold" vid="595">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="596"><tr vid="597"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="598">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="599">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="600">Auto</td></tr><tr vid="601"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="602">user_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="603">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="604">FK → users.id</td></tr><tr vid="605"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="606">project_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="607">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="608">FK → projects.id</td></tr><tr vid="609"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="610">completed</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="611">boolean</td><td class="px-3 py-1.5 text-[#152219]/70" vid="612">default false</td></tr><tr vid="613"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="614">last_updated</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="615">timestamp</td><td class="px-3 py-1.5 text-[#152219]/70" vid="616">default now()</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="617">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="618">scores</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="619"><thead class="bg-[#152219]/5" vid="620"><tr vid="621"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="622">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="623">Type</th><th class="px-3 py-2 font-bold" vid="624">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="625"><tr vid="626"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="627">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="628">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="629">Auto</td></tr><tr vid="630"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="631">user_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="632">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="633">FK → users.id</td></tr><tr vid="634"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="635">technical</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="636">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="637">0–100</td></tr><tr vid="638"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="639">projects</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="640">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="641">0–100</td></tr><tr vid="642"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="643">resume</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="644">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="645">0–100</td></tr><tr vid="646"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="647">interview</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="648">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="649">0–100</td></tr><tr vid="650"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="651">practical</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="652">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="653">0–100</td></tr><tr vid="654"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="655">final_score</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="656">numeric</td><td class="px-3 py-1.5 text-[#152219]/70" vid="657">0–100</td></tr><tr vid="658"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="659">last_calculated</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="660">timestamp</td><td class="px-3 py-1.5 text-[#152219]/70" vid="661">default now()</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="662">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="663">interview_questions</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="664"><thead class="bg-[#152219]/5" vid="665"><tr vid="666"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="667">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="668">Type</th><th class="px-3 py-2 font-bold" vid="669">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="670"><tr vid="671"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="672">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="673">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="674">Auto</td></tr><tr vid="675"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="676">question_text</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="677">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="678">The question</td></tr><tr vid="679"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="680">role</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="681">text</td><td class="px-3 py-1.5 text-[#152219]/70" vid="682">Role-specific</td></tr><tr vid="683"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="684">difficulty_level</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="685">int</td><td class="px-3 py-1.5 text-[#152219]/70" vid="686">1–3</td></tr></tbody></table>
+                        </div>
+                        <div class="border-l-2 border-[#9BBF89] pl-4" vid="687">
+                            <p class="font-mono text-sm text-[#152219] mb-2 font-bold uppercase tracking-wider" vid="688">user_roadmap (Optional)</p>
+                            <table class="w-full text-xs text-left border border-[#152219]/20" vid="689"><thead class="bg-[#152219]/5" vid="690"><tr vid="691"><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="692">Column</th><th class="px-3 py-2 border-r border-[#152219]/10 font-bold" vid="693">Type</th><th class="px-3 py-2 font-bold" vid="694">Notes</th></tr></thead><tbody class="divide-y divide-[#152219]/10" vid="695"><tr vid="696"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="697">id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="698">UUID (PK)</td><td class="px-3 py-1.5 text-[#152219]/70" vid="699">Auto</td></tr><tr vid="700"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="701">user_id</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="702">UUID</td><td class="px-3 py-1.5 text-[#152219]/70" vid="703">FK → users.id</td></tr><tr vid="704"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="705">roadmap_json</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="706">jsonb</td><td class="px-3 py-1.5 text-[#152219]/70" vid="707">AI-generated roadmap</td></tr><tr vid="708"><td class="px-3 py-1.5 border-r border-[#152219]/10 font-mono" vid="709">last_updated</td><td class="px-3 py-1.5 border-r border-[#152219]/10" vid="710">timestamp</td><td class="px-3 py-1.5 text-[#152219]/70" vid="711">default now()</td></tr></tbody></table>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="712">Entity Relationships</h3>
+                    <pre class="bg-[#152219] text-[#9BBF89] p-6 text-sm overflow-x-auto border-l-4 border-[#9BBF89]" vid="713">users 1──N user_skills
+users 1──N user_projects
+users 1──1 scores
+skills 1──N user_skills
+projects 1──N user_projects
+users 1──1 user_roadmap</pre>
+                </section>
+
+                <section id="api" class="mb-20" vid="714">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="715">API Routes &amp; Backend Logic</h2>
+                    <p class="text-[#152219] mb-6" vid="716">All API routes are serverless <strong class="bg-[#152219] text-[#9BBF89] px-1" vid="717">Supabase Edge Functions</strong>.</p>
+                    
+                    <div class="space-y-4 mb-8" vid="718">
+                        <div class="flex items-baseline gap-4 border-b border-[#152219]/10 pb-2" vid="719">
+                            <h4 class="font-bold text-[#152219] min-w-[180px]" vid="720">Auth Routes</h4>
+                            <p class="font-mono text-xs text-[#152219]/70" vid="721">POST /auth/signup, POST /auth/login, GET /auth/me</p>
+                        </div>
+                        <div class="flex items-baseline gap-4 border-b border-[#152219]/10 pb-2" vid="722">
+                            <h4 class="font-bold text-[#152219] min-w-[180px]" vid="723">User Profile &amp; Role</h4>
+                            <p class="font-mono text-xs text-[#152219]/70" vid="724">GET /users/:id, PATCH /users/:id — Update profile / role / subscription</p>
+                        </div>
+                        <div class="flex items-baseline gap-4 border-b border-[#152219]/10 pb-2" vid="725">
+                            <h4 class="font-bold text-[#152219] min-w-[180px]" vid="726">Skill Management</h4>
+                            <p class="font-mono text-xs text-[#152219]/70" vid="727">GET /skills?role=Frontend Developer, POST /user_skills, PATCH /user_skills/:id, GET /user_skills/:user_id</p>
+                        </div>
+                        <div class="flex items-baseline gap-4 border-b border-[#152219]/10 pb-2" vid="728">
+                            <h4 class="font-bold text-[#152219] min-w-[180px]" vid="729">Project Management</h4>
+                            <p class="font-mono text-xs text-[#152219]/70" vid="730">GET /projects?role=Backend Developer, POST /user_projects, PATCH /user_projects/:id, GET /user_projects/:user_id</p>
+                        </div>
+                        <div class="flex items-baseline gap-4 border-b border-[#152219]/10 pb-2" vid="731">
+                            <h4 class="font-bold text-[#152219] min-w-[180px]" vid="732">Score Management</h4>
+                            <p class="font-mono text-xs text-[#152219]/70" vid="733">GET /scores/:user_id, POST /scores/calculate/:user_id</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="734">Score Calculation Logic (TypeScript)</h3>
+                    <pre class="bg-[#152219] text-[#EAECE9] p-6 text-sm overflow-x-auto border-l-4 border-[#9BBF89]" vid="735"><code class="text-[#9BBF89]" vid="736">async function calculateScore(user_id) {
+    const userSkills = await db.from('user_skills').select('*').eq('user_id', user_id)
+    const userProjects = await db.from('user_projects').select('*').eq('user_id', user_id)
+    const resumeScore = await fetchResumeScore(user_id)
+    const interviewScore = await fetchInterviewScore(user_id)
+    const practicalScore = await fetchPracticalScore(user_id)
+
+    const technicalScore = weightedSkillScore(userSkills)
+    const projectScore = weightedProjectScore(userProjects)
+
+    const finalScore =
+        technicalScore * 0.4 +
+        projectScore * 0.2 +
+        resumeScore * 0.15 +
+        interviewScore * 0.1 +
+        practicalScore * 0.15
+
+    await db.from('scores').upsert({
+        user_id,
+        technical: technicalScore,
+        projects: projectScore,
+        resume: resumeScore,
+        interview: interviewScore,
+        practical: practicalScore,
+        final_score: finalScore,
+        last_calculated: new Date()
+    })
+
+    return finalScore
+}
+
+// Roadmap Generation (Semi-AI)
+// GET /roadmap/:user_id — Returns ordered skills + projects + timeline
+// Logic: Fetch role template → Fetch user_skills to identify gaps
+// → Use GPT prompt with gaps to generate stepwise roadmap → Return roadmap JSON
+
+// Resume Analysis
+// POST /resume/analyze — User uploads resume
+// Logic: Parse resume via Supabase Storage → Analyze keywords / ATS compliance
+// / skill match (via GPT or NLP) → Return score + suggestions → Update scores.resume
+
+// Interview Questions
+// GET /interview/:role — Returns curated question bank
+// POST /interview/answer — User submits mock answers (optional scoring)</code></pre>
+                </section>
+
+                <section id="backend-diagram" class="mb-20" vid="737">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="738">Backend Architecture Diagram</h2>
+                    <pre class="bg-white border border-[#152219] text-[#152219] p-6 text-xs leading-relaxed overflow-x-auto font-mono" vid="739">[Frontend App]
+      |
+      v
++------------------+
+| Auth (Supabase)  |
++------------------+
+      |
+      v
++------------------+
+| Users API        |
+| GET /users/:id   |
+| PATCH /users/:id |
++------------------+
+      |
+      v
++------------------+         +------------------+
+| Skills API       |         | Projects API     |
+| GET /skills      |         | GET /projects    |
+| POST /user_skills|         | POST /user_proj  |
+| PATCH /user_skills|        | PATCH /user_proj |
++------------------+         +------------------+
+      |                             |
+      +-------------+---------------+
+                    |
+                    v
+              +------------------+
+              | Scores API       |
+              | POST /scores/calc|
+              | GET /scores/:id  |
+              +------------------+
+                    |
+                    v
+              +------------------+
+              | Roadmap API      |
+              | GET /roadmap/:id |
+              +------------------+
+                    |
+                    v
+              +------------------+
+              | Resume API       |
+              | POST /resume/    |
+              +------------------+</pre>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="740">Supabase Features Used</h3>
+                    <ul class="list-disc pl-5 mb-8 text-[#152219] space-y-2 marker:text-[#152219]" vid="741">
+                        <li vid="742"><strong vid="743">Auth</strong> → User login/signup</li>
+                        <li vid="744"><strong vid="745">Database Tables</strong> → users, skills, user_skills, projects, user_projects, scores</li>
+                        <li vid="746"><strong vid="747">Edge Functions</strong> → Scoring, roadmap generation, resume analysis</li>
+                        <li vid="748"><strong vid="749">Storage</strong> → Resume uploads (PDF, DOCX)</li>
+                        <li vid="750"><strong vid="751">RLS (Row-Level Security)</strong> → Users can only access their data</li>
+                        <li vid="752"><strong vid="753">Realtime</strong> → Optional live progress dashboard</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="754">RLS Example</h3>
+                    <pre class="bg-[#152219] text-[#9BBF89] p-6 text-sm overflow-x-auto border-l-4 border-[#9BBF89]" vid="755"><code vid="756">CREATE POLICY "User can only access their skills"
+ON user_skills
+FOR SELECT, INSERT, UPDATE, DELETE
+USING (user_id = auth.uid());</code></pre>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="757">Recommended Edge Function Structure</h3>
+                    <pre class="bg-white border border-[#152219] text-[#152219] p-6 text-xs leading-relaxed overflow-x-auto font-mono" vid="758">/functions
+├─ auth/
+│   ├─ signup.ts
+│   └─ login.ts
+├─ users/
+│   ├─ getUser.ts
+│   └─ updateUser.ts
+├─ skills/
+│   ├─ getSkills.ts
+│   ├─ addUserSkill.ts
+│   └─ updateUserSkill.ts
+├─ projects/
+│   ├─ getProjects.ts
+│   └─ updateUserProject.ts
+├─ scores/
+│   └─ calculateScore.ts
+├─ roadmap/
+│   └─ generateRoadmap.ts
+└─ resume/
+    └─ analyze.ts</pre>
+                </section>
+
+                <section id="ai-logic" class="mb-20" vid="759">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-6" vid="760">AI &amp; Scoring Logic</h2>
+                    
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="761">Employability Score Algorithm (V1)</h3>
+                    <div class="border border-[#152219] mb-6 bg-white" vid="762">
+                        <table class="w-full text-sm text-left" vid="763">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="764">
+                                <tr vid="765">
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="766">Component</th>
+                                    <th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="767">Weight</th>
+                                    <th class="px-6 py-4" vid="768">Formula</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="769">
+                                <tr vid="770"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="771">Technical Skills</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="772">40%</td><td class="px-6 py-3 text-[#152219]/70" vid="773">(sum of skill proficiency × skill weight) ÷ total possible weight</td></tr>
+                                <tr vid="774"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="775">Projects</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="776">20%</td><td class="px-6 py-3 text-[#152219]/70" vid="777">Beginner = 5 pts, Intermediate = 10 pts, Advanced = 20 pts</td></tr>
+                                <tr vid="778"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="779">Resume Quality</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="780">15%</td><td class="px-6 py-3 text-[#152219]/70" vid="781">Keyword alignment + quantification + ATS readability + formatting</td></tr>
+                                <tr vid="782"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="783">Practical Experience</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="784">15%</td><td class="px-6 py-3 text-[#152219]/70" vid="785">Internship = +10, Freelance = +5, Open-source = +5</td></tr>
+                                <tr vid="786"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="787">Interview Readiness</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="788">10%</td><td class="px-6 py-3 text-[#152219]/70" vid="789">Practice completion % + mock simulation attempts</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-[#152219] mb-6" vid="790">All normalized to 100. Dynamic recalculation on any user progress update.</p>
+                    <blockquote class="border-l-4 border-[#152219] pl-6 py-4 my-6 bg-[#9BBF89] text-[#152219] font-medium italic" vid="791">
+                        <strong vid="792">Important:</strong> Transparency panel must show score breakdown to build trust.
+                    </blockquote>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="793">AI Roadmap Generation</h3>
+                    <ul class="list-disc pl-5 mb-6 text-[#152219] space-y-2 marker:text-[#152219]" vid="794">
+                        <li vid="795"><strong vid="796">Inputs:</strong> User role, current skills &amp; proficiency, career goal</li>
+                        <li vid="797"><strong vid="798">Outputs:</strong> Ordered skill acquisition path, recommended projects per skill, timeline milestones, portfolio checklist</li>
+                        <li vid="799"><strong vid="800">Implementation:</strong> GPT-based Edge function. Roadmap stored as JSON in <code class="bg-[#152219] text-[#9BBF89] px-1 text-xs" vid="801">user_roadmap</code> table. Adjustable based on market demand and difficulty progression.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="802">Resume Analysis</h3>
+                    <ul class="list-disc pl-5 mb-6 text-[#152219] space-y-2 marker:text-[#152219]" vid="803">
+                        <li vid="804">Upload → Parse text (PDF/DOCX)</li>
+                        <li vid="805">NLP or GPT-based evaluation: keyword match, achievements quantified, formatting &amp; ATS compliance</li>
+                        <li vid="806">Result stored in <code class="bg-[#152219] text-[#9BBF89] px-1 text-xs" vid="807">scores.resume</code></li>
+                        <li vid="808">Suggestions provided (e.g., "Add 2–3 projects relevant to Frontend Developer")</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mt-8 mb-4" vid="809">Interview Question Logic</h3>
+                    <ul class="list-disc pl-5 mb-6 text-[#152219] space-y-2 marker:text-[#152219]" vid="810">
+                        <li vid="811">Questions stored in <code class="bg-[#152219] text-[#9BBF89] px-1 text-xs" vid="812">interview_questions</code> table (question_text, role, difficulty_level)</li>
+                        <li vid="813">Basic scoring via keyword matching</li>
+                        <li vid="814">Optional AI evaluation for deeper feedback</li>
+                        <li vid="815">Score stored in <code class="bg-[#152219] text-[#9BBF89] px-1 text-xs" vid="816">scores.interview</code></li>
+                    </ul>
+                </section>
+
+                <section id="non-functional" class="mb-20" vid="817">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="818">Non-Functional Requirements</h2>
+                    <div class="border border-[#152219] bg-white" vid="819">
+                        <table class="w-full text-sm text-left" vid="820">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="821"><tr vid="822"><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="823">Requirement</th><th class="px-6 py-4" vid="824">Target</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="825">
+                                <tr vid="826"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="827">Score calculation</td><td class="px-6 py-3" vid="828">Under 3 seconds</td></tr>
+                                <tr vid="829"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="830">Resume analysis</td><td class="px-6 py-3" vid="831">Under 10 seconds</td></tr>
+                                <tr vid="832"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="833">Architecture</td><td class="px-6 py-3" vid="834">Modular, role templates expandable</td></tr>
+                                <tr vid="835"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="836">Security</td><td class="px-6 py-3" vid="837">Secure resume storage, encrypted user data</td></tr>
+                                <tr vid="838"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="839">Auth</td><td class="px-6 py-3" vid="840">Supabase Auth with JWT tokens</td></tr>
+                                <tr vid="841"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="842">Data access</td><td class="px-6 py-3" vid="843">RLS ensures strict user data isolation</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="revenue" class="mb-20" vid="844">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="845">Revenue Model</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-[#152219]" vid="846">
+                        <div class="bg-white p-8 border-b md:border-b-0 md:border-r border-[#152219]" vid="847">
+                            <h3 class="font-bold text-[#152219] mb-3 text-lg uppercase tracking-wider" vid="848">Freemium</h3>
+                            <ul class="text-sm text-[#152219]/80 space-y-2 font-medium" vid="849">
+                                <li vid="850">Basic Employability Score</li>
+                                <li vid="851">Limited roadmap view</li>
+                                <li vid="852">Limited interview questions</li>
+                            </ul>
+                        </div>
+                        <div class="bg-[#9BBF89] p-8 border-b md:border-b-0 md:border-r border-[#152219]" vid="853">
+                            <h3 class="font-bold text-[#152219] mb-3 text-lg uppercase tracking-wider" vid="854">Premium</h3>
+                            <ul class="text-sm text-[#152219] space-y-2 font-bold" vid="855">
+                                <li vid="856">Full roadmap access</li>
+                                <li vid="857">Detailed resume analysis</li>
+                                <li vid="858">Advanced project guidance</li>
+                                <li vid="859">Mock interview simulations</li>
+                                <li vid="860">Priority AI recommendations</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-8" vid="861">
+                            <h3 class="font-bold text-[#152219] mb-3 text-lg uppercase tracking-wider" vid="862">Future</h3>
+                            <ul class="text-sm text-[#152219]/80 space-y-2 font-medium" vid="863">
+                                <li vid="864">Recruiter dashboard</li>
+                                <li vid="865">B2B university packages</li>
+                                <li vid="866">Corporate upskilling SaaS</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="sprint-roadmap" class="mb-20" vid="867">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="868">12-Week Sprint Roadmap</h2>
+                    <div class="space-y-0 border-l-2 border-[#152219] ml-4 pl-8" vid="869">
+                        <div class="relative py-6" vid="870">
+                            <div class="absolute -left-[41px] bg-[#9BBF89] border-2 border-[#152219] w-6 h-6 rounded-none" vid="871"></div>
+                            <h3 class="font-bold text-[#152219] text-xl" vid="872">Phase 0 — Foundation (Week 1–2)</h3>
+                            <ul class="list-disc pl-5 mt-2 text-sm text-[#152219]/80 space-y-1 marker:text-[#152219]" vid="873">
+                                <li vid="874">Final competency frameworks for 3 roles (Frontend, Backend, Data Analyst)</li>
+                                <li vid="875">Skill taxonomy (Beginner → Intermediate → Advanced)</li>
+                                <li vid="876">Employability Score weight validation</li>
+                                <li vid="877">Low-fidelity UX wireframes</li>
+                                <li vid="878">Database schema finalized</li>
+                            </ul>
+                        </div>
+                        <div class="relative py-6" vid="879">
+                            <div class="absolute -left-[41px] bg-[#EAECE9] border-2 border-[#152219] w-6 h-6 rounded-none" vid="880"></div>
+                            <h3 class="font-bold text-[#152219] text-xl" vid="881">Phase 1 — Core Infrastructure (Week 3–5)</h3>
+                            <p class="text-sm text-[#152219]/80 mt-2" vid="882"><strong vid="883">Backend:</strong> User authentication, role selection API, skill storage model, score calculation engine, roadmap template engine. <strong vid="884">Frontend:</strong> Onboarding flow, career goal selection, skill input dashboard, basic score display UI.</p>
+                            <p class="text-sm font-bold text-[#152219] mt-2" vid="885">Milestone: User can sign up → select role → input skills → see initial Employability Score.</p>
+                        </div>
+                        <div class="relative py-6" vid="886">
+                            <div class="absolute -left-[41px] bg-[#EAECE9] border-2 border-[#152219] w-6 h-6 rounded-none" vid="887"></div>
+                            <h3 class="font-bold text-[#152219] text-xl" vid="888">Phase 2 — Intelligence Layer (Week 6–8)</h3>
+                            <ul class="list-disc pl-5 mt-2 text-sm text-[#152219]/80 space-y-1 marker:text-[#152219]" vid="889">
+                                <li vid="890">GPT-powered roadmap refinement</li>
+                                <li vid="891">Skill gap analysis output formatting</li>
+                                <li vid="892">Project recommendation generator</li>
+                                <li vid="893">Resume upload + parsing pipeline</li>
+                                <li vid="894">Resume feedback module (basic)</li>
+                            </ul>
+                            <p class="text-sm font-bold text-[#152219] mt-2" vid="895">Milestone: User receives structured roadmap + project suggestions + resume feedback.</p>
+                        </div>
+                        <div class="relative py-6" vid="896">
+                            <div class="absolute -left-[41px] bg-[#EAECE9] border-2 border-[#152219] w-6 h-6 rounded-none" vid="897"></div>
+                            <h3 class="font-bold text-[#152219] text-xl" vid="898">Phase 3 — Validation Layer (Week 9–10)</h3>
+                            <ul class="list-disc pl-5 mt-2 text-sm text-[#152219]/80 space-y-1 marker:text-[#152219]" vid="899">
+                                <li vid="900">Interview question bank</li>
+                                <li vid="901">Difficulty tagging system</li>
+                                <li vid="902">Progress tracking dashboard</li>
+                                <li vid="903">Score recalculation logic</li>
+                                <li vid="904">Gamification (progress bar, milestones)</li>
+                            </ul>
+                            <p class="text-sm font-bold text-[#152219] mt-2" vid="905">Milestone: Score updates dynamically based on user progress.</p>
+                        </div>
+                        <div class="relative py-6" vid="906">
+                            <div class="absolute -left-[41px] bg-[#152219] border-2 border-[#152219] w-6 h-6 rounded-none" vid="907"></div>
+                            <h3 class="font-bold text-[#152219] text-xl" vid="908">Phase 4 — Monetization &amp; Polish (Week 11–12)</h3>
+                            <ul class="list-disc pl-5 mt-2 text-sm text-[#152219]/80 space-y-1 marker:text-[#152219]" vid="909">
+                                <li vid="910">Freemium restrictions</li>
+                                <li vid="911">Premium feature gating</li>
+                                <li vid="912">Payment integration</li>
+                                <li vid="913">UI refinement</li>
+                                <li vid="914">Performance optimization</li>
+                                <li vid="915">Beta testing with 50–100 users</li>
+                            </ul>
+                            <p class="text-sm font-bold text-[#152219] mt-2" vid="916">Milestone: Launch-ready MVP.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="validation" class="mb-20" vid="917">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="918">MVP Validation &amp; Beta Plan</h2>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="919">Validation Goals</h3>
+                    <ul class="list-disc pl-5 mb-8 text-[#152219] space-y-2 marker:text-[#152219]" vid="920">
+                        <li vid="921">Ensure roadmap is understandable and actionable</li>
+                        <li vid="922">Employability score is clear, motivating, and accurate</li>
+                        <li vid="923">Users complete skills/projects &amp; observe progress</li>
+                        <li vid="924">Identify bugs in AI scoring / resume analysis / roadmap generation</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="925">Beta User Segments</h3>
+                    <ul class="list-disc pl-5 mb-8 text-[#152219] space-y-2 marker:text-[#152219]" vid="926">
+                        <li vid="927">Students &amp; recent graduates</li>
+                        <li vid="928">Early career professionals / career switchers</li>
+                        <li vid="929">Focus: Pakistan, India, South Asia</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="930">KPIs</h3>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="931">
+                        <table class="w-full text-sm text-left" vid="932">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="933"><tr vid="934"><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="935">Metric</th><th class="px-6 py-4" vid="936">Target</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="937">
+                                <tr vid="938"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="939">Onboarding completion rate</td><td class="px-6 py-3" vid="940">≥ 80%</td></tr>
+                                <tr vid="941"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="942">Skill input completion</td><td class="px-6 py-3" vid="943">≥ 70% of users</td></tr>
+                                <tr vid="944"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="945">Dashboard engagement</td><td class="px-6 py-3" vid="946">≥ 60% weekly return</td></tr>
+                                <tr vid="947"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="948">Roadmap completion rate</td><td class="px-6 py-3" vid="949">≥ 40% in first 2–3 months</td></tr>
+                                <tr vid="950"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="951">Score change visibility</td><td class="px-6 py-3" vid="952">Users see improvement within 2 weeks</td></tr>
+                                <tr vid="953"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="954">Resume upload &amp; feedback</td><td class="px-6 py-3" vid="955">≥ 50% of users participate</td></tr>
+                                <tr vid="956"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="957">Premium conversion rate</td><td class="px-6 py-3" vid="958">5–10%</td></tr>
+                                <tr vid="959"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="960">20% score improvement</td><td class="px-6 py-3" vid="961">Within 60 days</td></tr>
+                                <tr vid="962"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="963">Weekly retention</td><td class="px-6 py-3" vid="964">40%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="965">Feedback &amp; Iteration</h3>
+                    <p class="text-[#152219] mb-6" vid="966"><strong vid="967">Qualitative:</strong> "Is the roadmap clear?", "Do you understand your score?", "Which projects helped the most?" <strong vid="968">Quantitative:</strong> Average score improvement, time spent per milestone, completion rate. <strong vid="969">Adjust:</strong> AI roadmap prompts, scoring weights, project recommendations.</p>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="970">Beta Launch Steps</h3>
+                    <ol class="list-decimal pl-5 mb-8 text-[#152219] space-y-2 marker:font-bold" vid="971">
+                        <li vid="972">Invite 50–100 early users (universities, student groups)</li>
+                        <li vid="973">Track behavior via Supabase + analytics</li>
+                        <li vid="974">Weekly surveys + optional interviews</li>
+                        <li vid="975">Refine roadmap generation, score calculation, UX flow</li>
+                        <li vid="976">Prep for public MVP launch</li>
+                    </ol>
+                </section>
+
+                <section id="feature-timeline" class="mb-20" vid="977">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="978">Feature Timeline (Phased)</h2>
+                    <div class="space-y-6" vid="979">
+                        <div class="border border-[#152219] bg-white p-6" vid="980">
+                            <h3 class="text-lg font-bold text-[#152219] mb-3 uppercase tracking-wide" vid="981">Phase 1 — MVP (0–2 months)</h3>
+                            <p class="text-[#152219]/80 mb-2" vid="982"><strong vid="983">Pages:</strong> Landing, Onboarding, Dashboard, Skills, Projects, Roadmap</p>
+                            <p class="text-[#152219]/80" vid="984"><strong vid="985">Features:</strong> Skill tracking, project tracking, score calculation, roadmap generation, dashboard visualization</p>
+                        </div>
+                        <div class="border border-[#152219] bg-white p-6" vid="986">
+                            <h3 class="text-lg font-bold text-[#152219] mb-3 uppercase tracking-wide" vid="987">Phase 2 — Advanced Features (3–5 months)</h3>
+                            <p class="text-[#152219]/80 mb-2" vid="988"><strong vid="989">Pages:</strong> Resume Analyzer, Interview Prep, Notifications / Milestones</p>
+                            <p class="text-[#152219]/80" vid="990"><strong vid="991">Features:</strong> Resume scoring, AI interview feedback, timeline milestones, portfolio checklist integration, realtime updates</p>
+                        </div>
+                        <div class="border border-[#152219] bg-[#9BBF89] p-6" vid="992">
+                            <h3 class="text-lg font-bold text-[#152219] mb-3 uppercase tracking-wide" vid="993">Phase 3 — Premium / Growth (6+ months)</h3>
+                            <p class="text-[#152219] mb-2" vid="994"><strong vid="995">Features:</strong> Mentor / peer reviews, job matching, micro-certifications, skill badges, gamification (leaderboards), corporate partnerships</p>
+                            <p class="text-[#152219]" vid="996"><strong vid="997">Pages:</strong> Premium dashboard enhancements, advanced analytics for users &amp; admins</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="risks" class="mb-20" vid="998">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="999">Risks &amp; Mitigation</h2>
+                    <div class="border border-[#152219] bg-white" vid="1000">
+                        <table class="w-full text-sm text-left" vid="1001">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="1002"><tr vid="1003"><th class="px-6 py-4 border-r border-[#EAECE9]/20 w-1/2" vid="1004">Risk</th><th class="px-6 py-4" vid="1005">Mitigation</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="1006">
+                                <tr vid="1007"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1008">Becoming "just another roadmap tool"</td><td class="px-6 py-3" vid="1009">Focus heavily on Employability Score + measurable improvement</td></tr>
+                                <tr vid="1010"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1011">Over-engineering AI</td><td class="px-6 py-3" vid="1012">Start with structured competency framework</td></tr>
+                                <tr vid="1013"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1014">Low trust in scoring</td><td class="px-6 py-3" vid="1015">Transparent scoring dimensions</td></tr>
+                                <tr vid="1016"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1017">Becoming a course aggregator</td><td class="px-6 py-3" vid="1018">Focus on execution tracking, not content</td></tr>
+                                <tr vid="1019"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1020">Becoming motivational content</td><td class="px-6 py-3" vid="1021">Ensure outcome tracking and measurable progress</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="pitch" class="mb-20" vid="1022">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="1023">Investor Pitch Outline</h2>
+                    <div class="border border-[#152219] bg-white" vid="1024">
+                        <table class="w-full text-sm text-left" vid="1025">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="1026"><tr vid="1027"><th class="px-6 py-4 border-r border-[#EAECE9]/20 w-1/3" vid="1028">Slide</th><th class="px-6 py-4" vid="1029">Content</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="1030">
+                                <tr vid="1031"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1032">1 — Problem</td><td class="px-6 py-3" vid="1033">Millions of graduates. Hiring inefficiency. Structural skill mismatch.</td></tr>
+                                <tr vid="1034"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1035">2 — Market Opportunity</td><td class="px-6 py-3" vid="1036">Youth employment crisis + digital skill demand surge.</td></tr>
+                                <tr vid="1037"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1038">3 — Current Solutions Fail</td><td class="px-6 py-3" vid="1039">Universities (slow), MOOCs (unguided), Bootcamps (narrow).</td></tr>
+                                <tr vid="1040"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1041">4 — Our Solution</td><td class="px-6 py-3" vid="1042">AI-driven Employability Score + structured roadmap.</td></tr>
+                                <tr vid="1043"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1044">5 — Product Demo Flow</td><td class="px-6 py-3" vid="1045">Goal → Assessment → Score → Roadmap → Improvement.</td></tr>
+                                <tr vid="1046"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1047">6 — Market Focus</td><td class="px-6 py-3" vid="1048">Pakistan → South Asia → Emerging markets.</td></tr>
+                                <tr vid="1049"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1050">7 — Business Model</td><td class="px-6 py-3" vid="1051">Freemium → Premium → B2B → Recruiter marketplace.</td></tr>
+                                <tr vid="1052"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1053">8 — Traction Metrics</td><td class="px-6 py-3" vid="1054">Retention, score improvement, job placement rate.</td></tr>
+                                <tr vid="1055"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1056">9 — Competitive Advantage</td><td class="px-6 py-3" vid="1057">Measurement layer + validation engine.</td></tr>
+                                <tr vid="1058"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1059">10 — Vision</td><td class="px-6 py-3" vid="1060">Become employability infrastructure for emerging talent.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="strategy" class="mb-20" vid="1061">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="1062">Strategic Summary</h2>
+                    <p class="text-[#152219] mb-4" vid="1063">This product sits at the intersection of <strong vid="1064">EdTech + HRTech + AI</strong>.</p>
+                    <p class="text-[#152219] mb-8 font-medium" vid="1065"><strong vid="1066">Core differentiation:</strong> Measurement + Structure + Execution + Validation</p>
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="1067">Strategic Direction</h3>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="1068">
+                        <table class="w-full text-sm text-left" vid="1069">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="1070">
+                                <tr vid="1071"><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1072">Dimension</th><th class="px-6 py-4" vid="1073">Choice</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="1074">
+                                <tr vid="1075"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1076">Target</td><td class="px-6 py-3" vid="1077">Final-year students in Pakistan</td></tr>
+                                <tr vid="1078"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1079">Core Hook</td><td class="px-6 py-3" vid="1080">Employability Score</td></tr>
+                                <tr vid="1081"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1082">Model</td><td class="px-6 py-3" vid="1083">Freemium</td></tr>
+                                <tr vid="1084"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1085">AI Level</td><td class="px-6 py-3" vid="1086">Semi-intelligent (GPT + structured logic)</td></tr>
+                                <tr vid="1087"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1088">Vision</td><td class="px-6 py-3" vid="1089">Venture-scale ecosystem</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="1090">Why This Wins</h3>
+                    <div class="border border-[#152219] mb-8 bg-white" vid="1091">
+                        <table class="w-full text-sm text-left" vid="1092">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="1093"><tr vid="1094"><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1095">Problem</th><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1096">Market Size</th><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1097">Monetization</th><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1098">Scalability</th><th class="px-6 py-4" vid="1099">Urgency</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="1100">
+                                <tr vid="1101"><td class="px-6 py-3 border-r border-[#152219]/10" vid="1102">Mental Health</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1103">High</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1104">Moderate</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1105">High</td><td class="px-6 py-3" vid="1106">Medium</td></tr>
+                                <tr vid="1107"><td class="px-6 py-3 border-r border-[#152219]/10" vid="1108">Financial Literacy</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1109">High</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1110">Moderate</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1111">High</td><td class="px-6 py-3" vid="1112">Medium</td></tr>
+                                <tr vid="1113"><td class="px-6 py-3 border-r border-[#152219]/10" vid="1114">Focus Issues</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1115">Medium</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1116">Low</td><td class="px-6 py-3 border-r border-[#152219]/10" vid="1117">Medium</td><td class="px-6 py-3" vid="1118">Medium</td></tr>
+                                <tr class="bg-[#9BBF89]/20" vid="1119"><td class="px-6 py-3 border-r border-[#152219]/10 font-bold" vid="1120">Skill–Job Gap</td><td class="px-6 py-3 border-r border-[#152219]/10 font-bold" vid="1121">Very High</td><td class="px-6 py-3 border-r border-[#152219]/10 font-bold" vid="1122">Very High</td><td class="px-6 py-3 border-r border-[#152219]/10 font-bold" vid="1123">Very High</td><td class="px-6 py-3 font-bold" vid="1124">Very High</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-4" vid="1125">Long-Term Evolution Path</h3>
+                    <ul class="list-disc pl-5 mb-8 text-[#152219] space-y-2 marker:text-[#152219]" vid="1126">
+                        <li vid="1127">Hiring marketplace</li>
+                        <li vid="1128">Skill certification ecosystem</li>
+                        <li vid="1129">Corporate training SaaS</li>
+                        <li vid="1130">University partnerships</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-[#152219] mb-6" vid="1131">The Core Truth</h3>
+                    <div class="bg-[#9BBF89] p-8 border border-[#152219]" vid="1132">
+                        <blockquote class="text-2xl font-bold text-[#152219] mb-4" vid="1133">
+                            "The Skill–Job Gap exists because the world moved to skill-based hiring faster than education adapted. Until those two systems synchronize, the gap remains. And synchronization is a massive opportunity."
+                        </blockquote>
+                        <p class="text-[#152219] font-medium" vid="1134">You are not building a course platform. You are building a measurable employability intelligence system.</p>
+                    </div>
+                </section>
+
+                <section id="tech-stack" class="mb-24" vid="1135">
+                    <h2 class="text-3xl font-bold text-[#152219] mb-8" vid="1136">Tech Stack</h2>
+                    <div class="border border-[#152219] bg-white" vid="1137">
+                        <table class="w-full text-sm text-left" vid="1138">
+                            <thead class="bg-[#152219] text-[#EAECE9] font-bold" vid="1139"><tr vid="1140"><th class="px-6 py-4 border-r border-[#EAECE9]/20" vid="1141">Layer</th><th class="px-6 py-4" vid="1142">Technology</th></tr></thead>
+                            <tbody class="divide-y divide-[#152219]/10" vid="1143">
+                                <tr vid="1144"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1145">Frontend</td><td class="px-6 py-3" vid="1146">React (Vite + TypeScript + Tailwind CSS)</td></tr>
+                                <tr vid="1147"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1148">Backend</td><td class="px-6 py-3" vid="1149">Supabase (Auth, Database, Edge Functions, Storage)</td></tr>
+                                <tr vid="1150"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1151">AI Layer</td><td class="px-6 py-3" vid="1152">GPT API (structured prompting system)</td></tr>
+                                <tr vid="1153"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1154">Resume Parsing</td><td class="px-6 py-3" vid="1155">NLP library + GPT refinement</td></tr>
+                                <tr vid="1156"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1157">Scoring Engine</td><td class="px-6 py-3" vid="1158">Rule-based weighted logic (initially static weights)</td></tr>
+                                <tr vid="1159"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1160">State Management</td><td class="px-6 py-3" vid="1161">React Query</td></tr>
+                                <tr vid="1162"><td class="px-6 py-3 font-bold border-r border-[#152219]/10" vid="1163">Styling</td><td class="px-6 py-3" vid="1164">Tailwind CSS + shadcn/ui</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <footer class="text-center text-[#152219]/60 text-sm py-12 border-t border-[#152219]/10 font-medium" vid="1165">
+                    Built with conviction. Designed to solve a real, high-impact, structurally persistent problem.
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+</body></html>
