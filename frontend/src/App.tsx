@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 import { calculateScore, type ScoreBreakdown } from './lib/score'
+import { computeRoadmapSummary, type RoadmapSummary } from './lib/roadmap'
 import { SCORE_WEIGHTS } from './constants/scoreWeights'
 import './App.css'
 
@@ -26,13 +27,22 @@ interface Step3Status {
   error?: string
 }
 
+interface Step5Status {
+  success: boolean
+  message: string
+  summary?: RoadmapSummary
+  error?: string
+}
+
 export default function App() {
   const [status, setStatus] = useState<Step1Status | null>(null)
   const [step2Status, setStep2Status] = useState<Step2Status | null>(null)
   const [step3Status, setStep3Status] = useState<Step3Status | null>(null)
+  const [step5Status, setStep5Status] = useState<Step5Status | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingStep2, setLoadingStep2] = useState(false)
   const [loadingStep3, setLoadingStep3] = useState(false)
+  const [loadingStep5, setLoadingStep5] = useState(false)
   const [consoleErrors, setConsoleErrors] = useState<string[]>([])
   const [consoleWarnings, setConsoleWarnings] = useState<string[]>([])
 
@@ -185,13 +195,71 @@ export default function App() {
     }
   }
 
-  const anyLoading = loading || loadingStep2 || loadingStep3
+  async function handleVerifyStep5() {
+    setLoadingStep5(true)
+    setStep5Status(null)
+    try {
+      if (!supabase) {
+        setStep5Status({
+          success: false,
+          message: 'Supabase client not configured.',
+          error: 'Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env',
+        })
+        return
+      }
+      const role = 'Frontend Developer'
+      const { data: skills, error: se } = await supabase
+        .from('skills')
+        .select('id, name, difficulty')
+        .eq('role', role)
+        .order('id')
+      if (se) throw new Error(`Skills: ${se.message}`)
+      const { data: projects, error: pe } = await supabase
+        .from('projects')
+        .select('id, title, required_skills')
+        .eq('role', role)
+        .order('id')
+      if (pe) throw new Error(`Projects: ${pe.message}`)
+      const skillList = skills ?? []
+      const projectList = projects ?? []
+      const userSkills = skillList.slice(0, 4).map((s, i) => ({
+        skillId: s.id,
+        proficiency: i < 2 ? 5 : i < 3 ? 4 : 2,
+      }))
+      const userProjects = projectList.slice(0, 1).map((p) => ({
+        projectId: p.id,
+        completed: true,
+      }))
+      const summary = computeRoadmapSummary(
+        role,
+        skillList.map((s) => ({ id: s.id, name: s.name, difficulty: 1 })),
+        projectList.map((p) => ({ id: p.id, title: p.title, required_skills: (p.required_skills ?? []) as string[] })),
+        userSkills,
+        userProjects
+      )
+      setStep5Status({
+        success: true,
+        message: `Step 5 verified: Roadmap (${summary.skillsDone} done, ${summary.skillsNext} next, ${summary.projectsDone} project(s) done).`,
+        summary,
+      })
+    } catch (e) {
+      setStep5Status({
+        success: false,
+        message: 'Step 5 verification failed.',
+        error: e instanceof Error ? e.message : String(e),
+      })
+    } finally {
+      setLoadingStep5(false)
+    }
+  }
+
+  const anyLoading = loading || loadingStep2 || loadingStep3 || loadingStep5
 
   return (
     <div className="app">
       <header className="header">
         <h1>EmployabilityOS</h1>
-        <p className="tagline">Step 1, 2 & 3 — Project, types, competency data, score engine (Supabase: skilljob)</p>
+        <p className="tagline">Steps 1–5 — Project, types, competency, score, roadmap (Supabase: skilljob)</p>
       </header>
 
       <section className="weights">
@@ -237,6 +305,16 @@ export default function App() {
         >
           {loadingStep3 ? 'Verifying…' : 'Verify Step 3 (score engine)'}
         </button>
+        <button
+          type="button"
+          className="btn-verify"
+          onClick={handleVerifyStep5}
+          disabled={anyLoading}
+          data-testid="verify-step5"
+          aria-label="Verify Step 5 Roadmap generator"
+        >
+          {loadingStep5 ? 'Verifying…' : 'Verify Step 5 (roadmap)'}
+        </button>
         {status && (
           <div className={`status ${status.success ? 'success' : 'error'}`}>
             <p>{status.message}</p>
@@ -277,6 +355,20 @@ export default function App() {
             )}
             {step3Status.error && (
               <p className="error-detail">{step3Status.error}</p>
+            )}
+          </div>
+        )}
+        {step5Status && (
+          <div className={`status ${step5Status.success ? 'success' : 'error'}`}>
+            <p>{step5Status.message}</p>
+            {step5Status.summary && (
+              <div className="detail">
+                <p>Skills: done {step5Status.summary.skillsDone} · next {step5Status.summary.skillsNext} · upcoming {step5Status.summary.skillsUpcoming}</p>
+                <p>Projects: done {step5Status.summary.projectsDone} · suggested {step5Status.summary.projectsSuggested} · locked {step5Status.summary.projectsLocked}</p>
+              </div>
+            )}
+            {step5Status.error && (
+              <p className="error-detail">{step5Status.error}</p>
             )}
           </div>
         )}

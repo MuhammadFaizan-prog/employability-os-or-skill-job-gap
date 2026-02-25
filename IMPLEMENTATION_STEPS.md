@@ -75,15 +75,17 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 5 — Roadmap generator (template-based)
+## Step 5 — Roadmap generator (template-based) ✅
 
-- [ ] Input: `role`, `userSkills` (current state)
-- [ ] Use role’s ordered skills (by difficulty / dependency) + projects
-- [ ] Output: ordered list of **skills** (with “done” / “next” / “upcoming”), and **suggested projects** per skill or phase
-- [ ] No GPT in Step 5; pure template/order from competency data
+- [x] Input: `role`, `userSkills`, `userProjects` (current state)
+- [x] Use role’s ordered skills (by difficulty / order) + projects; optional `allSkillsForRole` / `allProjectsForRole` from Supabase
+- [x] Output: ordered **skills** (done / next / upcoming) and **projects** (done / suggested / locked)
+- [x] No GPT; pure template/order from competency data
 - [ ] Later: GPT refinement (Phase 2)
 
-**Deliverable:** `src/roadmap/generator.ts` — `generateRoadmap(role, userSkills, options?)` → roadmap JSON
+**Deliverable:** `src/roadmap/generator.ts` — `generateRoadmap({ role, userSkills, userProjects, allSkillsForRole?, allProjectsForRole? })` → roadmap JSON
+
+**Verification:** Run `npm run verify:step5` from repo root (fetches skills + projects from Supabase). In the app, click **Verify Step 5 (roadmap)** to see roadmap summary on localhost.
 
 ---
 

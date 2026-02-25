@@ -1,6 +1,7 @@
 /**
- * Roadmap generator (template-based, no GPT).
- * Returns ordered skills and projects with status: done / next / upcoming, suggested / locked.
+ * Step 5 — Roadmap generator (template-based, no GPT).
+ * Returns ordered skills (done / next / upcoming) and projects (done / suggested / locked).
+ * Can use in-memory competency or pass allSkillsForRole + allProjectsForRole from Supabase.
  */
 
 import type {
@@ -19,6 +20,10 @@ export interface RoadmapInput {
   role: RoleId;
   userSkills: Array<{ userSkill: UserSkill; skill: Skill }>;
   userProjects: Array<{ userProject: UserProject; project: Project }>;
+  /** When provided, use instead of in-memory (e.g. from Supabase). */
+  allSkillsForRole?: Skill[];
+  /** When provided, use instead of in-memory (e.g. from Supabase). */
+  allProjectsForRole?: Project[];
 }
 
 const PROFICIENCY_DONE = 4; // 4 or 5 = consider skill "done" for roadmap
@@ -53,13 +58,14 @@ function projectStatus(
 
 /**
  * Generate roadmap for a user in a role.
+ * Uses allSkillsForRole / allProjectsForRole when provided (dynamic/Supabase); else in-memory.
  */
 export function generateRoadmap(input: RoadmapInput): Roadmap {
-  const { role, userSkills, userProjects } = input;
-  const skills = getSkillsForRole(role).sort(
-    (a, b) => (a.order ?? 99) - (b.order ?? 99)
+  const { role, userSkills, userProjects, allSkillsForRole, allProjectsForRole } = input;
+  const skills = (allSkillsForRole?.length ? allSkillsForRole : getSkillsForRole(role)).sort(
+    (a, b) => (a.order ?? a.difficulty ?? 99) - (b.order ?? b.difficulty ?? 99)
   );
-  const projects = getProjectsForRole(role);
+  const projects = allProjectsForRole?.length ? allProjectsForRole : getProjectsForRole(role);
 
   let seenFirstIncomplete = false;
   const skillSteps: RoadmapSkillStep[] = skills.map((skill) => {
