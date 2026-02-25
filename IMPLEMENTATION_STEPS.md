@@ -89,13 +89,14 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 6 — Resume analyzer (stub)
+## Step 6 — Resume analyzer (stub) ✅
 
-- [ ] Interface: `analyzeResume(fileOrText): { score, suggestions }`
-- [ ] Stub: return fixed score (e.g. 50) + placeholder suggestions until real parsing/NLP
+- [x] Interface: `analyzeResume(fileOrText): { score, suggestions }`
+- [x] Stub: return fixed score (e.g. 50) + placeholder suggestions until real parsing/NLP
+- [x] Resume upload: button on Resume page; file stored in Supabase Storage (bucket `documents`) and metadata in `resume_uploads` table
 - [ ] Later: PDF/DOCX parse + keyword/ATS + GPT
 
-**Deliverable:** `src/engine/resumeAnalyzer.ts` (stub)
+**Deliverable:** `src/engine/resumeAnalyzer.ts` (stub); `supabase/resume-storage.sql` (table + bucket + policies); frontend Resume page (upload → Storage + DB → analyze stub). **Verification:** Run `supabase/resume-storage.sql` in SQL Editor, then `npm run verify:step6` or click **Verify Step 6 (resume)** on localhost `/verify`. Upload a file on `/resume` to verify end-to-end.
 
 ---
 

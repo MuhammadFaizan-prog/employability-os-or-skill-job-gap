@@ -11,6 +11,7 @@ interface Step2Status { success: boolean; message: string; skillsByRole?: Record
 interface Step3Status { success: boolean; message: string; breakdown?: ScoreBreakdown; error?: string }
 interface Step4Status { success: boolean; message: string; result?: SkillGapResult; error?: string }
 interface Step5Status { success: boolean; message: string; summary?: RoadmapSummary; error?: string }
+interface Step6Status { success: boolean; message: string; tableOk?: boolean; storageOk?: boolean; error?: string }
 
 export function Verify() {
   const [status, setStatus] = useState<Step1Status | null>(null)
@@ -18,11 +19,13 @@ export function Verify() {
   const [step3Status, setStep3Status] = useState<Step3Status | null>(null)
   const [step4Status, setStep4Status] = useState<Step4Status | null>(null)
   const [step5Status, setStep5Status] = useState<Step5Status | null>(null)
+  const [step6Status, setStep6Status] = useState<Step6Status | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingStep2, setLoadingStep2] = useState(false)
   const [loadingStep3, setLoadingStep3] = useState(false)
   const [loadingStep4, setLoadingStep4] = useState(false)
   const [loadingStep5, setLoadingStep5] = useState(false)
+  const [loadingStep6, setLoadingStep6] = useState(false)
   const [consoleErrors, setConsoleErrors] = useState<string[]>([])
   const [consoleWarnings, setConsoleWarnings] = useState<string[]>([])
   const [roadmapSteps, setRoadmapSteps] = useState<RoadmapSteps | null>(null)
@@ -148,12 +151,34 @@ export function Verify() {
     finally { setLoadingStep5(false) }
   }
 
-  const anyLoading = loading || loadingStep2 || loadingStep3 || loadingStep4 || loadingStep5
+  async function handleVerifyStep6() {
+    setLoadingStep6(true); setStep6Status(null)
+    try {
+      if (!supabase) { setStep6Status({ success: false, message: "Supabase not configured.", error: "Add .env keys" }); return }
+      const { error: tableErr } = await supabase.from("resume_uploads").select("*", { count: "exact", head: true })
+      const tableOk = !tableErr
+      let storageOk = false
+      const { error: storageErr } = await supabase.storage.from("documents").list("resumes", { limit: 1 })
+      if (!storageErr) storageOk = true
+      const success = tableOk && storageOk
+      setStep6Status({
+        success,
+        message: success ? "Step 6 verified: resume_uploads table + documents bucket (Supabase)." : "Step 6: run supabase/resume-storage.sql in SQL Editor, then retry.",
+        tableOk,
+        storageOk,
+        error: tableErr?.message || storageErr?.message || (success ? undefined : "Table or bucket missing."),
+      })
+    } catch (e) {
+      setStep6Status({ success: false, message: "Step 6 verification failed.", error: e instanceof Error ? e.message : String(e) })
+    } finally { setLoadingStep6(false) }
+  }
+
+  const anyLoading = loading || loadingStep2 || loadingStep3 || loadingStep4 || loadingStep5 || loadingStep6
 
   return (
     <div className="app">
       <header className="header">
-        <h1>Verify Steps 1-5</h1>
+        <h1>Verify Steps 1-6</h1>
         <p className="tagline">Dynamic verification against Supabase (skilljob)</p>
       </header>
       <section className="weights">
@@ -171,11 +196,13 @@ export function Verify() {
         <button type="button" className="btn-verify" onClick={handleVerifyStep4} disabled={anyLoading} data-testid="verify-step4"> {loadingStep4 ? "Verifying…" : "Verify Step 4 (skill gap)"} </button>
         <button type="button" className="btn-verify" onClick={handleVerifyStep5} disabled={anyLoading} data-testid="verify-step5"> {loadingStep5 ? "Verifying…" : "Verify Step 5 (roadmap)"} </button>
         <button type="button" className="btn-verify" onClick={handleLoadRoadmap} disabled={anyLoading} data-testid="load-roadmap"> {loadingStep5 ? "Loading…" : "Load Roadmap"} </button>
+        <button type="button" className="btn-verify" onClick={handleVerifyStep6} disabled={anyLoading} data-testid="verify-step6"> {loadingStep6 ? "Verifying…" : "Verify Step 6 (resume)"} </button>
         {status && <div className={"status " + (status.success ? "success" : "error")}><p>{status.message}</p>{status.skillsCount != null && <p className="detail">Skills rows: {status.skillsCount}</p>}{status.error && <p className="error-detail">{status.error}</p>}</div>}
         {step2Status && <div className={"status " + (step2Status.success ? "success" : "error")}><p>{step2Status.message}</p>{step2Status.skillsByRole && <p className="detail">Skills by role: {Object.entries(step2Status.skillsByRole).map(([r, n]) => r + ": " + n).join(", ")}</p>}{step2Status.projectsByRole && <p className="detail">Projects by role: {Object.entries(step2Status.projectsByRole).map(([r, n]) => r + ": " + n).join(", ")}</p>}{step2Status.error && <p className="error-detail">{step2Status.error}</p>}</div>}
         {step3Status && <div className={"status " + (step3Status.success ? "success" : "error")}><p>{step3Status.message}</p>{step3Status.breakdown && <div className="detail"><p>Technical: {step3Status.breakdown.technical} · Projects: {step3Status.breakdown.projects} · Resume: {step3Status.breakdown.resume} · Practical: {step3Status.breakdown.practical} · Interview: {step3Status.breakdown.interview}</p><p><strong>Final score: {step3Status.breakdown.final_score}</strong></p></div>}{step3Status.error && <p className="error-detail">{step3Status.error}</p>}</div>}
         {step4Status && <div className={"status " + (step4Status.success ? "success" : "error")}><p>{step4Status.message}</p>{step4Status.result && <div className="detail"><p>Strengths: {step4Status.result.strengths.length} · Gaps: {step4Status.result.gaps.length} · Priority focus: {step4Status.result.priorityFocus.length}</p>{step4Status.result.suggestedNextSkill && <p>Suggested next skill: {step4Status.result.suggestedNextSkill.name}</p>}</div>}{step4Status.error && <p className="error-detail">{step4Status.error}</p>}</div>}
         {step5Status && <div className={"status " + (step5Status.success ? "success" : "error")}><p>{step5Status.message}</p>{step5Status.summary && <div className="detail"><p>Skills: done {step5Status.summary.skillsDone} · next {step5Status.summary.skillsNext} · upcoming {step5Status.summary.skillsUpcoming}</p><p>Projects: done {step5Status.summary.projectsDone} · suggested {step5Status.summary.projectsSuggested} · locked {step5Status.summary.projectsLocked}</p></div>}{step5Status.error && <p className="error-detail">{step5Status.error}</p>}</div>}
+        {step6Status && <div className={"status " + (step6Status.success ? "success" : "error")}><p>{step6Status.message}</p>{step6Status.tableOk != null && <p className="detail">Table resume_uploads: {step6Status.tableOk ? "OK" : "missing"}. Storage documents: {step6Status.storageOk ? "OK" : "missing"}.</p>}{step6Status.error && <p className="error-detail">{step6Status.error}</p>}</div>}
       </section>
       {roadmapSteps && <RoadmapDiagram steps={roadmapSteps} />}
       <section className="console-status" aria-live="polite">
@@ -184,7 +211,7 @@ export function Verify() {
         {consoleErrors.length > 0 && <div className="console-errors"><p><strong>{consoleErrors.length} error(s)</strong> (first 10):</p><ul>{consoleErrors.slice(0, 10).map((msg, i) => <li key={i}>{msg}</li>)}</ul></div>}
         {consoleWarnings.length > 0 && <div className="console-warnings"><p><strong>{consoleWarnings.length} warning(s)</strong> (first 5):</p><ul>{consoleWarnings.slice(0, 5).map((msg, i) => <li key={i}>{msg}</li>)}</ul></div>}
       </section>
-      <footer className="footer"><p>Supabase project <strong>skilljob</strong>. Steps 1-5 verified dynamically.</p></footer>
+      <footer className="footer"><p>Supabase project <strong>skilljob</strong>. Steps 1-6 verified dynamically.</p></footer>
     </div>
   )
 }

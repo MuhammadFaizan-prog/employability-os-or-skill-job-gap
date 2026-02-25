@@ -1,6 +1,7 @@
 /**
- * Resume analyzer — stub for MVP.
- * Later: parse PDF/DOCX, NLP/GPT for keyword match, ATS, quantification.
+ * Step 6 — Resume analyzer (stub).
+ * Interface: analyzeResume(fileOrText) → { score, suggestions }.
+ * Stub: fixed score 50 + placeholder suggestions until real PDF/DOCX + NLP/GPT.
  */
 
 export interface ResumeAnalysisResult {
@@ -9,11 +10,15 @@ export interface ResumeAnalysisResult {
   keywordMatch?: Record<string, boolean>;
 }
 
+export type ResumeInput = string | File | null | undefined;
+
 /**
- * Stub: returns a fixed score and placeholder suggestions.
- * Replace with real parsing + analysis when resume pipeline is built.
+ * Analyze resume: file upload or raw text.
+ * Stub: returns fixed score (50) and placeholder suggestions.
+ * Dynamic: same interface for future real implementation (Supabase Storage + parse + NLP/GPT).
  */
-export function analyzeResume(_fileOrText: unknown): ResumeAnalysisResult {
+export function analyzeResume(_fileOrText: ResumeInput): ResumeAnalysisResult {
+  // Stub: fixed score + placeholder suggestions; same interface for future real implementation
   return {
     score: 50,
     suggestions: [
