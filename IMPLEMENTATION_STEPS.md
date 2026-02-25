@@ -48,15 +48,17 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 3 — Employability Score engine
+## Step 3 — Employability Score engine ✅
 
-- [ ] **Technical score (40%):** From `user_skills`: `(sum of proficiency × skill weight) / total_possible_weight`, normalized 0–100
-- [ ] **Projects score (20%):** Beginner = 5, Intermediate = 10, Advanced = 20 pts; normalize to 100
-- [ ] **Resume (15%), Practical (15%), Interview (10%):** Placeholder 0–100 (or simple rules) until resume/experience/interview modules exist
-- [ ] **Final score:** Weighted sum, 0–100
-- [ ] Recalculation on any progress update (function only; no DB yet)
+- [x] **Technical score (40%):** From `user_skills`: `(sum of proficiency × skill weight) / total_possible_weight`, normalized 0–100
+- [x] **Projects score (20%):** Beginner = 5, Intermediate = 10, Advanced = 20 pts; normalize to 100
+- [x] **Resume (15%), Practical (15%), Interview (10%):** Placeholder 0–100 (default 0) until resume/experience/interview modules exist
+- [x] **Final score:** Weighted sum, 0–100
+- [x] Recalculation on any progress update (function only; no DB yet)
 
-**Deliverable:** `src/engine/score.ts` — `calculateScore(user, userSkills, userProjects, resumeScore?, practicalScore?, interviewScore?)`
+**Deliverable:** `src/engine/score.ts` — `calculateScore(user, userSkills, userProjects, resumeScore?, practicalScore?, interviewScore?)` (and overload with single `ScoreInput` object).
+
+**Verification:** Run `npm run verify:step3` from repo root. In the app (http://localhost:5173), click **Verify Step 3 (score engine)** — fetches skills from Supabase and computes score breakdown dynamically.
 
 ---
 

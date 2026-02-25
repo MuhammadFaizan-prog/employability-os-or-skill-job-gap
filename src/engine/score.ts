@@ -1,13 +1,15 @@
 /**
- * Employability Score engine.
+ * Employability Score engine (Step 3).
  * Weights: Technical 40%, Projects 20%, Resume 15%, Practical 15%, Interview 10%.
  * All dimensions normalized 0–100; final = weighted sum.
+ * Recalculation on any progress update (function only; no DB yet).
  */
 
-import type { UserSkill, Skill, UserProject, Project, ScoreBreakdown } from '../types';
+import type { User, UserSkill, Skill, UserProject, Project, ScoreBreakdown } from '../types';
 import { SCORE_WEIGHTS, PROJECT_POINTS } from '../types';
 
 export interface ScoreInput {
+  user?: User; // optional for future DB persistence
   userSkills: Array<{ userSkill: UserSkill; skill: Skill }>;
   userProjects: Array<{ userProject: UserProject; project: Project }>;
   resumeScore?: number;   // 0–100, default 0
@@ -60,9 +62,9 @@ function clampScore(v: number | undefined): number {
 }
 
 /**
- * Calculate full Employability Score and breakdown.
+ * Internal implementation: full Employability Score and breakdown.
  */
-export function calculateScore(input: ScoreInput): ScoreBreakdown {
+function calculateScoreImpl(input: ScoreInput): ScoreBreakdown {
   const technical = technicalScore(input.userSkills);
   const projects = projectsScore(input.userProjects);
   const resume = clampScore(input.resumeScore);
@@ -85,4 +87,41 @@ export function calculateScore(input: ScoreInput): ScoreBreakdown {
     final_score: Math.round(final_score * 100) / 100,
     last_calculated: new Date().toISOString(),
   };
+}
+
+/** Call with a single input object (user optional). */
+export function calculateScore(input: ScoreInput): ScoreBreakdown;
+/** Spec signature: user, userSkills, userProjects, resumeScore?, practicalScore?, interviewScore? */
+export function calculateScore(
+  user: User | null | undefined,
+  userSkills: Array<{ userSkill: UserSkill; skill: Skill }>,
+  userProjects: Array<{ userProject: UserProject; project: Project }>,
+  resumeScore?: number,
+  practicalScore?: number,
+  interviewScore?: number
+): ScoreBreakdown;
+export function calculateScore(
+  inputOrUser: ScoreInput | User | null | undefined,
+  userSkills?: Array<{ userSkill: UserSkill; skill: Skill }>,
+  userProjects?: Array<{ userProject: UserProject; project: Project }>,
+  resumeScore?: number,
+  practicalScore?: number,
+  interviewScore?: number
+): ScoreBreakdown {
+  if (
+    arguments.length === 1 &&
+    inputOrUser != null &&
+    typeof inputOrUser === 'object' &&
+    'userSkills' in inputOrUser
+  ) {
+    return calculateScoreImpl(inputOrUser as ScoreInput);
+  }
+  return calculateScoreImpl({
+    user: inputOrUser as User | undefined,
+    userSkills: userSkills!,
+    userProjects: userProjects!,
+    resumeScore,
+    practicalScore,
+    interviewScore,
+  });
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
+import { calculateScore, type ScoreBreakdown } from './lib/score'
 import { SCORE_WEIGHTS } from './constants/scoreWeights'
 import './App.css'
 
@@ -18,11 +19,20 @@ interface Step2Status {
   error?: string
 }
 
+interface Step3Status {
+  success: boolean
+  message: string
+  breakdown?: ScoreBreakdown
+  error?: string
+}
+
 export default function App() {
   const [status, setStatus] = useState<Step1Status | null>(null)
   const [step2Status, setStep2Status] = useState<Step2Status | null>(null)
+  const [step3Status, setStep3Status] = useState<Step3Status | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingStep2, setLoadingStep2] = useState(false)
+  const [loadingStep3, setLoadingStep3] = useState(false)
   const [consoleErrors, setConsoleErrors] = useState<string[]>([])
   const [consoleWarnings, setConsoleWarnings] = useState<string[]>([])
 
@@ -127,11 +137,61 @@ export default function App() {
     }
   }
 
+  async function handleVerifyStep3() {
+    setLoadingStep3(true)
+    setStep3Status(null)
+    try {
+      if (!supabase) {
+        setStep3Status({
+          success: false,
+          message: 'Supabase client not configured.',
+          error: 'Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env',
+        })
+        return
+      }
+      const { data: skills, error: skillsError } = await supabase
+        .from('skills')
+        .select('id, weight, difficulty')
+        .eq('role', 'Frontend Developer')
+        .limit(3)
+      if (skillsError) throw new Error(`Skills: ${skillsError.message}`)
+      const userSkills = (skills ?? []).map((s) => ({
+        proficiency: 3 as number,
+        skill: { weight: Number(s.weight) || 1 },
+      }))
+      const { data: projects } = await supabase
+        .from('projects')
+        .select('id, difficulty')
+        .eq('role', 'Frontend Developer')
+        .limit(2)
+      const userProjects = (projects ?? []).map((p, i) => ({
+        completed: i === 0,
+        project: { difficulty: Number(p.difficulty) || 1 },
+      }))
+      const breakdown = calculateScore(userSkills, userProjects, 0, 0, 0)
+      setStep3Status({
+        success: true,
+        message: `Step 3 verified: Employability Score engine (final ${breakdown.final_score}).`,
+        breakdown,
+      })
+    } catch (e) {
+      setStep3Status({
+        success: false,
+        message: 'Step 3 verification failed.',
+        error: e instanceof Error ? e.message : String(e),
+      })
+    } finally {
+      setLoadingStep3(false)
+    }
+  }
+
+  const anyLoading = loading || loadingStep2 || loadingStep3
+
   return (
     <div className="app">
       <header className="header">
         <h1>EmployabilityOS</h1>
-        <p className="tagline">Step 1 & 2 — Project, types, competency data (Supabase: skilljob)</p>
+        <p className="tagline">Step 1, 2 & 3 — Project, types, competency data, score engine (Supabase: skilljob)</p>
       </header>
 
       <section className="weights">
@@ -151,7 +211,7 @@ export default function App() {
           type="button"
           className="btn-verify"
           onClick={handleVerifyStep1}
-          disabled={loading || loadingStep2}
+          disabled={anyLoading}
           data-testid="verify-step1"
           aria-label="Verify Step 1 Supabase connection"
         >
@@ -161,11 +221,21 @@ export default function App() {
           type="button"
           className="btn-verify"
           onClick={handleVerifyStep2}
-          disabled={loading || loadingStep2}
+          disabled={anyLoading}
           data-testid="verify-step2"
           aria-label="Verify Step 2 competency data in Supabase"
         >
           {loadingStep2 ? 'Verifying…' : 'Verify Step 2 (competency data)'}
+        </button>
+        <button
+          type="button"
+          className="btn-verify"
+          onClick={handleVerifyStep3}
+          disabled={anyLoading}
+          data-testid="verify-step3"
+          aria-label="Verify Step 3 Employability Score engine"
+        >
+          {loadingStep3 ? 'Verifying…' : 'Verify Step 3 (score engine)'}
         </button>
         {status && (
           <div className={`status ${status.success ? 'success' : 'error'}`}>
@@ -193,6 +263,20 @@ export default function App() {
             )}
             {step2Status.error && (
               <p className="error-detail">{step2Status.error}</p>
+            )}
+          </div>
+        )}
+        {step3Status && (
+          <div className={`status ${step3Status.success ? 'success' : 'error'}`}>
+            <p>{step3Status.message}</p>
+            {step3Status.breakdown && (
+              <div className="detail">
+                <p>Technical: {step3Status.breakdown.technical} · Projects: {step3Status.breakdown.projects} · Resume: {step3Status.breakdown.resume} · Practical: {step3Status.breakdown.practical} · Interview: {step3Status.breakdown.interview}</p>
+                <p><strong>Final score: {step3Status.breakdown.final_score}</strong></p>
+              </div>
+            )}
+            {step3Status.error && (
+              <p className="error-detail">{step3Status.error}</p>
             )}
           </div>
         )}
