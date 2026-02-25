@@ -1,0 +1,193 @@
+/* Roadmap diagram — roadmap.sh style: blocks you can click for details */
+
+.roadmap-diagram {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8faf8;
+  border-radius: 12px;
+  border: 1px solid #e0e8e0;
+  text-align: left;
+}
+
+.roadmap-diagram__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: #152219;
+}
+
+.roadmap-diagram__hint {
+  font-size: 0.85rem;
+  color: #5a6b62;
+  margin: 0 0 1.25rem 0;
+}
+
+.roadmap-diagram__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.roadmap-diagram__section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2d3d35;
+  margin: 0 0 0.75rem 0;
+}
+
+.roadmap-diagram__blocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+/* Block = one step (skill or project); clickable card */
+.roadmap-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(21, 34, 25, 0.08);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 0;
+}
+
+.roadmap-block:hover {
+  border-color: #0f7d43;
+  box-shadow: 0 2px 8px rgba(15, 125, 67, 0.15);
+}
+
+.roadmap-block--selected {
+  border-color: #0f7d43;
+  background: #e8f5ee;
+  box-shadow: 0 2px 8px rgba(15, 125, 67, 0.2);
+}
+
+.roadmap-block__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #152219;
+  line-height: 1.2;
+}
+
+/* Status badges */
+.roadmap-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+}
+
+.roadmap-badge--done {
+  background: #0f7d43;
+  color: #fff;
+}
+
+.roadmap-badge--next {
+  background: #1565c0;
+  color: #fff;
+}
+
+.roadmap-badge--suggested {
+  background: #0f7d43;
+  color: #fff;
+}
+
+.roadmap-badge--upcoming,
+.roadmap-badge--locked {
+  background: #e0e4e0;
+  color: #5a6b62;
+}
+
+/* Detail panel (opens when you click a block) */
+.roadmap-detail {
+  margin-top: 1.5rem;
+}
+
+.roadmap-detail__card {
+  position: relative;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #c8d4cc;
+  box-shadow: 0 4px 12px rgba(21, 34, 25, 0.08);
+}
+
+.roadmap-detail__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: #f0f4f0;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #5a6b62;
+  transition: background 0.2s;
+}
+
+.roadmap-detail__close:hover {
+  background: #e0e4e0;
+  color: #152219;
+}
+
+.roadmap-detail__heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #152219;
+  padding-right: 2rem;
+}
+
+.roadmap-detail__meta {
+  font-size: 0.85rem;
+  color: #5a6b62;
+  margin: 0 0 0.35rem 0;
+}
+
+.roadmap-detail__progress {
+  font-size: 0.9rem;
+  color: #0f7d43;
+  margin: 0.5rem 0 0 0;
+}
+
+.roadmap-detail__tip {
+  font-size: 0.9rem;
+  color: #2d3d35;
+  margin: 0.75rem 0 0 0;
+  line-height: 1.4;
+}
+
+.roadmap-detail__criteria {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e0e4e0;
+}
+
+.roadmap-detail__criteria strong {
+  font-size: 0.85rem;
+  color: #2d3d35;
+}
+
+.roadmap-detail__criteria p {
+  font-size: 0.9rem;
+  color: #152219;
+  margin: 0.35rem 0 0 0;
+  line-height: 1.4;
+}
