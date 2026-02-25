@@ -1,6 +1,7 @@
 /**
- * Skill gap analysis: compare user skills vs role competency.
- * Outputs: strengths, gaps, priority focus, suggested next skill.
+ * Step 4 — Skill gap analysis: compare user skills vs role competency.
+ * Input: role, userSkills[] (skill id + proficiency 1–5), allSkillsForRole (from DB or in-memory).
+ * Output: gaps (missing or low), strengths (4–5), priority focus (high-weight + low proficiency first), suggested next skill.
  */
 
 import type { RoleId, Skill, UserSkill, SkillGapResult } from '../types';
@@ -9,6 +10,8 @@ import { getSkillsForRole } from '../data/competency';
 export interface SkillGapInput {
   role: RoleId;
   userSkills: Array<{ userSkill: UserSkill; skill: Skill }>;
+  /** When provided, use instead of in-memory competency (e.g. skills fetched from Supabase). */
+  allSkillsForRole?: Skill[];
 }
 
 const MIN_PROFICIENCY_STRENGTH = 4; // 4 or 5 = strength
@@ -16,10 +19,11 @@ const MIN_PROFICIENCY_ACCEPTABLE = 3; // below this = gap
 
 /**
  * Analyze skill gap for a user in a given role.
+ * Uses allSkillsForRole when provided (dynamic/Supabase); otherwise loads from in-memory competency.
  */
 export function analyzeSkillGap(input: SkillGapInput): SkillGapResult {
-  const { role, userSkills } = input;
-  const allSkills = getSkillsForRole(role);
+  const { role, userSkills, allSkillsForRole } = input;
+  const allSkills = allSkillsForRole?.length ? allSkillsForRole : getSkillsForRole(role);
   const bySkillId = new Map(userSkills.map((u) => [u.skill.id, u]));
 
   const strengths: SkillGapResult['strengths'] = [];

@@ -62,14 +62,16 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 4 — Skill gap analysis
+## Step 4 — Skill gap analysis ✅
 
-- [ ] Input: `role`, `userSkills[]` (skill id + proficiency 1–5)
-- [ ] Load role competency: all skills for that role
-- [ ] Output: **gaps** (skills missing or low), **strengths** (skills at 4–5), **priority focus** (high-weight + low proficiency first)
-- [ ] Optional: “suggested next skill” (e.g. first gap by order or weight)
+- [x] Input: `role`, `userSkills[]` (skill id + proficiency 1–5)
+- [x] Load role competency: all skills for that role (in-memory or pass `allSkillsForRole` from Supabase)
+- [x] Output: **gaps** (skills missing or low), **strengths** (skills at 4–5), **priority focus** (high-weight + low proficiency first)
+- [x] Optional: “suggested next skill” (e.g. first gap by order or weight)
 
-**Deliverable:** `src/engine/skillGap.ts` — `analyzeSkillGap(role, userSkills, allSkillsForRole)`
+**Deliverable:** `src/engine/skillGap.ts` — `analyzeSkillGap({ role, userSkills, allSkillsForRole? })`
+
+**Verification:** Run `npm run verify:step4` from repo root (fetches skills from Supabase, runs analysis).
 
 ---
 
