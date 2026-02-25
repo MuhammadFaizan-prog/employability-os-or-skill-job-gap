@@ -16,24 +16,35 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 1 — Project & types
+## Step 1 — Project & types ✅ (verified with Supabase skilljob)
 
 - [x] TypeScript project (Node), no UI
-- [ ] Shared types: `User`, `Skill`, `UserSkill`, `Project`, `UserProject`, `Score`, `Role`
-- [ ] Score dimension weights (Technical 40%, Projects 20%, Resume 15%, Practical 15%, Interview 10%)
+- [x] Shared types: `User`, `Skill`, `UserSkill`, `Project`, `UserProject`, `Score`, `Role`
+- [x] Score dimension weights (Technical 40%, Projects 20%, Resume 15%, Practical 15%, Interview 10%)
+- [x] **Supabase (skilljob):** Tables created (`users`, `skills`, `user_skills`, `projects`, `user_projects`, `scores`, `interview_questions`, `user_roadmap`) + RLS policies
+- [x] **React frontend:** `frontend/` — Vite + React + TS; "Verify Step 1" button reads from Supabase
 
-**Deliverable:** `src/types/` + `package.json`, `tsconfig.json`
+**Deliverable:** `src/types/` + `package.json`, `tsconfig.json`, Supabase schema, `frontend/` app.  
+**Run verification:** `cd frontend && cp .env.example .env` (add anon key from Supabase Dashboard), `npm run dev`, open http://localhost:5173, click **Verify Step 1 (Supabase)**.  
+**Console check:** App shows a "Console (verification)" section: must show "No console errors or warnings." before proceeding to Step 2.
+
+**Dynamic verification:** The app reads from Supabase (skilljob) only; no hardcoded table counts. Run `npx ts-node src/scripts/verify-steps.ts` from repo root to assert Step 1 + Step 2 against the live DB.
 
 ---
 
 ## Step 2 — Competency frameworks (data)
 
-- [ ] **Roles:** Frontend Developer, Backend Developer, Data Analyst (MVP)
-- [ ] **Skills table** per role: `id`, `name`, `role`, `difficulty` (1–3), `weight`
-- [ ] **Projects table** per role: `id`, `title`, `role`, `difficulty` (1–3), `required_skills`, `evaluation_criteria`
-- [ ] Seed data: realistic skills and projects for each role
+- [x] **Roles:** Frontend Developer, Backend Developer, Data Analyst (MVP)
+- [x] **Skills table** per role: `id`, `name`, `role`, `difficulty` (1–3), `weight`
+- [x] **Projects table** per role: `id`, `title`, `role`, `difficulty` (1–3), `required_skills`, `evaluation_criteria`
+- [x] Seed data: realistic skills and projects for each role (canonical: Node script `npm run seed:step2`; Supabase is source of truth)
 
-**Deliverable:** `src/data/competency.ts` (or `skills.ts` + `projects.ts`)
+**Deliverable:** `src/data/competency.ts` + Supabase tables `skills` and `projects` populated via seed script.
+
+**Fix Supabase data (single source of truth):** From repo root, set `SUPABASE_SERVICE_ROLE_KEY` in `frontend/.env` or root `.env` (from Supabase Dashboard → Project Settings → API). Then run:
+1. `npm run seed:step2` — clears and re-seeds competency data in Supabase (36 skills, 15 projects).
+2. `npx ts-node src/scripts/verify-steps.ts` — verifies Step 1 and Step 2 against Supabase (must pass before Step 3).
+3. Open http://localhost:5173, click **Verify Step 1** and **Verify Step 2**, confirm no console errors.
 
 ---
 

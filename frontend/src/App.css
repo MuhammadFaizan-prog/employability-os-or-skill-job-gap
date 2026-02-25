@@ -1,0 +1,172 @@
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #152219;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  color: #5a6b62;
+  margin: 0;
+}
+
+.weights {
+  background: #f0f4f0;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.weights h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2d3d35;
+}
+
+.weights ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.weights li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.95rem;
+}
+
+.weights .key {
+  text-transform: capitalize;
+}
+
+.weights .value {
+  font-weight: 600;
+  color: #0f7d43;
+}
+
+.verify {
+  margin-bottom: 2rem;
+}
+
+.btn-verify {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #0f7d43;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-verify:hover:not(:disabled) {
+  background: #0a5f32;
+}
+
+.btn-verify:focus-visible {
+  outline: 2px solid #152219;
+  outline-offset: 2px;
+}
+
+.btn-verify:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.status {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.status.success {
+  background: #e8f5ee;
+  border: 1px solid #9bbf89;
+  color: #152219;
+}
+
+.status.error {
+  background: #fdecea;
+  border: 1px solid #e57373;
+  color: #5c2d2d;
+}
+
+.status .detail {
+  margin: 0.35rem 0 0 0;
+  color: #2d3d35;
+}
+
+.status .error-detail {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.85rem;
+  color: #b71c1c;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #5a6b62;
+}
+
+.footer strong {
+  color: #2d3d35;
+}
+
+.console-status {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: #f8f9f8;
+  border: 1px solid #e0e4e0;
+}
+
+.console-status h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2d3d35;
+}
+
+.console-ok {
+  color: #0f7d43;
+  font-weight: 500;
+  margin: 0;
+}
+
+.console-errors {
+  margin: 0;
+}
+
+.console-errors ul,
+.console-warnings ul {
+  margin: 0.25rem 0 0 1rem;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #b71c1c;
+}
+
+.console-warnings ul {
+  color: #7d5a00;
+}

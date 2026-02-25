@@ -22,3 +22,6 @@ npm-debug.log*
 
 # Optional
 .cache/
+
+# Frontend env (keys)
+frontend/.env

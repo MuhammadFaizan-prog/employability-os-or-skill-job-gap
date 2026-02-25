@@ -7,10 +7,15 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "demo": "ts-node src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:step2": "ts-node src/scripts/seed-step2.ts","verify:steps":"ts-node src/scripts/verify-steps.ts"
   },
   "keywords": ["employability", "career", "skills", "scoring"],
   "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.97.0",
+    "dotenv": "^16.4.5"
+  },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "ts-node": "^10.9.2",
