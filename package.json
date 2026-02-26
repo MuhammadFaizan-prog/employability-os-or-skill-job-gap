@@ -9,7 +9,7 @@
     "demo": "ts-node src/index.ts",
     "typecheck": "tsc --noEmit",
     "seed:step2": "ts-node src/scripts/seed-step2.ts","verify:steps":"ts-node src/scripts/verify-steps.ts","verify:step3":"ts-node src/scripts/verify-step3.ts","verify:step4":"ts-node src/scripts/verify-step4.ts","verify:step5":"ts-node src/scripts/verify-step5.ts",
-    "verify:step6":"ts-node src/scripts/verify-step6-resume.ts","verify:all":"ts-node src/scripts/verify-steps.ts && ts-node src/scripts/verify-step3.ts && ts-node src/scripts/verify-step4.ts && ts-node src/scripts/verify-step5.ts && ts-node src/scripts/verify-step6-resume.ts"
+    "verify:step6":"ts-node src/scripts/verify-step6-resume.ts","verify:step7":"ts-node src/scripts/verify-step7.ts","verify:step8":"ts-node src/scripts/verify-step8.ts","verify:all":"ts-node src/scripts/verify-steps.ts && ts-node src/scripts/verify-step3.ts && ts-node src/scripts/verify-step4.ts && ts-node src/scripts/verify-step5.ts && ts-node src/scripts/verify-step6-resume.ts && ts-node src/scripts/verify-step7.ts && ts-node src/scripts/verify-step8.ts"
   },
   "keywords": ["employability", "career", "skills", "scoring"],
   "license": "MIT",

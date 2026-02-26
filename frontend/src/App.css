@@ -186,12 +186,29 @@
 .dashboard__links a, .page ul a { color: #0f7d43; text-decoration: none; }
 .dashboard__links a:hover, .page ul a:hover { text-decoration: underline; }
 
-.resume-upload { margin: 1rem 0; }
-.resume-upload__label { display: block; margin-bottom: 0.5rem; }
-.resume-upload__label input[type="file"] { margin-left: 0.5rem; }
-.resume-upload__name { font-size: 0.9rem; color: #2d3d35; margin: 0.5rem 0; }
+.resume-upload { margin: 1.5rem 0; }
+.resume-upload__hint { font-size: 0.95rem; color: #5a6b62; margin: 0 0 1rem 0; }
+.resume-upload__muted { font-size: 0.85rem; color: #5a6b62; margin-left: 0.5rem; }
+.resume-upload__input { position: absolute; width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; z-index: -1; }
+.resume-upload__btn { display: inline-block; padding: 0.85rem 1.25rem; font-size: 1rem; font-weight: 600; border-radius: 10px; cursor: pointer; transition: background 0.2s, border-color 0.2s; border: 2px solid #0f7d43; text-align: center; margin-right: 0.75rem; margin-bottom: 0.75rem; }
+.resume-upload__btn--choose { background: #fff; color: #0f7d43; }
+.resume-upload__btn--choose:hover { background: #e8f5ee; }
+.resume-upload__btn--analyze { background: #0f7d43; color: #fff; border-color: #0f7d43; }
+.resume-upload__btn--analyze:hover:not(:disabled) { background: #0a5f32; }
+.resume-upload__btn--analyze:disabled { opacity: 0.6; cursor: not-allowed; }
+.resume-upload__name { font-size: 0.95rem; color: #2d3d35; margin: 0.5rem 0; font-weight: 500; }
 .resume-result ul { margin: 0.5rem 0 0 1rem; padding: 0; }
 .resume-result li { margin: 0.25rem 0; }
 .resume-last { margin-top: 1.5rem; padding: 1rem; background: #f0f4f0; border-radius: 8px; font-size: 0.9rem; }
 .resume-last h2 { font-size: 1rem; margin: 0 0 0.5rem 0; }
 .resume-last p { margin: 0.25rem 0; }
+
+.interview-filters { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; align-items: center; }
+.interview-filters label { display: flex; align-items: center; gap: 0.5rem; }
+.interview-filters select { padding: 0.4rem 0.6rem; font-size: 0.95rem; border-radius: 6px; border: 1px solid #c8d4cc; }
+.interview-list h2 { font-size: 1.1rem; margin: 1rem 0 0.5rem 0; }
+.interview-list ul { list-style: none; padding: 0; margin: 0; }
+.interview-item { padding: 0.75rem 1rem; margin: 0.5rem 0; background: #f0f4f0; border-radius: 8px; border-left: 4px solid #0f7d43; }
+.interview-item__diff { font-size: 0.75rem; font-weight: 600; color: #0f7d43; margin-right: 0.5rem; }
+.interview-item__cat { font-size: 0.75rem; color: #5a6b62; text-transform: capitalize; }
+.interview-item__text { margin: 0.35rem 0 0 0; font-size: 0.95rem; color: #152219; }

@@ -9,18 +9,8 @@ export interface ResumeAnalysisResult {
   keywordMatch?: Record<string, boolean>
 }
 
-/** Generate random/sample resume text for stub analysis (no real parsing yet). */
-function randomResumeText(): string {
-  const samples = [
-    'Frontend Developer with 2 years experience. Skills: React, TypeScript, HTML, CSS. Project: E-commerce dashboard.',
-    'Software Engineer. Education: BS Computer Science. Experience: Intern at Tech Co. Skills: JavaScript, Node.js, SQL.',
-    'Recent graduate seeking role in Web Development. Portfolio: 3 projects. Proficient in HTML, CSS, JS, React.',
-  ]
-  return samples[Math.floor(Math.random() * samples.length)]
-}
-
 /**
- * Analyze resume (stub). Accepts file or text; for now uses random sample text and returns fixed shape.
+ * Analyze resume (stub). Accepts file or text; for now returns fixed score + suggestions (no parsing yet).
  * Dynamic: same interface for future real implementation (parse PDF/DOCX + NLP/GPT).
  */
 export function analyzeResume(_fileOrText: string | File | null | undefined): ResumeAnalysisResult {

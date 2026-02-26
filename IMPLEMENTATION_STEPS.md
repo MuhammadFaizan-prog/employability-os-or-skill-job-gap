@@ -1,4 +1,4 @@
-# EmployabilityOS — Implementation Steps (Backend / Logic First)
+﻿# EmployabilityOS — Implementation Steps (Backend / Logic First)
 
 > UI will be implemented later. This document breaks the product into ordered steps and tracks what we implement now.
 
@@ -100,22 +100,21 @@ We implement **logic and data** first; UI comes later.
 
 ---
 
-## Step 7 — Interview question bank (data only)
+## Step 7 — Interview question bank (data only) ✅
 
-- [ ] Data: `interview_questions` — `question_text`, `role`, `difficulty_level` (1–3)
-- [ ] Seed a few questions per role (technical, behavioral)
-- [ ] API: `getQuestions(role, difficulty?)` (no DB, in-memory)
+- [x] Data: `interview_questions` — `question_text`, `role`, `difficulty_level` (1–3)
+- [x] Seed questions per role via `supabase/interview-questions.sql`
+- [x] Frontend Interview page fetches from Supabase; verification: `npm run verify:step7` or Verify Step 7 on localhost
 
-**Deliverable:** `src/data/interviewQuestions.ts` + use in score when “interview readiness” is implemented
-
+**Deliverable:** `supabase/interview-questions.sql`; frontend `/interview` page (questions from Supabase).
 ---
 
-## Step 8 — API surface (optional, local)
+## Step 8 — API surface (optional, local) ✅
 
-- [ ] Thin layer: functions that use engine + data (e.g. `getScore(userId)`, `getSkillGap(userId, role)`, `getRoadmap(userId, role)`)
-- [ ] Can be replaced later by Supabase Edge Functions or REST API
+- [x] Thin layer: functions that use engine + data (e.g. `getScore(userId)`, `getSkillGap(userId, role)`, `getRoadmap(userId, role)`)
+- [x] getScore, getSkillGap, getRoadmap in `src/api/index.ts`; data from Supabase; verification: `npm run verify:step8` or Verify Step 8 on localhost
 
-**Deliverable:** `src/api/` or single `src/index.ts` exporting all services
+**Deliverable:** `src/api/index.ts` exporting getScore, getSkillGap, getRoadmap.
 
 ---
 

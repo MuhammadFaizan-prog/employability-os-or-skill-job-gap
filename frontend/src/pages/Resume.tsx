@@ -26,6 +26,7 @@ export function Resume() {
       const { error: uploadErr } = await supabase.storage.from(BUCKET).upload(path, file, {
         cacheControl: "3600",
         upsert: false,
+        contentType: file.type || "application/octet-stream",
       })
       if (uploadErr) throw new Error(uploadErr.message)
 
@@ -62,34 +63,53 @@ export function Resume() {
       <h1>Resume Analyzer</h1>
       <p>Upload your resume (PDF, DOC, DOCX, or image). It is stored in Supabase Storage and analyzed (stub: score + suggestions).</p>
 
-      <div className="resume-upload">
-        <label className="resume-upload__label">
-          <span>Choose file</span>
-          <input
-            type="file"
-            accept={ACCEPT}
-            onChange={(e) => {
-              const f = e.target.files?.[0]
-              setFile(f || null)
-              setError(null)
-            }}
-            disabled={uploading}
-          />
+      <div className="resume-upload" role="region" aria-label="Resume upload and analysis">
+        <p className="resume-upload__hint">Step 1: Choose a file. Step 2: Click &quot;Upload &amp; Analyze&quot;.</p>
+        <input
+          id="resume-file-input"
+          type="file"
+          accept={ACCEPT}
+          className="resume-upload__input"
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            setFile(f || null)
+            setError(null)
+          }}
+          disabled={uploading}
+          data-testid="resume-file-input"
+        />
+        <label htmlFor="resume-file-input" className="resume-upload__btn resume-upload__btn--choose">
+          {file ? "Change file" : "Choose resume file (PDF, DOC, DOCX, or image)"}
         </label>
-        {file && <p className="resume-upload__name">{file.name} ({(file.size / 1024).toFixed(1)} KB)</p>}
+        {file && (
+          <p className="resume-upload__name" data-testid="resume-file-name">
+            Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+          </p>
+        )}
         <button
           type="button"
-          className="btn-verify"
+          className="btn-verify resume-upload__btn resume-upload__btn--analyze"
           onClick={handleUpload}
           disabled={!file || uploading}
+          data-testid="resume-upload-analyze"
+          aria-label="Upload and analyze resume"
+          title={!file ? "Select a file first" : "Upload and run analysis"}
         >
           {uploading ? "Uploading…" : "Upload & Analyze"}
         </button>
+        {!file && (
+          <span className="resume-upload__muted">Select a file above to enable this button.</span>
+        )}
       </div>
 
       {error && (
         <div className="status error">
           <p><strong>Error</strong>: {error}</p>
+          <p className="detail">
+            {error.toLowerCase().includes("bucket") || error.toLowerCase().includes("not found")
+              ? "The Supabase Storage bucket \"documents\" is missing. In your Supabase project: open Dashboard → SQL Editor → New query, paste and run the contents of supabase/resume-storage.sql. That creates the bucket and policies so uploads work."
+              : "Ensure the Supabase bucket \"documents\" allows your file type (e.g. application/pdf). Run supabase/resume-storage.sql in Supabase Dashboard → SQL Editor to create/update the bucket."}
+          </p>
         </div>
       )}
 
@@ -107,10 +127,11 @@ export function Resume() {
 
       {lastUpload && (
         <div className="resume-last">
-          <h2>Last upload (stored in DB + Storage)</h2>
+          <h2>Stored in Supabase</h2>
+          <p>Your file is saved in <strong>Supabase Storage</strong> (bucket: <code>documents</code>) and a row was added to the <strong>resume_uploads</strong> table.</p>
           <p><strong>File</strong>: {lastUpload.file_name}</p>
-          <p><strong>Path</strong>: {lastUpload.storage_path}</p>
-          <p><strong>At</strong>: {new Date(lastUpload.uploaded_at).toLocaleString()}</p>
+          <p><strong>Storage path</strong>: <code>{lastUpload.storage_path}</code></p>
+          <p><strong>Uploaded at</strong>: {new Date(lastUpload.uploaded_at).toLocaleString()}</p>
         </div>
       )}
     </div>
