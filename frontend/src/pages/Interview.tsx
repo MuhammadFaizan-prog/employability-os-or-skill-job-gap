@@ -340,17 +340,17 @@ export function Interview() {
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                           <span style={{ fontWeight: 600 }}>{c.title}</span>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: 20, border: '1px solid var(--gray-mid)', color: 'var(--gray-dark)' }}>{c.difficulty}</span>
                             {attempt && <span style={{ fontSize: '0.75rem', color: 'var(--gray-dark)' }}>{attempt.passed ? 'Solved' : 'Attempted'}</span>}
                           </div>
-                        </div>
+            </div>
                         {Array.isArray(c.company_tags) && c.company_tags.length > 0 && (
                           <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
                             {c.company_tags.slice(0, 4).map((t, i) => (
                               <span key={i} style={{ fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: 12, background: 'var(--gray-light)', color: 'var(--gray-dark)' }}>{t}</span>
                             ))}
-                          </div>
+            </div>
                         )}
                       </Link>
                     </li>
@@ -358,7 +358,7 @@ export function Interview() {
                 })}
               </ul>
             )}
-          </div>
+            </div>
         )}
 
         {/* Quiz content (Overview / Active / Results) */}
@@ -391,7 +391,7 @@ export function Interview() {
               <span style={{ fontSize: '0.9rem', color: 'var(--gray-dark)' }}>
                 Question {currentIndex + 1} of {quizQuestions.length}
               </span>
-            </div>
+        </div>
 
             <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -436,7 +436,7 @@ export function Interview() {
                   Hint: {quizQuestions[currentIndex].hint}
                 </p>
               )}
-            </div>
+        </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -478,9 +478,9 @@ export function Interview() {
                 ))}
                 <button className="btn btn-primary" onClick={submitQuiz}>
                   Submit Quiz
-                </button>
-              </div>
-            </div>
+                    </button>
+                  </div>
+                </div>
           </>
         )}
 
@@ -520,7 +520,7 @@ export function Interview() {
           </div>
         )}
         </>
-        )}
+          )}
       </div>
     </div>
   )

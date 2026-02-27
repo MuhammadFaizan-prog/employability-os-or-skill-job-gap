@@ -17,7 +17,6 @@ function toMessage(a: unknown): string {
     ? String((a as Error).message)
     : String(a)
 }
-
 if (import.meta.env.DEV) {
   window.__step1ConsoleErrors = []
   window.__step1ConsoleWarnings = []

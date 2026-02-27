@@ -1,0 +1,4556 @@
+The code is mentioned in this profile; the actual UI we have to make. You have to figure out what you have to convert it into React. Keep in mind I'm giving you the code as well as each and everything. Also, after making the UI, you have to connect it with the actual backend functionality, the actual step one to step nine we have created, and then you have to verify the local host is already running as well as the superbase, mcb, and ss. Here is the code 
+
+The code below contains a design. This design should be used to create a new app or be added to an existing one.
+
+Look at the current open project to determine if a project exists. If no project is open, create a new Vite project then create this view in React after componentizing it.
+
+If a project does exist, determine the framework being used and implement the design within that framework. Identify whether reusable components already exist that can be used to implement the design faithfully and if so use them, otherwise create new components. If other views already exist in the project, make sure to place the view in a sensible route and connect it to the other views.
+
+Ensure the visual characteristics, layout, and interactions in the design are preserved with perfect fidelity.
+
+Run the dev command so the user can see the app once finished.
+
+```
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Career Readiness Platform</title>
+    <style vid="5">
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #ffffff;
+            --fg: #1a1a1a;
+            --gray-light: #f9f9f9;
+            --gray-mid: #e0e0e0;
+            --gray-dark: #666666;
+            --border-width: 1px;
+            --border-color: #1a1a1a;
+            --radius-window: 12px;
+            --radius-sm: 6px;
+            --radius-btn: 8px;
+            --font-main: 'Inter', sans-serif;
+            --max-width: 1200px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        
+        .page {
+            display: none !important;
+        }
+        
+        .page.active {
+            display: block !important;
+        }
+
+        .page.active.page-flex {
+            display: flex !important;
+        }
+
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .sparkle-icon {
+            fill: var(--fg);
+        }
+
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--fg);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--fg);
+            font-size: 1.125rem;
+            max-width: 60ch;
+        }
+
+        a {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+        
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-spacer {
+            padding: 6rem 0;
+        }
+
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: var(--radius-btn);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: var(--border-width) solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--fg);
+            color: var(--bg);
+            border-color: var(--fg);
+        }
+
+        .btn-primary:hover {
+            background-color: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--fg);
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--fg);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            padding: 0.75rem 1rem;
+        }
+
+        .btn-text:hover {
+            color: var(--gray-dark);
+        }
+
+        
+        /* ===== PERSISTENT NAV ===== */
+        .nav {
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 0;
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            height: 56px;
+            padding-left: 0;
+        }
+
+        /* Brand */
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            letter-spacing: -0.02em;
+            flex-shrink: 0;
+            padding-right: 2rem;
+            border-right: 1px solid var(--border-color);
+            padding-left: 0;
+        }
+
+        .nav-brand-mark {
+            width: 20px;
+            height: 20px;
+            background: var(--fg);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* Center nav */
+        .nav-center {
+            display: flex;
+            align-items: stretch;
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        /* Each nav item (plain link or dropdown trigger) */
+        .nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link, .nav-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--fg);
+            padding: 0 0.9rem;
+            height: 100%;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            letter-spacing: 0;
+            white-space: nowrap;
+            transition: background 0.15s;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .nav-link:hover, .nav-trigger:hover {
+            background: var(--gray-light);
+        }
+
+        .nav-link.nav-active, .nav-trigger.nav-active {
+            border-bottom-color: var(--fg);
+            font-weight: 600;
+        }
+
+        .nav-trigger-chevron {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.18s;
+            flex-shrink: 0;
+        }
+
+        .nav-item.open .nav-trigger-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown panels */
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 1px);
+            left: 0;
+            min-width: 210px;
+            background: var(--bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0 var(--radius-window) var(--radius-window) var(--radius-window);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 0.4rem 0;
+            z-index: 200;
+        }
+
+        .nav-item.open .nav-dropdown {
+            display: block;
+        }
+
+        .nav-dropdown-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.65rem 1rem;
+            cursor: pointer;
+            transition: background 0.12s;
+            text-decoration: none;
+            color: var(--fg);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-main);
+        }
+
+        .nav-dropdown-item:hover {
+            background: var(--gray-light);
+        }
+
+        .nav-dropdown-item.dd-active {
+            background: var(--gray-light);
+            font-weight: 600;
+        }
+
+        .nav-dropdown-item-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .nav-dropdown-item-sub {
+            font-size: 0.75rem;
+            color: var(--gray-dark);
+            margin-top: 0.1rem;
+        }
+
+        .nav-dropdown-divider {
+            height: 1px;
+            background: var(--gray-mid);
+            margin: 0.35rem 0;
+        }
+
+        /* Right auth area */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .nav-signin {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--fg);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .nav-signin:hover { background: var(--gray-light); }
+
+        .nav-cta {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--bg);
+            background: var(--fg);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            padding: 0.45rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .nav-cta:hover { background: #333; }
+
+        /* Role badge (logged-in) */
+        .nav-role-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            background: var(--fg);
+            color: var(--bg);
+            padding: 0.3rem 0.65rem;
+            border-radius: 20px;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-main);
+            transition: opacity 0.15s;
+        }
+
+        .nav-role-badge:hover { opacity: 0.75; }
+
+        /* Profile dropdown (logged-in) */
+        .nav-profile-wrap {
+            position: relative;
+        }
+
+        .nav-profile-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-color);
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+
+        .nav-profile-btn:hover { border-color: var(--fg); }
+
+        .nav-profile-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 160px;
+            background: var(--bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-window);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 0.4rem 0;
+            z-index: 200;
+        }
+
+        .nav-profile-wrap.open .nav-profile-dropdown { display: block; }
+
+        .nav-profile-item {
+            display: block;
+            padding: 0.6rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--fg);
+            cursor: pointer;
+            transition: background 0.12s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-main);
+        }
+
+        .nav-profile-item:hover { background: var(--gray-light); }
+
+        /* Mobile hamburger */
+        .nav-hamburger {
+            display: none;
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.4rem 0.55rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            flex-direction: column;
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: var(--fg);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        /* Mobile drawer */
+        .nav-drawer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+        }
+
+        .nav-drawer.open { display: block; }
+
+        .nav-drawer-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
+        }
+
+        .nav-drawer-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background: var(--bg);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
+        .nav-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-drawer-brand {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-drawer-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--gray-dark);
+            line-height: 1;
+        }
+
+        .nav-drawer-section {
+            border-bottom: 1px solid var(--gray-mid);
+        }
+
+        .nav-drawer-section-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.9rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            text-align: left;
+        }
+
+        .nav-drawer-section-btn svg {
+            transition: transform 0.18s;
+            flex-shrink: 0;
+        }
+
+        .nav-drawer-section.open .nav-drawer-section-btn svg {
+            transform: rotate(180deg);
+        }
+
+        .nav-drawer-children {
+            display: none;
+            padding: 0 0 0.5rem 1.5rem;
+        }
+
+        .nav-drawer-section.open .nav-drawer-children { display: block; }
+
+        .nav-drawer-child {
+            display: block;
+            padding: 0.55rem 0.75rem;
+            font-size: 0.875rem;
+            color: var(--fg);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--font-main);
+            text-align: left;
+            width: 100%;
+            border-radius: var(--radius-sm);
+            transition: background 0.12s;
+        }
+
+        .nav-drawer-child:hover { background: var(--gray-light); }
+
+        .nav-drawer-link {
+            display: block;
+            width: 100%;
+            padding: 0.9rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fg);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            text-align: left;
+            border-bottom: 1px solid var(--gray-mid);
+            transition: background 0.12s;
+        }
+
+        .nav-drawer-link:hover { background: var(--gray-light); }
+
+        .nav-drawer-auth {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        @media (max-width: 860px) {
+            .nav-center { display: none; }
+            .nav-right .nav-signin, .nav-right .nav-cta,
+            .nav-right .nav-role-badge, .nav-right .nav-profile-wrap { display: none; }
+            .nav-hamburger { display: flex; }
+            .nav-brand { border-right: none; padding-right: 0; }
+        }
+
+        
+        .hero {
+            text-align: center;
+            padding: 8rem 0 6rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .steps-connector {
+            position: absolute;
+            top: 24px; 
+            left: 50px;
+            right: 50px;
+            height: 1px;
+            border-top: 1px dashed var(--border-color);
+            z-index: 0;
+            display: none; 
+        }
+
+        @media (min-width: 768px) {
+            .steps-connector { display: block; }
+        }
+
+        .step-card {
+            background: var(--bg);
+            position: relative;
+            z-index: 1;
+            padding-top: 1rem;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border: var(--border-width) solid var(--border-color);
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-window);
+            padding: 2rem;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 4px 4px 0px var(--fg);
+        }
+
+        .feature-icon-box {
+            width: 48px;
+            height: 48px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        
+        .score-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .score-preview-window {
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-window);
+            background: var(--bg);
+            box-shadow: 12px 12px 0px rgba(0,0,0,0.05); 
+        }
+
+        .window-header {
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--fg);
+        }
+
+        .score-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .score-main {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .gauge {
+            width: 120px;
+            height: 120px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gauge::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                linear-gradient(90deg, transparent 49%, var(--fg) 49%, var(--fg) 51%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, var(--fg) 49%, var(--fg) 51%, transparent 51%);
+            opacity: 0.1;
+        }
+
+        .gauge-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--bg);
+            padding: 0.5rem;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .breakdown-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .breakdown-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 40px;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-track {
+            height: 12px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 20px; 
+            background: var(--bg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--fg); 
+            border-right: 1px solid var(--border-color);
+        }
+
+        .cta-section {
+            text-align: center;
+            background: var(--gray-light);
+            border-top: var(--border-width) solid var(--border-color);
+            border-bottom: var(--border-width) solid var(--border-color);
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--fg);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        
+        .onboarding-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .role-card {
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-window);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: var(--bg);
+        }
+
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .role-card.selected {
+            background-color: var(--fg);
+            color: var(--bg);
+            transform: translateY(-4px);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+        }
+
+        .role-card.selected h3, 
+        .role-card.selected p,
+        .role-card.selected .meta-item {
+            color: var(--bg);
+        }
+        
+        .role-card.selected .role-icon {
+            stroke: var(--bg);
+        }
+
+        .role-card.selected .meta-divider {
+            background-color: #666;
+        }
+
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .role-icon {
+            width: 32px;
+            height: 32px;
+            stroke: var(--fg);
+            stroke-width: 1.5;
+        }
+
+        .role-desc {
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .role-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-mid);
+        }
+
+        .role-card.selected .role-meta {
+            border-top-color: #444;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .meta-divider {
+            width: 1px;
+            height: 12px;
+            background-color: var(--gray-mid);
+        }
+
+        .skills-section {
+            max-width: 800px;
+            margin: 0 auto;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-window);
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .skills-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skills-list {
+            padding: 1rem 0;
+        }
+
+        .skill-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem 2rem;
+            transition: background 0.15s;
+        }
+
+        .skill-row:hover {
+            background-color: var(--gray-light);
+        }
+
+        .rating-control {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .rating-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .rating-btn:hover {
+            background-color: var(--gray-mid);
+        }
+
+        .rating-btn.active {
+            background-color: var(--fg);
+            color: var(--bg);
+            border-color: var(--fg);
+        }
+
+        .skip-link {
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 1rem;
+            width: 40px;
+            text-align: right;
+        }
+
+        .skip-link:hover {
+            color: var(--fg);
+        }
+        
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg);
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            z-index: 50;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sticky-footer.visible {
+            transform: translateY(0);
+        }
+
+        
+        @media (max-width: 900px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .onboarding-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .steps-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .score-layout { grid-template-columns: 1fr; }
+            .nav-links { display: none; } 
+            .steps-connector { display: none; }
+            .skill-row { grid-template-columns: 1fr; gap: 1rem; }
+            .rating-control { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body vid="6">
+
+    
+    <svg class="sparkle" width="24" height="24" viewBox="0 0 24 24" style="top: 15%; left: 10%;" vid="7">
+        <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" class="sparkle-icon" vid="8"></path>
+    </svg>
+    <svg class="sparkle" width="16" height="16" viewBox="0 0 24 24" style="top: 25%; right: 15%;" vid="9">
+        <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" class="sparkle-icon" vid="10"></path>
+    </svg>
+    <svg class="sparkle" width="20" height="20" viewBox="0 0 24 24" style="bottom: 10%; left: 5%;" vid="11">
+        <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" class="sparkle-icon" vid="12"></path>
+    </svg>
+
+    
+    <!-- PERSISTENT NAV -->
+    <nav class="nav" id="main-nav" vid="13">
+       <div class="nav-inner" style="max-width: var(--max-width); margin: 0 auto; padding-left: 0.5rem; padding-right: 2rem;" vid="14">
+
+            <!-- Brand -->
+            <button class="nav-brand" onclick="navBrandClick()" vid="15">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;" vid="16">
+                    <rect width="28" height="28" rx="6" fill="var(--fg)" vid="17"></rect>
+                    <path d="M7 18 L11 10 L14 15 L17 11 L21 18" stroke="var(--bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" vid="18"></path>
+                    <circle cx="21" cy="10" r="2" fill="var(--bg)" vid="19"></circle>
+                </svg>
+                Skill–Job Gap
+            </button>
+
+            <!-- Center nav items -->
+            <div class="nav-center" id="nav-center" vid="20">
+
+                <!-- 1. Methodology (dropdown) -->
+                <div class="nav-item" id="nav-methodology" vid="21">
+                    <button class="nav-trigger" onclick="navToggle('nav-methodology')" aria-haspopup="true" aria-expanded="false" vid="22">
+                        Methodology
+                        <svg class="nav-trigger-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="23"><polyline points="6 9 12 15 18 9" vid="24"></polyline></svg>
+                    </button>
+                    <div class="nav-dropdown" role="menu" vid="25">
+                        <button class="nav-dropdown-item" role="menuitem" onclick="navClose(); navInfo('how-it-works')" vid="26">
+                            <div vid="27">
+                                <div class="nav-dropdown-item-label" vid="28">How It Works</div>
+                                <div class="nav-dropdown-item-sub" vid="29">Platform overview</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" onclick="navClose(); navInfo('model')" vid="30">
+                            <div vid="31">
+                                <div class="nav-dropdown-item-label" vid="32">Skill–Job Gap Model</div>
+                                <div class="nav-dropdown-item-sub" vid="33">How gaps are measured</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" onclick="navClose(); navInfo('scoring')" vid="34">
+                            <div vid="35">
+                                <div class="nav-dropdown-item-label" vid="36">Scoring Framework</div>
+                                <div class="nav-dropdown-item-sub" vid="37">Weight &amp; benchmark logic</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" onclick="navClose(); navInfo('roadmap-logic')" vid="38">
+                            <div vid="39">
+                                <div class="nav-dropdown-item-label" vid="40">Roadmap Logic</div>
+                                <div class="nav-dropdown-item-sub" vid="41">How paths are sequenced</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Assessments (dropdown) -->
+                <div class="nav-item" id="nav-assessments" vid="42">
+                    <button class="nav-trigger" onclick="navToggle('nav-assessments')" aria-haspopup="true" aria-expanded="false" vid="43">
+                        Assessments
+                        <svg class="nav-trigger-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="44"><polyline points="6 9 12 15 18 9" vid="45"></polyline></svg>
+                    </button>
+                    <div class="nav-dropdown" role="menu" vid="46">
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-dashboard" onclick="navClose(); showPage('page-dashboard'); navSetActive('page-dashboard')" vid="47">
+                            <div vid="48">
+                                <div class="nav-dropdown-item-label" vid="49">Dashboard</div>
+                                <div class="nav-dropdown-item-sub" vid="50">Overall readiness overview</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-skills" onclick="navClose(); showPage('page-skills'); navSetActive('page-skills')" vid="51">
+                            <div vid="52">
+                                <div class="nav-dropdown-item-label" vid="53">Skill Gap Analysis</div>
+                                <div class="nav-dropdown-item-sub" vid="54">Measure your skill gaps</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Execution (dropdown) -->
+                <div class="nav-item" id="nav-execution" vid="55">
+                    <button class="nav-trigger" onclick="navToggle('nav-execution')" aria-haspopup="true" aria-expanded="false" vid="56">
+                        Execution
+                        <svg class="nav-trigger-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="57"><polyline points="6 9 12 15 18 9" vid="58"></polyline></svg>
+                    </button>
+                    <div class="nav-dropdown" role="menu" vid="59">
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-roadmap" onclick="navClose(); showPage('page-roadmap'); navSetActive('page-roadmap')" vid="60">
+                            <div vid="61">
+                                <div class="nav-dropdown-item-label" vid="62">Learning Roadmap</div>
+                                <div class="nav-dropdown-item-sub" vid="63">Your skill progression path</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-projects" onclick="navClose(); showPage('page-projects'); navSetActive('page-projects')" vid="64">
+                            <div vid="65">
+                                <div class="nav-dropdown-item-label" vid="66">Projects</div>
+                                <div class="nav-dropdown-item-sub" vid="67">Practice through building</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-progress" onclick="navClose(); showPage('page-dashboard'); navSetActive('page-dashboard')" vid="68">
+                            <div vid="69">
+                                <div class="nav-dropdown-item-label" vid="70">Progress Tracking</div>
+                                <div class="nav-dropdown-item-sub" vid="71">See your growth over time</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Job Readiness (dropdown) -->
+                <div class="nav-item" id="nav-jobreadiness" vid="72">
+                    <button class="nav-trigger" onclick="navToggle('nav-jobreadiness')" aria-haspopup="true" aria-expanded="false" vid="73">
+                        Job Readiness
+                        <svg class="nav-trigger-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="74"><polyline points="6 9 12 15 18 9" vid="75"></polyline></svg>
+                    </button>
+                    <div class="nav-dropdown" role="menu" vid="76">
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-resume" onclick="navClose(); showPage('page-resume'); navSetActive('page-resume')" vid="77">
+                            <div vid="78">
+                                <div class="nav-dropdown-item-label" vid="79">Resume Analyzer</div>
+                                <div class="nav-dropdown-item-sub" vid="80">AI-powered resume scoring</div>
+                            </div>
+                        </button>
+                        <button class="nav-dropdown-item" role="menuitem" id="dd-interview" onclick="navClose(); showPage('page-interview'); navSetActive('page-interview')" vid="81">
+                            <div vid="82">
+                                <div class="nav-dropdown-item-label" vid="83">Interview Preparation</div>
+                                <div class="nav-dropdown-item-sub" vid="84">Practice gap-aligned questions</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. Pricing -->
+                <div class="nav-item" vid="85">
+                    <button class="nav-link" onclick="navInfo('pricing')" id="nav-pricing-link" vid="86">Pricing</button>
+                </div>
+
+            </div>
+
+            <!-- Right: Auth -->
+            <div class="nav-right" id="nav-right" vid="87">
+                <!-- Logged-out state (default) -->
+                <div id="nav-auth-loggedout" style="display:flex;align-items:center;gap:0.5rem;" vid="88">
+                    <button class="nav-signin" onclick="showPage('page-login')" vid="89">Sign In</button>
+                    <button class="nav-cta" onclick="showPage('page-signup')" vid="90">Get Started</button>
+                </div>
+                <!-- Logged-in state (hidden by default, activated after onboarding) -->
+                <div id="nav-auth-loggedin" style="display:none;align-items:center;gap:0.75rem;" vid="91">
+                    <button class="nav-role-badge" id="nav-role-badge-btn" onclick="showPage('page-onboarding')" vid="92">FRONTEND ENGINEER</button>
+                    <div class="nav-profile-wrap" id="nav-profile-wrap" vid="93">
+                        <button class="nav-profile-btn" onclick="navToggleProfile()" aria-label="Profile menu" aria-haspopup="true" vid="94">
+                            <svg width="15" height="15" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="95"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" vid="96"></path><circle cx="12" cy="7" r="4" vid="97"></circle></svg>
+                        </button>
+                        <div class="nav-profile-dropdown" role="menu" vid="98">
+                            <button class="nav-profile-item" onclick="navClose(); showPage('page-profile'); navSetActive('page-profile')" vid="99">Profile</button>
+                            <div style="height:1px;background:var(--gray-mid);margin:0.3rem 0;" vid="100"></div>
+                            <button class="nav-profile-item" onclick="navClose(); navLogout()" style="color:#c0392b;" vid="101">Log out</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hamburger (mobile) -->
+                <button class="nav-hamburger" id="nav-hamburger" onclick="navDrawerOpen()" aria-label="Open menu" vid="102">
+                    <span vid="103"></span><span vid="104"></span><span vid="105"></span>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu" vid="106">
+        <div class="nav-drawer-overlay" onclick="navDrawerClose()" vid="107"></div>
+        <div class="nav-drawer-panel" vid="108">
+            <div class="nav-drawer-header" vid="109">
+                <div class="nav-drawer-brand" vid="110">
+                    <div class="nav-brand-mark" style="width:18px;height:18px;" vid="111"></div>
+                    Skill–Job Gap
+                </div>
+                <button class="nav-drawer-close" onclick="navDrawerClose()" aria-label="Close menu" vid="112">✕</button>
+            </div>
+
+            <!-- Methodology -->
+            <div class="nav-drawer-section" id="drawer-methodology" vid="113">
+                <button class="nav-drawer-section-btn" onclick="navDrawerToggle('drawer-methodology')" vid="114">
+                    Methodology
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="115"><polyline points="6 9 12 15 18 9" vid="116"></polyline></svg>
+                </button>
+                <div class="nav-drawer-children" vid="117">
+                    <button class="nav-drawer-child" onclick="navDrawerClose()" vid="118">How It Works</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose()" vid="119">Skill–Job Gap Model</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose()" vid="120">Scoring Framework</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose()" vid="121">Roadmap Logic</button>
+                </div>
+            </div>
+
+            <!-- Assessments -->
+            <div class="nav-drawer-section" id="drawer-assessments" vid="122">
+                <button class="nav-drawer-section-btn" onclick="navDrawerToggle('drawer-assessments')" vid="123">
+                    Assessments
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="124"><polyline points="6 9 12 15 18 9" vid="125"></polyline></svg>
+                </button>
+                <div class="nav-drawer-children" vid="126">
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-dashboard'); navSetActive('page-dashboard')" vid="127">Dashboard</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-skills'); navSetActive('page-skills')" vid="128">Skill Gap Analysis</button>
+                </div>
+            </div>
+
+            <!-- Execution -->
+            <div class="nav-drawer-section" id="drawer-execution" vid="129">
+                <button class="nav-drawer-section-btn" onclick="navDrawerToggle('drawer-execution')" vid="130">
+                    Execution
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="131"><polyline points="6 9 12 15 18 9" vid="132"></polyline></svg>
+                </button>
+                <div class="nav-drawer-children" vid="133">
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-roadmap'); navSetActive('page-roadmap')" vid="134">Learning Roadmap</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-projects'); navSetActive('page-projects')" vid="135">Projects</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-dashboard'); navSetActive('page-dashboard')" vid="136">Progress Tracking</button>
+                </div>
+            </div>
+
+            <!-- Job Readiness -->
+            <div class="nav-drawer-section" id="drawer-jobreadiness" vid="137">
+                <button class="nav-drawer-section-btn" onclick="navDrawerToggle('drawer-jobreadiness')" vid="138">
+                    Job Readiness
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" vid="139"><polyline points="6 9 12 15 18 9" vid="140"></polyline></svg>
+                </button>
+                <div class="nav-drawer-children" vid="141">
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-resume'); navSetActive('page-resume')" vid="142">Resume Analyzer</button>
+                    <button class="nav-drawer-child" onclick="navDrawerClose(); showPage('page-interview'); navSetActive('page-interview')" vid="143">Interview Preparation</button>
+                </div>
+            </div>
+
+            <button class="nav-drawer-link" onclick="navDrawerClose()" vid="144">Pricing</button>
+
+            <div class="nav-drawer-auth" id="drawer-auth-loggedout" vid="145">
+                <button class="btn btn-outline" style="width:100%;" onclick="navDrawerClose()" vid="146">Sign In</button>
+                <button class="btn btn-primary" style="width:100%;" onclick="navDrawerClose(); showPage('page-onboarding')" vid="147">Get Started</button>
+            </div>
+            <div class="nav-drawer-auth" id="drawer-auth-loggedin" style="display:none;" vid="148">
+                <button class="btn btn-outline" style="width:100%;" onclick="navDrawerClose(); showPage('page-profile')" vid="149">Profile</button>
+                <button class="btn btn-outline" style="width:100%; color:#c0392b; border-color:#c0392b;" onclick="navDrawerClose(); navLogout()" vid="150">Log out</button>
+            </div>
+        </div>
+    </div>
+
+    <script vid="151">
+    /* ===== NAV CONTROLLER ===== */
+    let navLoggedIn = false;
+
+    const navPageParent = {
+        'page-dashboard': 'nav-assessments',
+        'page-skills':    'nav-assessments',
+        'page-roadmap':   'nav-execution',
+        'page-projects':  'nav-execution',
+        'page-resume':    'nav-jobreadiness',
+        'page-interview': 'nav-jobreadiness',
+    };
+
+    const navPageDD = {
+        'page-dashboard': 'dd-dashboard',
+        'page-skills':    'dd-skills',
+        'page-roadmap':   'dd-roadmap',
+        'page-projects':  'dd-projects',
+        'page-resume':    'dd-resume',
+        'page-interview': 'dd-interview',
+    };
+
+    function navSetActive(pageId) {
+        // Clear all active states
+        document.querySelectorAll('.nav-trigger, .nav-link').forEach(el => el.classList.remove('nav-active'));
+        document.querySelectorAll('.nav-dropdown-item').forEach(el => el.classList.remove('dd-active'));
+
+        // Highlight parent trigger
+        const parentId = navPageParent[pageId];
+        if (parentId) {
+            const trigger = document.querySelector('#' + parentId + ' .nav-trigger');
+            if (trigger) trigger.classList.add('nav-active');
+        }
+
+        // Highlight dropdown item
+        const ddId = navPageDD[pageId];
+        if (ddId) {
+            const dd = document.getElementById(ddId);
+            if (dd) dd.classList.add('dd-active');
+        }
+
+        // Toggle logged-in state after onboarding
+        if (pageId === 'page-onboarding') {
+            // Leave as-is (mid-flow)
+        } else if (pageId !== 'page-home') {
+            navSetLoggedIn(true);
+        }
+    }
+
+    function navSetLoggedIn(val) {
+        navLoggedIn = val;
+        document.getElementById('nav-auth-loggedout').style.display  = val ? 'none'  : 'flex';
+        document.getElementById('nav-auth-loggedin').style.display   = val ? 'flex'  : 'none';
+        document.getElementById('drawer-auth-loggedout').style.display = val ? 'none' : 'flex';
+        document.getElementById('drawer-auth-loggedin').style.display  = val ? 'flex' : 'none';
+    }
+
+    function navBrandClick() {
+        navClose();
+        if (navLoggedIn) {
+            showPage('page-dashboard');
+            navSetActive('page-dashboard');
+        } else {
+            showPage('page-home');
+            document.querySelectorAll('.nav-trigger, .nav-link').forEach(el => el.classList.remove('nav-active'));
+        }
+    }
+
+    function navToggle(id) {
+        const item = document.getElementById(id);
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.nav-item.open').forEach(el => {
+            el.classList.remove('open');
+            el.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+            item.classList.add('open');
+            item.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    function navToggleProfile() {
+        const wrap = document.getElementById('nav-profile-wrap');
+        wrap.classList.toggle('open');
+    }
+
+    function navClose() {
+        document.querySelectorAll('.nav-item.open').forEach(el => {
+            el.classList.remove('open');
+            el.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false');
+        });
+        document.getElementById('nav-profile-wrap')?.classList.remove('open');
+    }
+
+    function navLogout() {
+        navSetLoggedIn(false);
+        showPage('page-home');
+        document.querySelectorAll('.nav-trigger, .nav-link').forEach(el => el.classList.remove('nav-active'));
+        document.querySelectorAll('.nav-dropdown-item').forEach(el => el.classList.remove('dd-active'));
+    }
+
+    function navInfo(key) {
+        // Placeholder for informational pages not yet built
+    }
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-item') && !e.target.closest('.nav-profile-wrap')) {
+            navClose();
+        }
+    });
+
+    // Keyboard accessibility: close on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') navClose();
+    });
+
+    // Mobile drawer
+    function navDrawerOpen() {
+        document.getElementById('nav-drawer').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function navDrawerClose() {
+        document.getElementById('nav-drawer').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function navDrawerToggle(id) {
+        const section = document.getElementById(id);
+        section.classList.toggle('open');
+    }
+    </script>
+
+    
+    <div id="page-home" class="page active" vid="152">
+        <section class="hero" vid="153">
+            <div class="container hero-content" vid="154">
+                <h1 vid="155">Validate your career readiness with data.</h1>
+                <p style="margin: 0 auto;" vid="156">Measure your professional skills against industry benchmarks using our standardized assessment framework. Built for the modern workforce.</p>
+                <div class="hero-actions" vid="157">
+                    <button onclick="showPage('page-onboarding'); navSetActive('page-onboarding');" class="btn btn-primary" vid="158">Start Assessment</button>
+                    <button class="btn btn-text" onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" vid="159">View Sample Report</button>
+                </div>
+            </div>
+            
+            <svg width="200" height="100" style="position: absolute; bottom: -50px; left: 10%; z-index: -1; opacity: 0.5;" vid="160">
+                <path d="M10,10 Q50,90 190,90" fill="none" stroke="#1a1a1a" stroke-width="1" vid="161"></path>
+                <circle cx="10" cy="10" r="3" fill="#1a1a1a" vid="162"></circle>
+                <path d="M185,85 L190,90 L185,95" fill="none" stroke="#1a1a1a" stroke-width="1" vid="163"></path>
+            </svg>
+        </section>
+
+        <section class="section-spacer" vid="164">
+            <div class="container" vid="165">
+                <div class="section-header" style="margin-bottom: 4rem; text-align: center;" vid="166">
+                    <h2 vid="167">How It Works</h2>
+                    <p style="margin: 0 auto;" vid="168">Four simple steps to certify your skills.</p>
+                </div>
+                
+                <div class="steps-grid" vid="169">
+                    <div class="steps-connector" vid="170"></div>
+                    
+                    <div class="step-card" vid="171">
+                        <div class="step-number" vid="172">1</div>
+                        <h3 vid="173">Register</h3>
+                        <p class="step-desc" vid="174">Create your professional profile and select your target industry.</p>
+                    </div>
+
+                    <div class="step-card" vid="175">
+                        <div class="step-number" vid="176">2</div>
+                        <h3 vid="177">Assess</h3>
+                        <p class="step-desc" vid="178">Complete the 45-minute core competency evaluation.</p>
+                    </div>
+
+                    <div class="step-card" vid="179">
+                        <div class="step-number" vid="180">3</div>
+                        <h3 vid="181">Analyze</h3>
+                        <p class="step-desc" vid="182">Receive instant AI-powered scoring and gap analysis.</p>
+                    </div>
+
+                    <div class="step-card" vid="183">
+                        <div class="step-number" vid="184">4</div>
+                        <h3 vid="185">Certify</h3>
+                        <p class="step-desc" vid="186">Get your verified badge and shareable readiness report.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-spacer" style="background-color: #fafafa; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a;" vid="187">
+            <div class="container" vid="188">
+                <div class="section-header" style="margin-bottom: 3rem;" vid="189">
+                    <h2 vid="190">Platform Features</h2>
+                </div>
+                <div class="features-grid" vid="191">
+                    <div class="feature-card" vid="192">
+                        <div class="feature-icon-box" vid="193">
+                            <svg class="icon" viewBox="0 0 24 24" vid="194"><circle cx="12" cy="12" r="10" vid="195"></circle><path d="M12 6v6l4 2" vid="196"></path></svg>
+                        </div>
+                        <h3 vid="197">Timed Simulations</h3>
+                        <p class="step-desc" vid="198">Real-world scenarios with strict time constraints to test pressure handling.</p>
+                    </div>
+                    
+                    <div class="feature-card" vid="199">
+                        <div class="feature-icon-box" vid="200">
+                            <svg class="icon" viewBox="0 0 24 24" vid="201"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vid="202"></path></svg>
+                        </div>
+                        <h3 vid="203">Live Analytics</h3>
+                        <p class="step-desc" vid="204">Granular data points tracked in real-time as you progress through tasks.</p>
+                    </div>
+                    
+                    <div class="feature-card" vid="205">
+                        <div class="feature-icon-box" vid="206">
+                            <svg class="icon" viewBox="0 0 24 24" vid="207"><rect x="3" y="3" width="18" height="18" rx="2" vid="208"></rect><path d="M3 9h18" vid="209"></path></svg>
+                        </div>
+                        <h3 vid="210">Industry Standards</h3>
+                        <p class="step-desc" vid="211">Benchmarks updated quarterly based on top employer requirements.</p>
+                    </div>
+                    
+                    <div class="feature-card" vid="212">
+                        <div class="feature-icon-box" vid="213">
+                            <svg class="icon" viewBox="0 0 24 24" vid="214"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" vid="215"></path><circle cx="9" cy="7" r="4" vid="216"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87" vid="217"></path><path d="M16 3.13a4 4 0 0 1 0 7.75" vid="218"></path></svg>
+                        </div>
+                        <h3 vid="219">Peer Comparison</h3>
+                        <p class="step-desc" vid="220">See how you stack up against other candidates in your cohort.</p>
+                    </div>
+                    
+                    <div class="feature-card" vid="221">
+                        <div class="feature-icon-box" vid="222">
+                            <svg class="icon" viewBox="0 0 24 24" vid="223"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="224"></path><polyline points="14 2 14 8 20 8" vid="225"></polyline><line x1="16" y1="13" x2="8" y2="13" vid="226"></line><line x1="16" y1="17" x2="8" y2="17" vid="227"></line><polyline points="10 9 9 9 8 9" vid="228"></polyline></svg>
+                        </div>
+                        <h3 vid="229">PDF Reports</h3>
+                        <p class="step-desc" vid="230">Downloadable, detailed breakdown suitable for resume attachments.</p>
+                    </div>
+                    
+                    <div class="feature-card" vid="231">
+                        <div class="feature-icon-box" vid="232">
+                            <svg class="icon" viewBox="0 0 24 24" vid="233"><circle cx="12" cy="12" r="10" vid="234"></circle><line x1="2" y1="12" x2="22" y2="12" vid="235"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" vid="236"></path></svg>
+                        </div>
+                        <h3 vid="237">Global Access</h3>
+                        <p class="step-desc" vid="238">Cloud-based platform accessible from any modern browser worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-spacer" vid="239">
+            <div class="container score-layout" vid="240">
+                <div vid="241">
+                    <h2 vid="242">Comprehensive Scoring</h2>
+                    <p style="margin-bottom: 2rem;" vid="243">Our proprietary algorithm breaks down your performance into five key dimensions, giving you a clear roadmap for improvement.</p>
+                    <ul style="list-style: none; padding-left: 1rem; border-left: 1px solid #1a1a1a;" vid="244">
+                        <li style="margin-bottom: 1rem;" vid="245"><strong vid="246">• Technical Accuracy</strong></li>
+                        <li style="margin-bottom: 1rem;" vid="247"><strong vid="248">• Speed &amp; Efficiency</strong></li>
+                        <li style="margin-bottom: 1rem;" vid="249"><strong vid="250">• Problem Solving</strong></li>
+                    </ul>
+                </div>
+
+                <div class="score-preview-window" vid="251">
+                    <div class="window-header" vid="252">
+                        <div class="dot" vid="253"></div>
+                        <div class="dot" vid="254"></div>
+                        <div class="dot" vid="255"></div>
+                        <span style="font-size: 0.8rem; margin-left: auto; font-family: monospace;" vid="256">RESULT_PREVIEW.DAT</span>
+                    </div>
+                    <div class="score-content" vid="257">
+                        <div class="score-main" vid="258">
+                            <div class="gauge" vid="259">
+                                <span class="gauge-value" vid="260">84</span>
+                            </div>
+                            <div vid="261">
+                                <h4 vid="262">Overall Readiness</h4>
+                                <p style="font-size: 0.9rem; color: #666;" vid="263">Top 15% of Candidates</p>
+                            </div>
+                        </div>
+                        
+                        <div class="breakdown-list" vid="264">
+                            <div class="breakdown-item" vid="265">
+                                <span vid="266">Logic</span>
+                                <div class="progress-track" vid="267"><div class="progress-fill" style="width: 92%" vid="268"></div></div>
+                                <span vid="269">92</span>
+                            </div>
+                            <div class="breakdown-item" vid="270">
+                                <span vid="271">Communication</span>
+                                <div class="progress-track" vid="272"><div class="progress-fill" style="width: 78%" vid="273"></div></div>
+                                <span vid="274">78</span>
+                            </div>
+                            <div class="breakdown-item" vid="275">
+                                <span vid="276">Technical</span>
+                                <div class="progress-track" vid="277"><div class="progress-fill" style="width: 88%" vid="278"></div></div>
+                                <span vid="279">88</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section section-spacer" vid="280">
+            <div class="container" vid="281">
+                <h2 style="margin-bottom: 2rem;" vid="282">Ready to prove your skills?</h2>
+                <button onclick="showPage('page-onboarding'); navSetActive('page-onboarding');" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.125rem;" vid="283">Get Certified Now</button>
+            </div>
+        </section>
+    </div>
+
+    
+    <div id="page-onboarding" class="page" style="min-height: 100vh; padding-bottom: 120px;" vid="284">
+        <div class="container" style="padding-top: 4rem;" vid="285">
+            
+            <div style="text-align: center; margin-bottom: 4rem;" class="fade-in" vid="286">
+                <h1 vid="287">Select your career path</h1>
+                <p style="margin: 0 auto; color: var(--gray-dark);" vid="288">Choose a role to customize your readiness assessment and establish your baseline.</p>
+            </div>
+
+            <div class="onboarding-grid fade-in" style="animation-delay: 0.1s;" vid="289">
+                
+                <div class="role-card" onclick="selectRole(this, 'designer')" vid="290">
+                    <div class="role-header" vid="291">
+                        <h3 vid="292">Product Designer</h3>
+                        <svg class="role-icon" fill="none" viewBox="0 0 24 24" vid="293">
+                            <path d="M12 19l7-7 3 3-7 7-3-3z" vid="294"></path>
+                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" vid="295"></path>
+                            <path d="M2 2l7.586 7.586" vid="296"></path>
+                            <circle cx="11" cy="11" r="2" vid="297"></circle>
+                        </svg>
+                    </div>
+                    <p class="role-desc" vid="298">Focus on user experience, visual interface design, and product strategy.</p>
+                    <div class="role-meta" vid="299">
+                        <div class="meta-item" vid="300">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="301"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vid="302"></path></svg>
+                            8 Core Skills
+                        </div>
+                        <div class="meta-divider" vid="303"></div>
+                        <div class="meta-item" vid="304">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="305"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" vid="306"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" vid="307"></path></svg>
+                            3 Projects
+                        </div>
+                    </div>
+                </div>
+
+                <div class="role-card selected" onclick="selectRole(this, 'frontend')" vid="308">
+                    <div class="role-header" vid="309">
+                        <h3 vid="310">Frontend Engineer</h3>
+                        <svg class="role-icon" fill="none" viewBox="0 0 24 24" vid="311">
+                            <polyline points="16 18 22 12 16 6" vid="312"></polyline>
+                            <polyline points="8 6 2 12 8 18" vid="313"></polyline>
+                        </svg>
+                    </div>
+                    <p class="role-desc" vid="314">Build responsive, interactive web applications using modern frameworks.</p>
+                    <div class="role-meta" vid="315">
+                        <div class="meta-item" vid="316">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="317"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vid="318"></path></svg>
+                            12 Core Skills
+                        </div>
+                        <div class="meta-divider" vid="319"></div>
+                        <div class="meta-item" vid="320">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="321"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" vid="322"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" vid="323"></path></svg>
+                            5 Projects
+                        </div>
+                    </div>
+                </div>
+
+                <div class="role-card" onclick="selectRole(this, 'backend')" vid="324">
+                    <div class="role-header" vid="325">
+                        <h3 vid="326">Backend Engineer</h3>
+                        <svg class="role-icon" fill="none" viewBox="0 0 24 24" vid="327">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2" vid="328"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2" vid="329"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6" vid="330"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18" vid="331"></line>
+                        </svg>
+                    </div>
+                    <p class="role-desc" vid="332">Architect scalable systems, APIs, and database structures.</p>
+                    <div class="role-meta" vid="333">
+                        <div class="meta-item" vid="334">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="335"><path d="M22 12h-4l-3 9L9 3l-3 9H2" vid="336"></path></svg>
+                            10 Core Skills
+                        </div>
+                        <div class="meta-divider" vid="337"></div>
+                        <div class="meta-item" vid="338">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="339"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" vid="340"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" vid="341"></path></svg>
+                            4 Projects
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills-section" class="skills-section fade-in" style="animation-delay: 0.2s;" vid="342">
+                <div class="skills-header" vid="343">
+                    <div vid="344">
+                        <h3 style="margin: 0; font-size: 1.1rem;" vid="345">Self Assessment</h3>
+                        <p style="font-size: 0.9rem; color: var(--gray-dark); margin: 0;" vid="346">Rate your confidence level for key competencies.</p>
+                    </div>
+                    <div style="font-size: 0.85rem; font-weight: 500;" vid="347">
+                        1 = Novice, 5 = Expert
+                    </div>
+                </div>
+                
+                <div class="skills-list" id="skills-list-container" vid="348">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="sticky-footer visible" vid="349">
+            <button onclick="showPage('page-dashboard')" class="btn btn-primary" style="width: 100%; max-width: 400px; height: 52px; font-size: 1.1rem;" vid="350">Continue to Assessment</button>
+        </div>
+    </div>
+
+    <script vid="351">
+        
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            // Update nav active state
+            if (typeof navSetActive === 'function') navSetActive(pageId);
+        }
+
+        
+        const roleData = {
+            designer: [
+                { name: "Figma & Prototyping" },
+                { name: "User Research Methods" },
+                { name: "Design Systems" },
+                { name: "Interaction Design" },
+                { name: "Visual Hierarchy" }
+            ],
+            frontend: [
+                { name: "React / Modern Frameworks" },
+                { name: "CSS, Grid & Flexbox" },
+                { name: "JavaScript / TypeScript" },
+                { name: "Web Accessibility (A11y)" },
+                { name: "Performance Optimization" }
+            ],
+            backend: [
+                { name: "API Design (REST/GraphQL)" },
+                { name: "Database Schema Design" },
+                { name: "System Architecture" },
+                { name: "Authentication & Security" },
+                { name: "CI/CD Pipelines" }
+            ]
+        };
+
+        function renderSkills(roleKey) {
+            const container = document.getElementById('skills-list-container');
+            const skills = roleData[roleKey] || roleData['frontend'];
+            
+            container.innerHTML = skills.map((skill, index) => `
+                <div class="skill-row">
+                    <span style="font-weight: 500;">${skill.name}</span>
+                    <div class="rating-control">
+                        ${[1,2,3,4,5].map(n => `
+                            <button class="rating-btn" onclick="rateSkill(this, ${index}, ${n})">${n}</button>
+                        `).join('')}
+                    </div>
+                    <a class="skip-link">Skip</a>
+                </div>
+            `).join('');
+        }
+
+        function selectRole(card, roleKey) {
+            
+            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            
+            const skillsSection = document.getElementById('skills-section');
+            skillsSection.style.opacity = '0';
+            setTimeout(() => {
+                renderSkills(roleKey);
+                skillsSection.style.opacity = '1';
+            }, 200);
+        }
+
+        function rateSkill(btn, skillIndex, rating) {
+            const row = btn.parentElement;
+            const buttons = row.querySelectorAll('.rating-btn');
+            
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            buttons.forEach((b, i) => {
+                if (i === rating - 1) b.classList.add('active');
+            });
+        }
+
+        
+        renderSkills('frontend');
+    </script>
+
+    <!-- PAGE 3: DASHBOARD -->
+    <div id="page-dashboard" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="352">
+        <div class="container" style="padding-top: 3rem;" vid="353">
+
+            <!-- Header Strip -->
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);" vid="354">
+                <div vid="355">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="356">Your Dashboard</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem;" vid="357">
+                        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="358">FRONTEND ENGINEER</span>
+                        <span style="font-size: 0.85rem; color: var(--gray-dark);" vid="359">Last updated: Today at 9:41 AM</span>
+                    </div>
+                </div>
+                <button onclick="showPage('page-onboarding'); navSetActive('page-onboarding');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem;" vid="360">Retake Assessment</button>
+            </div>
+
+            <!-- Score Overview -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;" vid="361">
+                <!-- Left: Gauge -->
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;" vid="362">
+                    <svg width="180" height="180" viewBox="0 0 200 200" vid="363">
+                        <!-- Background arc -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--gray-mid)" stroke-width="14" stroke-dasharray="502" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 100 100)" vid="364"></circle>
+                        <!-- Filled arc 84% = 502 * 0.84 = 421.7 -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--fg)" stroke-width="14" stroke-dasharray="502" stroke-dashoffset="80" stroke-linecap="round" transform="rotate(-90 100 100)" vid="365"></circle>
+                        <text x="100" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="38" font-weight="700" fill="var(--fg)" vid="366">84</text>
+                        <text x="100" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="var(--gray-dark)" vid="367">Overall Score</text>
+                    </svg>
+                    <div style="text-align: center;" vid="368">
+                        <p style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem;" vid="369">Top 15% of Candidates</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="370">Based on 4,200+ assessments</p>
+                    </div>
+                </div>
+
+                <!-- Right: Breakdown bars -->
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;" vid="371">
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;" vid="372">Score Breakdown</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1.25rem;" vid="373">
+                        <div style="display: grid; grid-template-columns: 130px 1fr 36px; align-items: center; gap: 1rem; font-size: 0.875rem; font-weight: 500;" vid="374">
+                            <span vid="375">Logic</span>
+                            <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="376"><div style="width: 92%; height: 100%; background: var(--fg);" vid="377"></div></div>
+                            <span style="text-align: right;" vid="378">92</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 130px 1fr 36px; align-items: center; gap: 1rem; font-size: 0.875rem; font-weight: 500;" vid="379">
+                            <span vid="380">Communication</span>
+                            <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="381"><div style="width: 78%; height: 100%; background: var(--fg);" vid="382"></div></div>
+                            <span style="text-align: right;" vid="383">78</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 130px 1fr 36px; align-items: center; gap: 1rem; font-size: 0.875rem; font-weight: 500;" vid="384">
+                            <span vid="385">Technical</span>
+                            <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="386"><div style="width: 88%; height: 100%; background: var(--fg);" vid="387"></div></div>
+                            <span style="text-align: right;" vid="388">88</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 130px 1fr 36px; align-items: center; gap: 1rem; font-size: 0.875rem; font-weight: 500;" vid="389">
+                            <span vid="390">Problem Solving</span>
+                            <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="391"><div style="width: 80%; height: 100%; background: var(--fg);" vid="392"></div></div>
+                            <span style="text-align: right;" vid="393">80</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 130px 1fr 36px; align-items: center; gap: 1rem; font-size: 0.875rem; font-weight: 500;" vid="394">
+                            <span vid="395">Adaptability</span>
+                            <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="396"><div style="width: 72%; height: 100%; background: var(--fg);" vid="397"></div></div>
+                            <span style="text-align: right;" vid="398">72</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skill Summary Cards -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem;" vid="399">
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.75rem;" vid="400">
+                    <p style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.75rem; max-width: none;" vid="401">Strengths</p>
+                    <p style="font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; max-width: none;" vid="402">7</p>
+                    <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="403">Skills above benchmark</p>
+                </div>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.75rem;" vid="404">
+                    <p style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.75rem; max-width: none;" vid="405">Skill Gaps</p>
+                    <p style="font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; max-width: none;" vid="406">3</p>
+                    <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="407">Areas needing improvement</p>
+                </div>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.75rem;" vid="408">
+                    <p style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.75rem; max-width: none;" vid="409">Priority Focus</p>
+                    <p style="font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; max-width: none;" vid="410">2</p>
+                    <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="411">Critical gaps to close first</p>
+                </div>
+            </div>
+            <div style="margin-top: -2rem; margin-bottom: 3rem; padding-left: 0.25rem;" vid="412">
+                <a href="#" onclick="showPage('page-skills'); navSetActive('page-skills');" style="font-size: 0.875rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; color: var(--fg);" vid="413">View all skills →</a>
+            </div>
+
+            <!-- Bottom Grid: Roadmap + Projects + Quick Actions + Next Step -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;" vid="414">
+
+                <!-- Roadmap Preview -->
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="415">
+                    <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); display: flex; justify-content: space-between; align-items: center;" vid="416">
+                        <h3 style="font-size: 1rem; margin: 0;" vid="417">Roadmap</h3>
+                        <a href="#" onclick="showPage('page-roadmap'); navSetActive('page-roadmap');" style="font-size: 0.8rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px;" vid="418">View full roadmap →</a>
+                    </div>
+                    <div style="padding: 0;" vid="419">
+                        <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--gray-mid); display: flex; justify-content: space-between; align-items: center;" vid="420">
+                            <div vid="421">
+                                <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.2rem;" vid="422">Complete TypeScript module</p>
+                                <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="423">Core skill · est. 3 hrs</p>
+                            </div>
+                            <span style="background: var(--fg); color: var(--bg); font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 20px; white-space: nowrap;" vid="424">IN PROGRESS</span>
+                        </div>
+                        <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--gray-mid); display: flex; justify-content: space-between; align-items: center;" vid="425">
+                            <div vid="426">
+                                <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.2rem;" vid="427">Web Accessibility audit</p>
+                                <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="428">Gap area · est. 2 hrs</p>
+                            </div>
+                            <span style="border: 1px solid var(--border-color); color: var(--fg); font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 20px; white-space: nowrap;" vid="429">UP NEXT</span>
+                        </div>
+                        <div style="padding: 1.25rem 1.75rem; display: flex; justify-content: space-between; align-items: center;" vid="430">
+                            <div vid="431">
+                                <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.2rem;" vid="432">Performance deep dive</p>
+                                <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="433">Advanced · est. 5 hrs</p>
+                            </div>
+                            <span style="border: 1px solid var(--gray-mid); color: var(--gray-dark); font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 20px; white-space: nowrap;" vid="434">QUEUED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects + Quick Actions stacked -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;" vid="435">
+
+                    <!-- Project Progress -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.75rem;" vid="436">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;" vid="437">
+                            <h3 style="font-size: 1rem; margin: 0;" vid="438">Project Progress</h3>
+                            <a href="#" onclick="showPage('page-projects'); navSetActive('page-projects');" style="font-size: 0.8rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px;" vid="439">View projects →</a>
+                        </div>
+                        <div style="display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1rem;" vid="440">
+                            <span style="font-size: 2rem; font-weight: 700;" vid="441">2</span>
+                            <span style="font-size: 1rem; color: var(--gray-dark); font-weight: 500;" vid="442">of 5 completed</span>
+                        </div>
+                        <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="443">
+                            <div style="width: 40%; height: 100%; background: var(--fg);" vid="444"></div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--gray-dark); margin-top: 0.75rem; max-width: none;" vid="445">3 projects remaining · 40% complete</p>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.75rem;" vid="446">
+                        <h3 style="font-size: 1rem; margin-bottom: 1.25rem;" vid="447">Quick Actions</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" vid="448">
+                            <button class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem; justify-content: flex-start; gap: 0.5rem;" vid="449">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="450"><circle cx="12" cy="12" r="10" vid="451"></circle><path d="M12 6v6l4 2" vid="452"></path></svg>
+                                New Assessment
+                            </button>
+                            <button onclick="showPage('page-resume'); navSetActive('page-resume');" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem; justify-content: flex-start; gap: 0.5rem;" vid="453">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="454"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="455"></path><polyline points="14 2 14 8 20 8" vid="456"></polyline></svg>
+                                Resume Analysis
+                            </button>
+                            <button onclick="showPage('page-interview'); navSetActive('page-interview');" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem; justify-content: flex-start; gap: 0.5rem;" vid="457">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="458"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" vid="459"></path></svg>
+                                Interview Prep
+                            </button>
+                            <button onclick="showPage('page-profile'); navSetActive('page-profile');" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem; justify-content: flex-start; gap: 0.5rem;" vid="460">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="461"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" vid="462"></path><circle cx="12" cy="7" r="4" vid="463"></circle></svg>
+                                My Profile
+                            </button>
+                            <button onclick="showPage('page-verify')" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1rem; justify-content: flex-start; gap: 0.5rem; grid-column: 1 / -1;" vid="464">
+                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="465"><polyline points="16 18 22 12 16 6" vid="466"></polyline><polyline points="8 6 2 12 8 18" vid="467"></polyline></svg>
+                                Dev: Verify
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggested Next Step -->
+            <div style="border: 2px solid var(--fg); border-radius: var(--radius-window); padding: 2rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; background: var(--gray-light);" vid="468">
+                <div style="display: flex; gap: 1.25rem; align-items: flex-start;" vid="469">
+                    <div style="width: 44px; height: 44px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="470">
+                        <svg width="20" height="20" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="471"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" vid="472"></polygon></svg>
+                    </div>
+                    <div vid="473">
+                        <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="474">Suggested Next Step</p>
+                        <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.4rem; max-width: none;" vid="475">Complete the TypeScript module to close your top skill gap.</p>
+                        <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="476">This skill appeared in 87% of Frontend Engineer job listings this month.</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="white-space: nowrap; flex-shrink: 0; padding: 0.75rem 1.5rem;" vid="477">Start Now</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAGE 4: SKILLS -->
+    <div id="page-skills" class="page" style="min-height: 100vh; padding-bottom: 100px; background: var(--bg);" vid="478">
+        <div class="container" style="padding-top: 3rem;" vid="479">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);" vid="480">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;" vid="481">
+                    <div vid="482">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="483">Skill Gap Analysis</h1>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;" vid="484">
+                            <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="485">FRONTEND ENGINEER</span>
+                            <span style="font-size: 0.85rem; color: var(--gray-dark);" vid="486">12 skills assessed · Last updated today</span>
+                        </div>
+                        <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="487">Review your proficiency across all role-relevant skills. Update your ratings and save to recalculate your gap score.</p>
+                    </div>
+                    <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="488">← Back to Dashboard</button>
+                </div>
+            </div>
+
+            <!-- Summary Strip -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;" vid="489">
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.5rem;" vid="490">
+                    <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.5rem; max-width: none;" vid="491">Strengths</p>
+                    <p style="font-size: 2.25rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; max-width: none;" vid="492">7</p>
+                    <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="493">Skills at or above benchmark</p>
+                </div>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.5rem;" vid="494">
+                    <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.5rem; max-width: none;" vid="495">Skill Gaps</p>
+                    <p style="font-size: 2.25rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; max-width: none;" vid="496">3</p>
+                    <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="497">Skills below required level</p>
+                </div>
+                <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); padding: 1.5rem;" vid="498">
+                    <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--gray-dark); text-transform: uppercase; margin-bottom: 0.5rem; max-width: none;" vid="499">Priority Focus</p>
+                    <p style="font-size: 2.25rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; max-width: none;" vid="500">2</p>
+                    <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="501">Critical gaps to close first</p>
+                </div>
+            </div>
+
+            <!-- Suggested Next Skill Card -->
+            <div style="border: 2px solid var(--fg); border-radius: var(--radius-window); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; background: var(--gray-light); margin-bottom: 2.5rem;" vid="502">
+                <div style="display: flex; gap: 1.25rem; align-items: center;" vid="503">
+                    <div style="width: 40px; height: 40px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="504">
+                        <svg width="18" height="18" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="505"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" vid="506"></polygon></svg>
+                    </div>
+                    <div vid="507">
+                        <p style="font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.25rem; max-width: none;" vid="508">Recommended Next Skill</p>
+                        <p style="font-weight: 700; font-size: 1rem; margin-bottom: 0.2rem; max-width: none;" vid="509">Web Accessibility (A11y)</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="510">High weight · appears in 91% of Frontend job listings · your proficiency is 2/5, target is 4/5</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="white-space: nowrap; flex-shrink: 0; font-size: 0.9rem; padding: 0.6rem 1.25rem;" vid="511">Focus This Skill</button>
+            </div>
+
+            <!-- Filter + Sort Bar -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; padding: 0.875rem 1.25rem; border: 1px solid var(--border-color); border-bottom: none; border-radius: var(--radius-sm) var(--radius-sm) 0 0; background: var(--gray-light);" vid="512">
+                <div style="display: flex; gap: 0.5rem; align-items: center;" vid="513">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--gray-dark); margin-right: 0.5rem;" vid="514">FILTER:</span>
+                    <button onclick="filterSkills('all', this)" class="filter-btn active-filter" style="font-size: 0.8rem; font-weight: 500; padding: 0.3rem 0.8rem; border: 1px solid var(--fg); border-radius: 20px; background: var(--fg); color: var(--bg); cursor: pointer;" vid="515">All</button>
+                    <button onclick="filterSkills('gap', this)" class="filter-btn" style="font-size: 0.8rem; font-weight: 500; padding: 0.3rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: transparent; color: var(--fg); cursor: pointer;" vid="516">Gaps Only</button>
+                    <button onclick="filterSkills('strength', this)" class="filter-btn" style="font-size: 0.8rem; font-weight: 500; padding: 0.3rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: transparent; color: var(--fg); cursor: pointer;" vid="517">Strengths</button>
+                    <button onclick="filterSkills('priority', this)" class="filter-btn" style="font-size: 0.8rem; font-weight: 500; padding: 0.3rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: transparent; color: var(--fg); cursor: pointer;" vid="518">Priority</button>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;" vid="519">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--gray-dark);" vid="520">SORT:</span>
+                    <select onchange="sortSkills(this.value)" style="font-size: 0.8rem; font-weight: 500; padding: 0.3rem 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); font-family: var(--font-main); cursor: pointer;" vid="521">
+                        <option value="default" vid="522">Default</option>
+                        <option value="weight-desc" vid="523">Weight: High → Low</option>
+                        <option value="proficiency-asc" vid="524">Proficiency: Low → High</option>
+                        <option value="difficulty-asc" vid="525">Difficulty: Easy → Hard</option>
+                        <option value="gap-desc" vid="526">Biggest Gap First</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Skills Table -->
+            <div style="border: 1px solid var(--border-color); border-radius: 0 0 var(--radius-window) var(--radius-window); overflow: hidden; margin-bottom: 2.5rem;" vid="527">
+                <!-- Table Header -->
+                <div style="display: grid; grid-template-columns: 2fr 100px 80px 200px 110px; gap: 0; background: var(--fg); color: var(--bg); padding: 0.75rem 1.5rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;" vid="528">
+                    <span vid="529">Skill Name</span>
+                    <span vid="530">Difficulty</span>
+                    <span vid="531">Weight</span>
+                    <span vid="532">Proficiency</span>
+                    <span style="text-align: center;" vid="533">Status</span>
+                </div>
+                <!-- Table Body -->
+                <div id="skills-table-body" vid="534">
+                    <!-- rows rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Priority Focus Section -->
+            <div style="margin-bottom: 3rem;" vid="535">
+                <h3 style="font-size: 1rem; margin-bottom: 1.25rem;" vid="536">Priority Focus — Top Gaps to Close</h3>
+                <div style="display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="537">
+                    <div style="display: grid; grid-template-columns: 32px 1fr 160px 160px; gap: 1.5rem; align-items: center; padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--gray-mid); background: var(--gray-light);" vid="538">
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--gray-dark); text-transform: uppercase;" vid="539">#</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--gray-dark); text-transform: uppercase;" vid="540">Skill</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--gray-dark); text-transform: uppercase;" vid="541">Your Level</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--gray-dark); text-transform: uppercase;" vid="542">Target Level</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 32px 1fr 160px 160px; gap: 1.5rem; align-items: center; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="543">
+                        <span style="font-size: 1.1rem; font-weight: 700; color: var(--fg);" vid="544">1</span>
+                        <div vid="545">
+                            <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.15rem;" vid="546">Web Accessibility (A11y)</p>
+                            <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="547">High weight · Critical gap</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="548">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="549"><div style="width: 40%; height: 100%; background: var(--fg);" vid="550"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600;" vid="551">2/5</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="552">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="553"><div style="width: 80%; height: 100%; background: var(--gray-mid); border: none;" vid="554"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--gray-dark);" vid="555">4/5</span>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 32px 1fr 160px 160px; gap: 1.5rem; align-items: center; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="556">
+                        <span style="font-size: 1.1rem; font-weight: 700; color: var(--fg);" vid="557">2</span>
+                        <div vid="558">
+                            <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.15rem;" vid="559">Performance Optimization</p>
+                            <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="560">Medium weight · Moderate gap</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="561">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="562"><div style="width: 60%; height: 100%; background: var(--fg);" vid="563"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600;" vid="564">3/5</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="565">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="566"><div style="width: 100%; height: 100%; background: var(--gray-mid); border: none;" vid="567"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--gray-dark);" vid="568">5/5</span>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 32px 1fr 160px 160px; gap: 1.5rem; align-items: center; padding: 1.25rem 1.5rem;" vid="569">
+                        <span style="font-size: 1.1rem; font-weight: 700; color: var(--fg);" vid="570">3</span>
+                        <div vid="571">
+                            <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.15rem;" vid="572">TypeScript</p>
+                            <p style="font-size: 0.8rem; color: var(--gray-dark); max-width: none;" vid="573">High weight · Moderate gap</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="574">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="575"><div style="width: 60%; height: 100%; background: var(--fg);" vid="576"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600;" vid="577">3/5</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;" vid="578">
+                            <div style="flex: 1; height: 8px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="579"><div style="width: 100%; height: 100%; background: var(--gray-mid); border: none;" vid="580"></div></div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--gray-dark);" vid="581">5/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Action Bar -->
+        <div style="position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg); border-top: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: center; gap: 1rem; z-index: 50;" vid="582">
+            <button onclick="saveSkills()" class="btn btn-primary" style="padding: 0.65rem 2rem; font-size: 0.95rem;" vid="583">Save Changes</button>
+            <button onclick="showPage('page-dashboard')" class="btn btn-outline" style="padding: 0.65rem 1.5rem; font-size: 0.95rem;" vid="584">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script vid="585">
+        // Skills data for PAGE 4
+        const skillsData = [
+            { name: 'React / Modern Frameworks', difficulty: 'Hard', weight: 95, proficiency: 4, target: 5, status: 'strength' },
+            { name: 'JavaScript / TypeScript', difficulty: 'Hard', weight: 92, proficiency: 3, target: 5, status: 'priority' },
+            { name: 'CSS, Grid & Flexbox', difficulty: 'Medium', weight: 85, proficiency: 5, target: 5, status: 'strength' },
+            { name: 'Web Accessibility (A11y)', difficulty: 'Medium', weight: 88, proficiency: 2, target: 4, status: 'priority' },
+            { name: 'Performance Optimization', difficulty: 'Hard', weight: 80, proficiency: 3, target: 5, status: 'gap' },
+            { name: 'Version Control (Git)', difficulty: 'Easy', weight: 75, proficiency: 5, target: 4, status: 'strength' },
+            { name: 'REST API Integration', difficulty: 'Medium', weight: 78, proficiency: 4, target: 4, status: 'strength' },
+            { name: 'Testing (Unit / E2E)', difficulty: 'Medium', weight: 70, proficiency: 4, target: 4, status: 'strength' },
+            { name: 'State Management', difficulty: 'Hard', weight: 82, proficiency: 4, target: 5, status: 'gap' },
+            { name: 'Build Tools & Bundlers', difficulty: 'Medium', weight: 65, proficiency: 3, target: 3, status: 'strength' },
+            { name: 'Responsive Design', difficulty: 'Easy', weight: 72, proficiency: 5, target: 4, status: 'strength' },
+            { name: 'Browser DevTools', difficulty: 'Easy', weight: 60, proficiency: 4, target: 3, status: 'strength' },
+        ];
+
+        let currentFilter = 'all';
+        let currentSort = 'default';
+        let skillRatings = skillsData.map(s => s.proficiency);
+
+        const statusConfig = {
+            strength: { label: 'STRENGTH', bg: 'var(--fg)', color: 'var(--bg)' },
+            gap:      { label: 'GAP',      bg: 'transparent', color: 'var(--fg)', border: '1px solid var(--border-color)' },
+            priority: { label: 'PRIORITY', bg: 'transparent', color: 'var(--fg)', border: '2px solid var(--fg)' },
+        };
+
+        const difficultyColors = { Easy: '#888', Medium: 'var(--fg)', Hard: 'var(--fg)' };
+
+        function renderTable() {
+            let data = skillsData.map((s, i) => ({ ...s, index: i, currentProf: skillRatings[i] }));
+
+            if (currentFilter !== 'all') {
+                data = data.filter(s => s.status === currentFilter);
+            }
+
+            if (currentSort === 'weight-desc') data.sort((a,b) => b.weight - a.weight);
+            else if (currentSort === 'proficiency-asc') data.sort((a,b) => a.currentProf - b.currentProf);
+            else if (currentSort === 'difficulty-asc') { const o={Easy:0,Medium:1,Hard:2}; data.sort((a,b)=>o[a.difficulty]-o[b.difficulty]); }
+            else if (currentSort === 'gap-desc') data.sort((a,b) => (b.target - b.currentProf) - (a.target - a.currentProf));
+
+            const body = document.getElementById('skills-table-body');
+            if (!body) return;
+
+            body.innerHTML = data.map((s, rowIdx) => {
+                const st = statusConfig[s.status];
+                const borderStyle = st.border ? `border: ${st.border};` : `border: none;`;
+                const profWidth = (s.currentProf / 5) * 100;
+                return `
+                <div style="display: grid; grid-template-columns: 2fr 100px 80px 200px 110px; gap: 0; align-items: center; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--gray-mid); transition: background 0.15s;" onmouseover="this.style.background='var(--gray-light)'" onmouseout="this.style.background='transparent'">
+                    <div>
+                        <p style="font-weight: 600; font-size: 0.9rem; max-width: none; margin-bottom: 0;">${s.name}</p>
+                    </div>
+                    <span style="font-size: 0.8rem; font-weight: 600; color: ${difficultyColors[s.difficulty]};">${s.difficulty}</span>
+                    <span style="font-size: 0.875rem; font-weight: 700;">${s.weight}%</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="display: flex; gap: 4px;">
+                            ${[1,2,3,4,5].map(n => `<button onclick="updateRating(${s.index}, ${n})" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-color); background: ${n <= skillRatings[s.index] ? 'var(--fg)' : 'transparent'}; color: ${n <= skillRatings[s.index] ? 'var(--bg)' : 'var(--fg)'}; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s;">${n}</button>`).join('')}
+                        </div>
+                        <span style="font-size: 0.8rem; color: var(--gray-dark); min-width: 28px;">/ ${s.target}</span>
+                    </div>
+                    <div style="display: flex; justify-content: center;">
+                        <span style="font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 20px; background: ${st.bg}; color: ${st.color}; ${borderStyle} white-space: nowrap; letter-spacing: 0.04em;">${st.label}</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            if (data.length === 0) {
+                body.innerHTML = `<div style="padding: 3rem; text-align: center; color: var(--gray-dark); font-size: 0.9rem;">No skills match this filter.</div>`;
+            }
+        }
+
+        function updateRating(skillIndex, rating) {
+            skillRatings[skillIndex] = rating;
+            const s = skillsData[skillIndex];
+            const gap = s.target - rating;
+            if (rating >= s.target) s.status = 'strength';
+            else if (gap >= 2 && s.weight >= 80) s.status = 'priority';
+            else s.status = 'gap';
+            renderTable();
+        }
+
+        function filterSkills(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.style.background = 'transparent';
+                b.style.color = 'var(--fg)';
+                b.style.borderColor = 'var(--border-color)';
+            });
+            btn.style.background = 'var(--fg)';
+            btn.style.color = 'var(--bg)';
+            btn.style.borderColor = 'var(--fg)';
+            renderTable();
+        }
+
+        function sortSkills(val) {
+            currentSort = val;
+            renderTable();
+        }
+
+        function saveSkills() {
+            const btn = event.target;
+            btn.textContent = 'Saved ✓';
+            btn.style.background = '#333';
+            setTimeout(() => { btn.textContent = 'Save Changes'; btn.style.background = 'var(--fg)'; }, 2000);
+        }
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable();
+        });
+        // Also render immediately in case DOM is ready
+        renderTable();
+    </script>
+
+    <!-- PAGE 5: ROADMAP -->
+    <div id="page-roadmap" class="page" style="min-height: 100vh; padding-bottom: 100px; background: var(--bg);" vid="586">
+        <div class="container" style="padding-top: 3rem;" vid="587">
+
+            <!-- Header -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="588">
+                <div vid="589">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="590">Career Roadmap</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;" vid="591">
+                        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="592">FRONTEND ENGINEER</span>
+                        <span style="font-size: 0.85rem; color: var(--gray-dark);" vid="593">Personalized learning path · Updated today</span>
+                    </div>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="594">Follow your sequenced skill and project progression to close gaps and reach job-readiness. Click any node to see details.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="595">← Back to Dashboard</button>
+            </div>
+
+            <!-- Stats Bar -->
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; margin-bottom: 3rem;" vid="596">
+                <div style="padding: 1.25rem 1.5rem; border-right: 1px solid var(--border-color);" vid="597">
+                    <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="598">Total Skills</p>
+                    <p style="font-size: 1.75rem; font-weight: 700; max-width: none; line-height: 1;" vid="599">12</p>
+                </div>
+                <div style="padding: 1.25rem 1.5rem; border-right: 1px solid var(--border-color);" vid="600">
+                    <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="601">Completed</p>
+                    <p style="font-size: 1.75rem; font-weight: 700; max-width: none; line-height: 1;" vid="602">5</p>
+                </div>
+                <div style="padding: 1.25rem 1.5rem; border-right: 1px solid var(--border-color);" vid="603">
+                    <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="604">In Progress</p>
+                    <p style="font-size: 1.75rem; font-weight: 700; max-width: none; line-height: 1;" vid="605">2</p>
+                </div>
+                <div style="padding: 1.25rem 1.5rem; border-right: 1px solid var(--border-color);" vid="606">
+                    <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="607">Projects Done</p>
+                    <p style="font-size: 1.75rem; font-weight: 700; max-width: none; line-height: 1;" vid="608">2 / 5</p>
+                </div>
+                <div style="padding: 1.25rem 1.5rem;" vid="609">
+                    <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.4rem; max-width: none;" vid="610">Est. Time Left</p>
+                    <p style="font-size: 1.75rem; font-weight: 700; max-width: none; line-height: 1;" vid="611">18 hrs</p>
+                </div>
+            </div>
+
+            <!-- Main layout: roadmap + detail panel -->
+            <div style="display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; align-items: start;" vid="612">
+
+                <!-- LEFT: Skill Roadmap Flow -->
+                <div vid="613">
+                    <h3 style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 1.5rem;" vid="614">Skill Progression Path</h3>
+                    <div id="roadmap-flow" style="position: relative; padding-left: 56px;" vid="615">
+                        <!-- JS renders nodes here -->
+                    </div>
+
+                    <!-- Project Cards -->
+                    <div style="margin-top: 3rem;" vid="616">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;" vid="617">
+                            <h3 style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark);" vid="618">Project Milestones</h3>
+                            <span style="font-size: 0.8rem; color: var(--gray-dark);" vid="619">2 of 5 complete</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;" id="project-grid" vid="620">
+                            <!-- JS renders -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Detail Panel -->
+                <div id="detail-panel" style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; position: sticky; top: 80px; transition: all 0.3s;" vid="621">
+                    <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); display: flex; align-items: center; justify-content: space-between;" vid="622">
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark);" vid="623">Detail View</span>
+                        <button onclick="clearDetail()" style="background: none; border: none; cursor: pointer; color: var(--gray-dark); font-size: 1rem; line-height: 1;" vid="624">✕</button>
+                    </div>
+                    <div id="detail-content" style="padding: 1.75rem;" vid="625">
+                        <p style="font-size: 0.9rem; color: var(--gray-dark); max-width: none; text-align: center; padding: 2rem 0;" vid="626">Click any skill or project to view details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style vid="627">
+        .roadmap-node {
+            position: relative;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .roadmap-node-inner {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-window);
+            background: var(--bg);
+            transition: all 0.2s;
+            margin-bottom: 0;
+        }
+        .roadmap-node-inner:hover {
+            background: var(--gray-light);
+            transform: translateX(3px);
+        }
+        .roadmap-node-inner.active-node {
+            border-color: var(--fg);
+            background: var(--fg);
+            color: var(--bg);
+        }
+        .roadmap-node-inner.active-node .node-label,
+        .roadmap-node-inner.active-node .node-meta {
+            color: var(--bg) !important;
+        }
+        .roadmap-connector {
+            width: 2px;
+            background: var(--border-color);
+            margin-left: -1px;
+            position: absolute;
+            left: -32px;
+        }
+        .node-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            position: absolute;
+            left: -38px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+        .project-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-window);
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .project-card:hover {
+            background: var(--gray-light);
+            transform: translateY(-2px);
+        }
+        .project-card.active-project {
+            border-color: var(--fg);
+            background: var(--fg);
+            color: var(--bg);
+        }
+        .project-card.active-project p,
+        .project-card.active-project span {
+            color: var(--bg) !important;
+        }
+    </style>
+
+    <script vid="628">
+        const roadmapSkills = [
+            { id: 0, name: 'HTML & Semantic Markup', difficulty: 'Easy', status: 'done', est: '1 hr', desc: 'Master semantic HTML5 elements, document structure, and accessibility best practices.', tags: ['Foundation', 'A11y'] },
+            { id: 1, name: 'CSS, Grid & Flexbox', difficulty: 'Easy', status: 'done', est: '2 hrs', desc: 'Modern layout techniques including CSS Grid, Flexbox, and responsive design patterns.', tags: ['Layout', 'Responsive'] },
+            { id: 2, name: 'JavaScript Fundamentals', difficulty: 'Medium', status: 'done', est: '3 hrs', desc: 'Core JS: closures, async/await, event loop, DOM manipulation, and ES6+ syntax.', tags: ['Core', 'ES6+'] },
+            { id: 3, name: 'Version Control (Git)', difficulty: 'Easy', status: 'done', est: '1 hr', desc: 'Branching strategies, pull requests, rebasing, and collaborative workflows.', tags: ['Tooling', 'Workflow'] },
+            { id: 4, name: 'React / Modern Frameworks', difficulty: 'Medium', status: 'done', est: '4 hrs', desc: 'Component architecture, hooks, context API, and modern React patterns.', tags: ['Framework', 'Core'] },
+            { id: 5, name: 'TypeScript', difficulty: 'Medium', status: 'active', est: '3 hrs', desc: 'Type system, interfaces, generics, and integrating TypeScript into React projects.', tags: ['Language', 'Core'] },
+            { id: 6, name: 'State Management', difficulty: 'Hard', status: 'active', est: '3 hrs', desc: 'Redux Toolkit, Zustand, Jotai — understanding when and how to use global state.', tags: ['Architecture', 'Advanced'] },
+            { id: 7, name: 'REST API Integration', difficulty: 'Medium', status: 'queued', est: '2 hrs', desc: 'Fetch, Axios, error handling, caching strategies with SWR and React Query.', tags: ['Networking', 'Data'] },
+            { id: 8, name: 'Testing (Unit / E2E)', difficulty: 'Medium', status: 'queued', est: '3 hrs', desc: 'Jest, React Testing Library, Playwright for end-to-end coverage.', tags: ['Quality', 'Testing'] },
+            { id: 9, name: 'Web Accessibility (A11y)', difficulty: 'Medium', status: 'gap', est: '2 hrs', desc: 'WCAG 2.1, ARIA attributes, keyboard navigation, and screen reader support.', tags: ['A11y', 'Critical Gap'] },
+            { id: 10, name: 'Performance Optimization', difficulty: 'Hard', status: 'gap', est: '3 hrs', desc: 'Code splitting, lazy loading, memoization, Lighthouse audits, Core Web Vitals.', tags: ['Performance', 'Critical Gap'] },
+            { id: 11, name: 'Build Tools & Bundlers', difficulty: 'Medium', status: 'queued', est: '2 hrs', desc: 'Vite, Webpack, esbuild, and optimizing build pipelines for production.', tags: ['Tooling', 'DevOps'] },
+        ];
+
+        const roadmapProjects = [
+            { id: 'p0', title: 'Portfolio Site', status: 'done', difficulty: 'Easy', desc: 'Build and deploy a personal portfolio with responsive design and semantic HTML.', skills: ['HTML', 'CSS', 'Git'] },
+            { id: 'p1', title: 'Task Manager App', status: 'done', difficulty: 'Medium', desc: 'React app with CRUD operations, local state, and basic routing.', skills: ['React', 'JavaScript'] },
+            { id: 'p2', title: 'TypeScript Refactor', status: 'active', difficulty: 'Medium', desc: 'Migrate the Task Manager app to TypeScript with strict type coverage.', skills: ['TypeScript', 'React'] },
+            { id: 'p3', title: 'API Dashboard', status: 'queued', difficulty: 'Hard', desc: 'Data dashboard using a public API, with loading states, error handling, and caching.', skills: ['REST API', 'State Mgmt'] },
+            { id: 'p4', title: 'Accessible UI Library', status: 'locked', difficulty: 'Hard', desc: 'Build a small accessible component library meeting WCAG 2.1 AA standards.', skills: ['A11y', 'Testing'] },
+        ];
+
+        const statusMeta = {
+            done:    { label: 'DONE',        dot: 'var(--fg)',       bg: 'var(--fg)' },
+            active:  { label: 'IN PROGRESS', dot: 'var(--fg)',       bg: 'transparent' },
+            queued:  { label: 'QUEUED',      dot: 'var(--gray-mid)', bg: 'transparent' },
+            gap:     { label: 'GAP',         dot: 'var(--fg)',       bg: 'transparent' },
+            locked:  { label: 'LOCKED',      dot: 'var(--gray-mid)', bg: 'transparent' },
+        };
+
+        let activeNode = null;
+
+        function renderRoadmap() {
+            const flow = document.getElementById('roadmap-flow');
+            if (!flow) return;
+
+            // vertical track line
+            const trackLine = `<div style="position:absolute; left:24px; top:20px; bottom:20px; width:2px; background: var(--gray-mid); z-index:0;"></div>`;
+
+            const nodes = roadmapSkills.map((skill, i) => {
+                const sm = statusMeta[skill.status];
+                const isActive = activeNode === 'skill-' + skill.id;
+                const dotColor = skill.status === 'done' ? 'var(--fg)' : skill.status === 'gap' ? 'var(--fg)' : 'var(--gray-mid)';
+                const dotFill = ['done','gap','active'].includes(skill.status) ? dotColor : 'var(--bg)';
+                const borderBadge = skill.status === 'done' ? 'background:var(--fg);color:var(--bg);' :
+                                    skill.status === 'active' ? 'background:var(--fg);color:var(--bg);' :
+                                    skill.status === 'gap' ? 'border:2px solid var(--fg);color:var(--fg);background:transparent;' :
+                                    'border:1px solid var(--gray-mid);color:var(--gray-dark);background:transparent;';
+                const diffColor = skill.difficulty === 'Easy' ? '#888' : 'var(--fg)';
+
+                return `
+                <div class="roadmap-node" style="margin-bottom: ${i < roadmapSkills.length-1 ? '12px' : '0'};">
+                    <div class="node-dot" style="background:${dotFill}; box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px ${dotColor};"></div>
+                    <div class="roadmap-node-inner ${isActive ? 'active-node' : ''}" onclick="selectNode('skill-${skill.id}', ${skill.id})" style="${isActive ? '' : ''}">
+                        <div style="flex:1;">
+                            <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+                                <span class="node-label" style="font-weight:600; font-size:0.9rem; ${isActive ? 'color:var(--bg)' : ''}">${skill.name}</span>
+                                <span style="font-size:0.68rem; font-weight:700; padding:0.18rem 0.55rem; border-radius:20px; letter-spacing:0.04em; ${borderBadge}">${sm.label}</span>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:1rem; margin-top:0.3rem;">
+                                <span class="node-meta" style="font-size:0.78rem; font-weight:600; color:${isActive ? 'rgba(255,255,255,0.7)' : diffColor};">${skill.difficulty}</span>
+                                <span class="node-meta" style="font-size:0.78rem; color:${isActive ? 'rgba(255,255,255,0.6)' : 'var(--gray-dark)'};">est. ${skill.est}</span>
+                            </div>
+                        </div>
+                        <svg width="14" height="14" fill="none" stroke="${isActive ? 'rgba(255,255,255,0.6)' : 'var(--gray-dark)'}" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+                </div>`;
+            }).join('');
+
+            flow.innerHTML = trackLine + nodes;
+        }
+
+        function renderProjects() {
+            const grid = document.getElementById('project-grid');
+            if (!grid) return;
+            grid.innerHTML = roadmapProjects.map(p => {
+                const sm = statusMeta[p.status];
+                const isActive = activeNode === 'proj-' + p.id;
+                const badgeStyle = p.status === 'done' ? 'background:var(--fg);color:var(--bg);' :
+                                   p.status === 'active' ? 'background:var(--fg);color:var(--bg);' :
+                                   p.status === 'locked' ? 'border:1px solid var(--gray-mid);color:var(--gray-dark);background:transparent;' :
+                                   'border:1px solid var(--border-color);color:var(--fg);background:transparent;';
+                return `
+                <div class="project-card ${isActive ? 'active-project' : ''}" onclick="selectNode('proj-${p.id}', '${p.id}', true)">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.6rem;">
+                        <p style="font-weight:700; font-size:0.9rem; max-width:none; ${isActive?'color:var(--bg)':''}">${p.title}</p>
+                        <span style="font-size:0.65rem; font-weight:700; padding:0.18rem 0.5rem; border-radius:20px; letter-spacing:0.04em; white-space:nowrap; margin-left:0.5rem; flex-shrink:0; ${badgeStyle}">${sm.label}</span>
+                    </div>
+                    <p style="font-size:0.78rem; color:${isActive ? 'rgba(255,255,255,0.65)' : 'var(--gray-dark)'}; max-width:none; margin-bottom:0.6rem;">${p.difficulty} difficulty</p>
+                    <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+                        ${p.skills.map(s=>`<span style="font-size:0.68rem; font-weight:600; padding:0.15rem 0.45rem; border-radius:4px; background:${isActive?'rgba(255,255,255,0.15)':'var(--gray-light)'}; border:1px solid ${isActive?'rgba(255,255,255,0.2)':'var(--gray-mid)'}; color:${isActive?'rgba(255,255,255,0.85)':'var(--fg)'}">${s}</span>`).join('')}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function selectNode(nodeId, dataId, isProject) {
+            activeNode = nodeId;
+            renderRoadmap();
+            renderProjects();
+
+            const panel = document.getElementById('detail-content');
+            if (!panel) return;
+
+            if (isProject) {
+                const p = roadmapProjects.find(x => x.id === dataId);
+                if (!p) return;
+                const sm = statusMeta[p.status];
+                const badgeStyle = p.status === 'done' ? 'background:var(--fg);color:var(--bg);' :
+                                   p.status === 'active' ? 'background:var(--fg);color:var(--bg);' :
+                                   'border:1px solid var(--border-color);color:var(--fg);background:transparent;';
+                panel.innerHTML = `
+                    <div style="margin-bottom:1.25rem;">
+                        <span style="font-size:0.68rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:20px; letter-spacing:0.05em; ${badgeStyle}">${sm.label}</span>
+                    </div>
+                    <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">${p.title}</h3>
+                    <p style="font-size:0.85rem; color:var(--gray-dark); max-width:none; margin-bottom:1.5rem;">${p.desc}</p>
+                    <div style="margin-bottom:1.5rem;">
+                        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:0.5rem; max-width:none;">Skills Covered</p>
+                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                            ${p.skills.map(s=>`<span style="font-size:0.78rem; font-weight:600; padding:0.2rem 0.55rem; border-radius:4px; background:var(--gray-light); border:1px solid var(--border-color);">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div style="padding-top:1rem; border-top:1px solid var(--gray-mid);">
+                        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:0.5rem; max-width:none;">Difficulty</p>
+                        <p style="font-size:0.9rem; font-weight:600; max-width:none;">${p.difficulty}</p>
+                    </div>
+                    ${p.status !== 'locked' && p.status !== 'done' ? `<button class="btn btn-primary" style="width:100%; margin-top:1.5rem; font-size:0.9rem;">Start Project</button>` : ''}
+                    ${p.status === 'done' ? `<div style="display:flex; align-items:center; gap:0.5rem; margin-top:1.5rem; padding:0.75rem 1rem; border:1px solid var(--border-color); border-radius:var(--radius-sm); background:var(--gray-light);"><svg width='14' height='14' fill='none' stroke='var(--fg)' stroke-width='2.5' viewBox='0 0 24 24'><polyline points='20 6 9 17 4 12'/></svg><span style='font-size:0.82rem; font-weight:600;'>Completed</span></div>` : ''}
+                `;
+            } else {
+                const s = roadmapSkills.find(x => x.id === dataId);
+                if (!s) return;
+                const sm = statusMeta[s.status];
+                const badgeStyle = s.status === 'done' ? 'background:var(--fg);color:var(--bg);' :
+                                   s.status === 'active' ? 'background:var(--fg);color:var(--bg);' :
+                                   s.status === 'gap' ? 'border:2px solid var(--fg);color:var(--fg);background:transparent;' :
+                                   'border:1px solid var(--gray-mid);color:var(--gray-dark);background:transparent;';
+                const diffColor = s.difficulty === 'Easy' ? '#888' : 'var(--fg)';
+                panel.innerHTML = `
+                    <div style="margin-bottom:1.25rem;">
+                        <span style="font-size:0.68rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:20px; letter-spacing:0.05em; ${badgeStyle}">${sm.label}</span>
+                    </div>
+                    <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">${s.name}</h3>
+                    <p style="font-size:0.85rem; color:var(--gray-dark); max-width:none; margin-bottom:1.5rem;">${s.desc}</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                        <div style="padding:0.85rem; border:1px solid var(--border-color); border-radius:var(--radius-sm);">
+                            <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:0.3rem; max-width:none;">Difficulty</p>
+                            <p style="font-size:0.9rem; font-weight:700; color:${diffColor}; max-width:none;">${s.difficulty}</p>
+                        </div>
+                        <div style="padding:0.85rem; border:1px solid var(--border-color); border-radius:var(--radius-sm);">
+                            <p style="font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:0.3rem; max-width:none;">Est. Time</p>
+                            <p style="font-size:0.9rem; font-weight:700; max-width:none;">${s.est}</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:1.5rem;">
+                        <p style="font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:0.5rem; max-width:none;">Tags</p>
+                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                            ${s.tags.map(t=>`<span style="font-size:0.78rem; font-weight:600; padding:0.2rem 0.55rem; border-radius:4px; background:var(--gray-light); border:1px solid var(--border-color);">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    ${s.status !== 'done' ? `<button class="btn btn-primary" style="width:100%; font-size:0.9rem; margin-top:0.5rem;">${s.status === 'active' ? 'Continue Learning' : 'Start This Skill'}</button>` : `<div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem; padding:0.75rem 1rem; border:1px solid var(--border-color); border-radius:var(--radius-sm); background:var(--gray-light);"><svg width='14' height='14' fill='none' stroke='var(--fg)' stroke-width='2.5' viewBox='0 0 24 24'><polyline points='20 6 9 17 4 12'/></svg><span style='font-size:0.82rem; font-weight:600;'>Skill Completed</span></div>`}
+                `;
+            }
+        }
+
+        function clearDetail() {
+            activeNode = null;
+            renderRoadmap();
+            renderProjects();
+            const panel = document.getElementById('detail-content');
+            if (panel) panel.innerHTML = '<p style="font-size:0.9rem; color:var(--gray-dark); max-width:none; text-align:center; padding:2rem 0;">Click any skill or project to view details.</p>';
+        }
+
+        // init on load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderRoadmap();
+            renderProjects();
+        });
+        renderRoadmap();
+        renderProjects();
+    </script>
+
+    <!-- PAGE 6: PROJECTS -->
+    <div id="page-projects" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="629">
+        <div class="container" style="padding-top: 3rem;" vid="630">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="631">
+                <div vid="632">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="633">Projects</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;" vid="634">
+                        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="635">FRONTEND ENGINEER</span>
+                        <span style="font-size: 0.85rem; color: var(--gray-dark);" vid="636">5 projects · 2 completed</span>
+                    </div>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="637">Complete projects to validate your skills in practice and improve your overall readiness score.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="638">← Back to Dashboard</button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding: 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: var(--radius-window); background: var(--gray-light);" vid="639">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--gray-dark); letter-spacing: 0.06em; text-transform: uppercase; margin-right: 0.25rem;" vid="640">Filter:</span>
+                <select id="proj-filter-difficulty" onchange="renderProjects6()" style="font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); font-family: var(--font-main); cursor: pointer;" vid="641">
+                    <option value="all" vid="642">All Difficulties</option>
+                    <option value="Easy" vid="643">Easy</option>
+                    <option value="Medium" vid="644">Medium</option>
+                    <option value="Hard" vid="645">Hard</option>
+                </select>
+                <select id="proj-filter-status" onchange="renderProjects6()" style="font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); font-family: var(--font-main); cursor: pointer;" vid="646">
+                    <option value="all" vid="647">All Statuses</option>
+                    <option value="done" vid="648">Completed</option>
+                    <option value="active" vid="649">In Progress</option>
+                    <option value="queued" vid="650">Queued</option>
+                    <option value="locked" vid="651">Locked</option>
+                </select>
+                <span id="proj-filter-count" style="margin-left: auto; font-size: 0.82rem; color: var(--gray-dark); font-weight: 500;" vid="652">Showing 5 projects</span>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projects-grid-6" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2.5rem;" vid="653">
+                <!-- JS renders -->
+            </div>
+
+            <!-- Progress Summary -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="654">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;" vid="655">
+                    <div style="padding: 1.75rem 2rem; border-right: 1px solid var(--border-color);" vid="656">
+                        <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.75rem; max-width: none;" vid="657">Overall Progress</p>
+                        <div style="display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1rem;" vid="658">
+                            <span style="font-size: 2.5rem; font-weight: 700; line-height: 1;" vid="659">2</span>
+                            <span style="font-size: 1rem; color: var(--gray-dark); font-weight: 500;" vid="660">of 5 completed</span>
+                        </div>
+                        <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden; margin-bottom: 0.6rem;" vid="661">
+                            <div style="width: 40%; height: 100%; background: var(--fg);" vid="662"></div>
+                        </div>
+                        <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none;" vid="663">40% of track complete</p>
+                    </div>
+                    <div style="padding: 1.75rem 2rem; border-right: 1px solid var(--border-color);" vid="664">
+                        <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.75rem; max-width: none;" vid="665">Score Contribution</p>
+                        <p style="font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; max-width: none;" vid="666">+12</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="667">Points added to readiness score</p>
+                        <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; margin-top: 0.4rem;" vid="668">Up to +18 more available</p>
+                    </div>
+                    <div style="padding: 1.75rem 2rem;" vid="669">
+                        <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.75rem; max-width: none;" vid="670">Next Milestone</p>
+                        <p style="font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; max-width: none;" vid="671">TypeScript Refactor</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none; margin-bottom: 1rem;" vid="672">In progress · Medium difficulty</p>
+                        <button onclick="openProjectModal('p2'); navSetActive('page-projects');" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.5rem 1.25rem;" vid="673">Continue →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="project-modal" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.35); align-items:center; justify-content:center;" onclick="closeProjectModal(event)" vid="674">
+        <div style="background:var(--bg); border:1px solid var(--border-color); border-radius:var(--radius-window); width:100%; max-width:560px; overflow:hidden; margin:2rem;" onclick="event.stopPropagation()" vid="675">
+            <div style="padding:1.25rem 1.5rem; border-bottom:1px solid var(--border-color); background:var(--gray-light); display:flex; align-items:center; justify-content:space-between;" vid="676">
+                <span style="font-size:0.8rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark);" vid="677">Project Details</span>
+                <button onclick="closeProjectModal()" style="background:none; border:none; cursor:pointer; color:var(--gray-dark); font-size:1.1rem; line-height:1;" vid="678">✕</button>
+            </div>
+            <div id="project-modal-body" style="padding:2rem;" vid="679"></div>
+        </div>
+    </div>
+
+    <style vid="680">
+        .proj-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-window);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: var(--bg);
+        }
+        .proj-card:hover {
+            background: var(--gray-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .proj-card.proj-done {
+            border-color: var(--fg);
+        }
+        .proj-card.proj-locked {
+            opacity: 0.55;
+            cursor: default;
+        }
+        .proj-card.proj-locked:hover {
+            transform: none;
+            box-shadow: none;
+            background: var(--bg);
+        }
+    </style>
+
+    <script vid="681">
+        const projectsData6 = [
+            {
+                id: 'p0',
+                title: 'Portfolio Site',
+                difficulty: 'Easy',
+                status: 'done',
+                desc: 'Build and deploy a personal portfolio with responsive design, semantic HTML, and smooth navigation.',
+                skills: ['HTML', 'CSS', 'Git', 'Responsive'],
+                scoreImpact: '+4 pts',
+                est: '4 hrs',
+            },
+            {
+                id: 'p1',
+                title: 'Task Manager App',
+                difficulty: 'Medium',
+                status: 'done',
+                desc: 'React app with full CRUD operations, local state management, and basic client-side routing.',
+                skills: ['React', 'JavaScript', 'CSS'],
+                scoreImpact: '+8 pts',
+                est: '8 hrs',
+            },
+            {
+                id: 'p2',
+                title: 'TypeScript Refactor',
+                difficulty: 'Medium',
+                status: 'active',
+                desc: 'Migrate the Task Manager app to TypeScript with strict mode enabled and full type coverage.',
+                skills: ['TypeScript', 'React', 'Testing'],
+                scoreImpact: '+6 pts',
+                est: '6 hrs',
+            },
+            {
+                id: 'p3',
+                title: 'API Dashboard',
+                difficulty: 'Hard',
+                status: 'queued',
+                desc: 'Data dashboard integrating a public API with loading states, error handling, and SWR caching.',
+                skills: ['REST API', 'State Mgmt', 'TypeScript'],
+                scoreImpact: '+9 pts',
+                est: '10 hrs',
+            },
+            {
+                id: 'p4',
+                title: 'Accessible UI Library',
+                difficulty: 'Hard',
+                status: 'locked',
+                desc: 'Build a small accessible component library meeting WCAG 2.1 AA standards with full test coverage.',
+                skills: ['A11y', 'Testing', 'TypeScript'],
+                scoreImpact: '+9 pts',
+                est: '12 hrs',
+            },
+        ];
+
+        const p6StatusMeta = {
+            done:   { label: 'COMPLETED',   badgeBg: 'var(--fg)',       badgeColor: 'var(--bg)',       borderExtra: '' },
+            active: { label: 'IN PROGRESS', badgeBg: 'var(--fg)',       badgeColor: 'var(--bg)',       borderExtra: '' },
+            queued: { label: 'QUEUED',      badgeBg: 'transparent',     badgeColor: 'var(--fg)',       borderExtra: 'border:1px solid var(--border-color);' },
+            locked: { label: 'LOCKED',      badgeBg: 'transparent',     badgeColor: 'var(--gray-dark)', borderExtra: 'border:1px solid var(--gray-mid);' },
+        };
+
+        const p6DiffColors = { Easy: '#888', Medium: 'var(--fg)', Hard: 'var(--fg)' };
+        const p6DiffDots   = { Easy: '#aaa', Medium: '#555',       Hard: 'var(--fg)' };
+
+        function renderProjects6() {
+            const diffFilter   = document.getElementById('proj-filter-difficulty')?.value || 'all';
+            const statusFilter = document.getElementById('proj-filter-status')?.value || 'all';
+            let data = projectsData6.filter(p => {
+                if (diffFilter !== 'all' && p.difficulty !== diffFilter) return false;
+                if (statusFilter !== 'all' && p.status !== statusFilter) return false;
+                return true;
+            });
+
+            const countEl = document.getElementById('proj-filter-count');
+            if (countEl) countEl.textContent = `Showing ${data.length} project${data.length !== 1 ? 's' : ''}`;
+
+            const grid = document.getElementById('projects-grid-6');
+            if (!grid) return;
+
+            if (data.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1; padding:3rem; text-align:center; color:var(--gray-dark); font-size:0.9rem; border:1px solid var(--border-color); border-radius:var(--radius-window);">No projects match the selected filters.</div>`;
+                return;
+            }
+
+            grid.innerHTML = data.map(p => {
+                const sm = p6StatusMeta[p.status];
+                const isLocked = p.status === 'locked';
+                const isDone   = p.status === 'done';
+
+                // difficulty dots
+                const diffLevel = p.difficulty === 'Easy' ? 1 : p.difficulty === 'Medium' ? 2 : 3;
+                const dots = [1,2,3].map(n => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${n<=diffLevel?p6DiffDots[p.difficulty]:'var(--gray-mid)'};"></span>`).join('');
+
+                // completion toggle
+                const toggle = !isLocked ? `
+                    <button onclick="event.stopPropagation(); toggleProjectStatus('${p.id}')" style="display:flex;align-items:center;gap:0.5rem;background:none;border:1px solid ${isDone?'var(--fg)':'var(--border-color)'};border-radius:var(--radius-sm);padding:0.35rem 0.75rem;cursor:pointer;font-size:0.78rem;font-weight:600;font-family:var(--font-main);color:${isDone?'var(--fg)':'var(--gray-dark)'};transition:all 0.15s;">
+                        <svg width="12" height="12" fill="none" stroke="${isDone?'var(--fg)':'var(--gray-mid)'}" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        ${isDone ? 'Completed' : 'Mark Done'}
+                    </button>` : `<span style="font-size:0.75rem;color:var(--gray-dark);font-weight:500;">Complete prerequisites first</span>`;
+
+                return `
+                <div class="proj-card ${isDone ? 'proj-done' : ''} ${isLocked ? 'proj-locked' : ''}" onclick="${isLocked ? 'void(0)' : `openProjectModal('${p.id}')`}">
+                    <!-- Top row: title + badge -->
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;margin-bottom:0.85rem;">
+                        <h3 style="font-size:1rem;margin:0;line-height:1.3;">${p.title}</h3>
+                        <span style="font-size:0.65rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:20px;letter-spacing:0.04em;white-space:nowrap;flex-shrink:0;background:${sm.badgeBg};color:${sm.badgeColor};${sm.borderExtra}">${sm.label}</span>
+                    </div>
+                    <!-- Difficulty row -->
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+                        <div style="display:flex;gap:3px;">${dots}</div>
+                        <span style="font-size:0.78rem;font-weight:600;color:${p6DiffColors[p.difficulty]};">${p.difficulty}</span>
+                        <span style="color:var(--gray-mid);font-size:0.75rem;">·</span>
+                        <span style="font-size:0.78rem;color:var(--gray-dark);">est. ${p.est}</span>
+                        <span style="color:var(--gray-mid);font-size:0.75rem;">·</span>
+                        <span style="font-size:0.78rem;font-weight:600;color:var(--fg);">${p.scoreImpact}</span>
+                    </div>
+                    <!-- Description -->
+                    <p style="font-size:0.85rem;color:var(--gray-dark);max-width:none;margin-bottom:1.1rem;line-height:1.55;flex:1;">${p.desc}</p>
+                    <!-- Skills tags -->
+                    <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1.25rem;">
+                        ${p.skills.map(s=>`<span style="font-size:0.7rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:4px;background:var(--gray-light);border:1px solid var(--gray-mid);color:var(--fg);">${s}</span>`).join('')}
+                    </div>
+                    <!-- Divider -->
+                    <div style="border-top:1px solid var(--gray-mid);padding-top:1rem;">
+                        ${toggle}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function toggleProjectStatus(id) {
+            const p = projectsData6.find(x => x.id === id);
+            if (!p || p.status === 'locked') return;
+            p.status = p.status === 'done' ? 'queued' : 'done';
+            renderProjects6();
+        }
+
+        function openProjectModal(id) {
+            const p = projectsData6.find(x => x.id === id);
+            if (!p) return;
+            const sm = p6StatusMeta[p.status];
+            const diffLevel = p.difficulty === 'Easy' ? 1 : p.difficulty === 'Medium' ? 2 : 3;
+            const dots = [1,2,3].map(n => `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${n<=diffLevel?p6DiffDots[p.difficulty]:'var(--gray-mid)'};"></span>`).join('');
+            const body = document.getElementById('project-modal-body');
+            body.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1.25rem;">
+                    <h2 style="font-size:1.35rem;margin:0;">${p.title}</h2>
+                    <span style="font-size:0.68rem;font-weight:700;padding:0.25rem 0.65rem;border-radius:20px;letter-spacing:0.05em;white-space:nowrap;flex-shrink:0;background:${sm.badgeBg};color:${sm.badgeColor};${sm.borderExtra}">${sm.label}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.25rem;">
+                    <div style="display:flex;gap:4px;">${dots}</div>
+                    <span style="font-size:0.85rem;font-weight:600;color:${p6DiffColors[p.difficulty]};">${p.difficulty}</span>
+                    <span style="color:var(--gray-mid);">|</span>
+                    <span style="font-size:0.85rem;color:var(--gray-dark);">Est. ${p.est}</span>
+                    <span style="color:var(--gray-mid);">|</span>
+                    <span style="font-size:0.85rem;font-weight:700;">${p.scoreImpact} to score</span>
+                </div>
+                <p style="font-size:0.9rem;color:var(--gray-dark);max-width:none;margin-bottom:1.5rem;line-height:1.6;">${p.desc}</p>
+                <div style="margin-bottom:1.5rem;">
+                    <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--gray-dark);margin-bottom:0.6rem;max-width:none;">Skills Practiced</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+                        ${p.skills.map(s=>`<span style="font-size:0.82rem;font-weight:600;padding:0.25rem 0.65rem;border-radius:4px;background:var(--gray-light);border:1px solid var(--border-color);">${s}</span>`).join('')}
+                    </div>
+                </div>
+                <div style="display:flex;gap:0.75rem;padding-top:1.25rem;border-top:1px solid var(--gray-mid);">
+                    ${p.status !== 'locked' && p.status !== 'done' ? `<button onclick="toggleProjectStatus('${p.id}'); closeProjectModal();" class="btn btn-primary" style="flex:1;font-size:0.9rem;">${p.status === 'active' ? 'Mark as Complete' : 'Start Project'}</button>` : ''}
+                    ${p.status === 'done' ? `<button onclick="toggleProjectStatus('${p.id}'); closeProjectModal();" class="btn btn-outline" style="flex:1;font-size:0.9rem;">Mark Incomplete</button>` : ''}
+                    <button onclick="closeProjectModal()" class="btn btn-outline" style="font-size:0.9rem;padding:0.65rem 1.25rem;">Close</button>
+                </div>
+            `;
+            document.getElementById('project-modal').style.display = 'flex';
+        }
+
+        function closeProjectModal(e) {
+            if (e && e.target !== document.getElementById('project-modal')) return;
+            document.getElementById('project-modal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', renderProjects6);
+        renderProjects6();
+    </script>
+
+    <!-- PAGE 7: RESUME -->
+    <div id="page-resume" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="682">
+        <div class="container" style="padding-top: 3rem;" vid="683">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="684">
+                <div vid="685">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="686">Resume Analysis</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;" vid="687">
+                        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="688">FRONTEND ENGINEER</span>
+                    </div>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="689">Upload your resume to get an instant AI-powered match score and targeted suggestions aligned with your readiness assessment.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="690">← Back to Dashboard</button>
+            </div>
+
+            <!-- Two-col layout once analyzed, single col before -->
+            <div id="resume-layout" style="display: grid; grid-template-columns: 1fr; gap: 2rem;" vid="691">
+
+                <!-- Upload Area -->
+                <div id="upload-section" vid="692">
+                    <div id="drop-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('resume-file-input').click()" style="border: 2px dashed var(--border-color); border-radius: var(--radius-window); padding: 4rem 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem; cursor: pointer; transition: all 0.2s; background: var(--bg); text-align: center; min-height: 280px;" vid="693">
+                        <div style="width: 56px; height: 56px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: var(--gray-light);" vid="694">
+                            <svg width="24" height="24" fill="none" stroke="var(--fg)" stroke-width="1.75" viewBox="0 0 24 24" vid="695"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" vid="696"></path><polyline points="17 8 12 3 7 8" vid="697"></polyline><line x1="12" y1="3" x2="12" y2="15" vid="698"></line></svg>
+                        </div>
+                        <div vid="699">
+                            <p style="font-weight: 700; font-size: 1.05rem; max-width: none; margin-bottom: 0.35rem;" vid="700">Drag &amp; drop your resume here</p>
+                            <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="701">or click to browse files</p>
+                        </div>
+                        <p style="font-size: 0.78rem; color: var(--gray-dark); max-width: none; border: 1px solid var(--gray-mid); border-radius: 20px; padding: 0.25rem 0.85rem;" vid="702">PDF, DOCX, or TXT — max 5 MB</p>
+                    </div>
+                    <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFileSelect(event)" vid="703">
+
+                    <!-- File selected state (hidden by default) -->
+                    <div id="file-selected-bar" style="display:none; margin-top: 1rem; padding: 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: var(--radius-window); background: var(--gray-light); display: none; align-items: center; justify-content: space-between; gap: 1rem;" vid="704">
+                        <div style="display: flex; align-items: center; gap: 0.875rem;" vid="705">
+                            <div style="width: 36px; height: 36px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--bg);" vid="706">
+                                <svg width="16" height="16" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="707"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="708"></path><polyline points="14 2 14 8 20 8" vid="709"></polyline></svg>
+                            </div>
+                            <div vid="710">
+                                <p id="selected-file-name" style="font-weight: 600; font-size: 0.9rem; max-width: none; margin-bottom: 0.1rem;" vid="711">resume.pdf</p>
+                                <p id="selected-file-size" style="font-size: 0.78rem; color: var(--gray-dark); max-width: none;" vid="712">124 KB — Ready to analyze</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center;" vid="713">
+                            <button onclick="clearFile()" style="background: none; border: none; cursor: pointer; font-size: 0.82rem; color: var(--gray-dark); text-decoration: underline; font-family: var(--font-main);" vid="714">Remove</button>
+                            <button onclick="analyzeResume()" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.55rem 1.5rem;" vid="715">Analyze Resume</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Loading (hidden) -->
+                <div id="analysis-loading" style="display:none; padding: 3rem; border: 1px solid var(--border-color); border-radius: var(--radius-window); text-align: center;" vid="716">
+                    <div id="loading-bar-track" style="width: 100%; max-width: 360px; margin: 0 auto 1.5rem; height: 6px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg); overflow: hidden;" vid="717">
+                        <div id="loading-bar-fill" style="height: 100%; background: var(--fg); width: 0%; transition: width 0.4s ease; border-radius: 20px;" vid="718"></div>
+                    </div>
+                    <p id="loading-status-text" style="font-size: 0.9rem; color: var(--gray-dark); max-width: none;" vid="719">Scanning resume structure…</p>
+                </div>
+
+                <!-- Results section (hidden until analyzed) -->
+                <div id="results-section" style="display:none;" vid="720">
+                    <div style="display: grid; grid-template-columns: 340px 1fr; gap: 2rem; align-items: start;" vid="721">
+
+                        <!-- Left col: Score + Confirmation card -->
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;" vid="722">
+
+                            <!-- Score Card -->
+                            <div style="border: 2px solid var(--fg); border-radius: var(--radius-window); overflow: hidden;" vid="723">
+                                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--fg); display: flex; align-items: center; justify-content: space-between;" vid="724">
+                                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bg);" vid="725">Resume Match Score</span>
+                                    <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" viewBox="0 0 24 24" vid="726"><circle cx="12" cy="12" r="10" vid="727"></circle><path d="M12 16v-4M12 8h.01" vid="728"></path></svg>
+                                </div>
+                                <div style="padding: 2rem 1.5rem; text-align: center;" vid="729">
+                                    <p id="score-number" style="font-size: 5rem; font-weight: 700; line-height: 1; max-width: none; letter-spacing: -0.04em; margin-bottom: 0.25rem;" vid="730">78</p>
+                                    <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; margin-bottom: 1.5rem;" vid="731">out of 100</p>
+                                    <!-- Score bar -->
+                                    <div style="height: 10px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--gray-light); overflow: hidden; margin-bottom: 0.75rem;" vid="732">
+                                        <div id="score-bar-fill" style="height: 100%; background: var(--fg); border-radius: 20px; width: 78%; transition: width 1s ease;" vid="733"></div>
+                                    </div>
+                                    <p id="score-label" style="font-size: 0.8rem; font-weight: 600; color: var(--gray-dark); max-width: none;" vid="734">Good match — room to improve</p>
+                                </div>
+                                <!-- Sub-scores -->
+                                <div style="border-top: 1px solid var(--border-color);" vid="735">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border-color);" vid="736">
+                                        <div style="padding: 1rem 1.25rem; border-right: 1px solid var(--border-color);" vid="737">
+                                            <p style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.35rem; max-width: none;" vid="738">Keywords</p>
+                                            <p style="font-size: 1.35rem; font-weight: 700; max-width: none; line-height: 1;" vid="739">82</p>
+                                        </div>
+                                        <div style="padding: 1rem 1.25rem;" vid="740">
+                                            <p style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.35rem; max-width: none;" vid="741">Format</p>
+                                            <p style="font-size: 1.35rem; font-weight: 700; max-width: none; line-height: 1;" vid="742">91</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr;" vid="743">
+                                        <div style="padding: 1rem 1.25rem; border-right: 1px solid var(--border-color);" vid="744">
+                                            <p style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.35rem; max-width: none;" vid="745">Skills Gap</p>
+                                            <p style="font-size: 1.35rem; font-weight: 700; max-width: none; line-height: 1;" vid="746">64</p>
+                                        </div>
+                                        <div style="padding: 1rem 1.25rem;" vid="747">
+                                            <p style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.35rem; max-width: none;" vid="748">Clarity</p>
+                                            <p style="font-size: 1.35rem; font-weight: 700; max-width: none; line-height: 1;" vid="749">74</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upload Confirmation Card -->
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="750">
+                                <div style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); display: flex; align-items: center; gap: 0.6rem;" vid="751">
+                                    <svg width="14" height="14" fill="none" stroke="var(--fg)" stroke-width="2.5" viewBox="0 0 24 24" vid="752"><polyline points="20 6 9 17 4 12" vid="753"></polyline></svg>
+                                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;" vid="754">Upload Confirmed</span>
+                                </div>
+                                <div style="padding: 0;" vid="755">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--gray-mid);" vid="756">
+                                        <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="757">File</span>
+                                        <span id="confirm-filename" style="font-size: 0.78rem; font-weight: 600; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" vid="758">resume.pdf</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--gray-mid);" vid="759">
+                                        <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="760">Size</span>
+                                        <span id="confirm-filesize" style="font-size: 0.78rem; font-weight: 600; text-align: right;" vid="761">124 KB</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--gray-mid);" vid="762">
+                                        <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="763">Type</span>
+                                        <span id="confirm-filetype" style="font-size: 0.78rem; font-weight: 600; text-align: right;" vid="764">PDF</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.875rem 1.25rem;" vid="765">
+                                        <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="766">Analyzed</span>
+                                        <span style="font-size: 0.78rem; font-weight: 600; text-align: right;" vid="767">Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Re-upload button -->
+                            <button onclick="resetResume()" class="btn btn-outline" style="width: 100%; font-size: 0.9rem;" vid="768">Upload a Different Resume</button>
+                        </div>
+
+                        <!-- Right col: Suggestions + History -->
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;" vid="769">
+
+                            <!-- Suggestions -->
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="770">
+                                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); display: flex; align-items: center; justify-content: space-between;" vid="771">
+                                    <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;" vid="772">Improvement Suggestions</span>
+                                    <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="773">6 items</span>
+                                </div>
+                                <div style="padding: 0;" vid="774">
+                                    <!-- Suggestion items -->
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="775">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="776">1</span>
+                                        <div style="flex: 1;" vid="777">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="778">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="779">Add TypeScript explicitly</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; background: var(--fg); color: var(--bg); letter-spacing: 0.04em; white-space: nowrap;" vid="780">HIGH</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="781">TypeScript appears in 92% of Frontend Engineer listings but is not mentioned in your resume. Add it to your skills section and reference it in project descriptions.</p>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="782">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="783">2</span>
+                                        <div style="flex: 1;" vid="784">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="785">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="786">Quantify project outcomes</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; background: var(--fg); color: var(--bg); letter-spacing: 0.04em; white-space: nowrap;" vid="787">HIGH</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="788">3 of your project descriptions lack measurable impact. Replace vague outcomes with metrics (e.g. “reduced load time by 40%”).</p>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="789">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="790">3</span>
+                                        <div style="flex: 1;" vid="791">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="792">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="793">Mention accessibility work</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; border: 2px solid var(--fg); color: var(--fg); background: transparent; letter-spacing: 0.04em; white-space: nowrap;" vid="794">MED</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="795">WCAG and A11y practices are a priority gap in your assessment. Referencing them on your resume signals awareness to hiring managers.</p>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="796">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="797">4</span>
+                                        <div style="flex: 1;" vid="798">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="799">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="800">Shorten summary section</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; border: 2px solid var(--fg); color: var(--fg); background: transparent; letter-spacing: 0.04em; white-space: nowrap;" vid="801">MED</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="802">Your summary is 98 words — aim for 40–60. Condense to your top 3 differentiators for faster scanning by recruiters.</p>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="803">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gray-mid); color: var(--fg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="804">5</span>
+                                        <div style="flex: 1;" vid="805">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="806">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="807">Add a GitHub or portfolio link</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; border: 1px solid var(--gray-mid); color: var(--gray-dark); background: transparent; letter-spacing: 0.04em; white-space: nowrap;" vid="808">LOW</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="809">No portfolio or GitHub URL detected. Including a live link increases engagement from technical reviewers significantly.</p>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-item" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem;" vid="810">
+                                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gray-mid); color: var(--fg); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;" vid="811">6</span>
+                                        <div style="flex: 1;" vid="812">
+                                            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;" vid="813">
+                                                <p style="font-weight: 700; font-size: 0.88rem; max-width: none;" vid="814">Standardize date formatting</p>
+                                                <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; border: 1px solid var(--gray-mid); color: var(--gray-dark); background: transparent; letter-spacing: 0.04em; white-space: nowrap;" vid="815">LOW</span>
+                                            </div>
+                                            <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none; line-height: 1.5;" vid="816">Mixed date formats detected (e.g. “Jan 2023” vs “2023-01”). Use a single consistent style throughout.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- History Section -->
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="817">
+                                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); display: flex; align-items: center; justify-content: space-between;" vid="818">
+                                    <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;" vid="819">Upload History</span>
+                                    <span style="font-size: 0.78rem; color: var(--gray-dark); font-weight: 500;" vid="820">Last 3 uploads</span>
+                                </div>
+                                <div vid="821">
+                                    <div id="history-current-row" style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.5rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--gray-mid); background: var(--gray-light);" vid="822">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;" vid="823">
+                                            <svg width="14" height="14" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="824"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="825"></path><polyline points="14 2 14 8 20 8" vid="826"></polyline></svg>
+                                            <span id="history-current-name" style="font-size: 0.85rem; font-weight: 600;" vid="827">resume.pdf</span>
+                                            <span style="font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; background: var(--fg); color: var(--bg); letter-spacing: 0.04em;" vid="828">CURRENT</span>
+                                        </div>
+                                        <span style="font-size: 0.8rem; color: var(--gray-dark);" vid="829">Just now</span>
+                                        <span style="font-size: 0.85rem; font-weight: 700;" vid="830">78</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.5rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="831">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; opacity: 0.6;" vid="832">
+                                            <svg width="14" height="14" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="833"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="834"></path><polyline points="14 2 14 8 20 8" vid="835"></polyline></svg>
+                                            <span style="font-size: 0.85rem; font-weight: 500;" vid="836">resume_v2.pdf</span>
+                                        </div>
+                                        <span style="font-size: 0.8rem; color: var(--gray-dark);" vid="837">3 days ago</span>
+                                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--gray-dark);" vid="838">71</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.5rem; padding: 1rem 1.5rem;" vid="839">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; opacity: 0.45;" vid="840">
+                                            <svg width="14" height="14" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="841"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" vid="842"></path><polyline points="14 2 14 8 20 8" vid="843"></polyline></svg>
+                                            <span style="font-size: 0.85rem; font-weight: 500;" vid="844">resume_draft.docx</span>
+                                        </div>
+                                        <span style="font-size: 0.8rem; color: var(--gray-dark);" vid="845">1 week ago</span>
+                                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--gray-dark);" vid="846">58</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style vid="847">
+        #drop-zone.drag-over {
+            border-color: var(--fg);
+            background: var(--gray-light);
+            transform: scale(1.01);
+        }
+    </style>
+
+    <script vid="848">
+        // ---- Resume page state ----
+        let resumeFile = null;
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('drop-zone').classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            document.getElementById('drop-zone').classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('drop-zone').classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) applyFile(file);
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) applyFile(file);
+        }
+
+        function applyFile(file) {
+            resumeFile = file;
+            const bar = document.getElementById('file-selected-bar');
+            bar.style.display = 'flex';
+            document.getElementById('selected-file-name').textContent = file.name;
+            const kb = Math.round(file.size / 1024);
+            document.getElementById('selected-file-size').textContent = kb + ' KB — Ready to analyze';
+        }
+
+        function clearFile() {
+            resumeFile = null;
+            document.getElementById('file-selected-bar').style.display = 'none';
+            document.getElementById('resume-file-input').value = '';
+        }
+
+        const loadingMessages = [
+            'Scanning resume structure…',
+            'Extracting keywords and skills…',
+            'Matching against role benchmarks…',
+            'Generating improvement suggestions…',
+            'Finalizing your score…',
+        ];
+
+        function analyzeResume() {
+            if (!resumeFile) return;
+
+            // Hide upload, show loading
+            document.getElementById('upload-section').style.display = 'none';
+            document.getElementById('analysis-loading').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+
+            let step = 0;
+            const fill = document.getElementById('loading-bar-fill');
+            const statusText = document.getElementById('loading-status-text');
+
+            const interval = setInterval(() => {
+                step++;
+                const pct = Math.min((step / loadingMessages.length) * 100, 95);
+                fill.style.width = pct + '%';
+                statusText.textContent = loadingMessages[Math.min(step - 1, loadingMessages.length - 1)];
+
+                if (step >= loadingMessages.length) {
+                    clearInterval(interval);
+                    fill.style.width = '100%';
+                    setTimeout(() => showResults(), 400);
+                }
+            }, 520);
+        }
+
+        function showResults() {
+            document.getElementById('analysis-loading').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+
+            // Populate confirmation card
+            const name = resumeFile ? resumeFile.name : 'resume.pdf';
+            const kb   = resumeFile ? Math.round(resumeFile.size / 1024) + ' KB' : '124 KB';
+            const ext  = name.split('.').pop().toUpperCase();
+
+            document.getElementById('confirm-filename').textContent = name;
+            document.getElementById('confirm-filesize').textContent = kb;
+            document.getElementById('confirm-filetype').textContent = ext;
+            document.getElementById('history-current-name').textContent = name;
+            document.getElementById('selected-file-name').textContent = name;
+
+            // Animate score bar
+            setTimeout(() => {
+                document.getElementById('score-bar-fill').style.width = '78%';
+            }, 100);
+        }
+
+        function resetResume() {
+            resumeFile = null;
+            document.getElementById('resume-file-input').value = '';
+            document.getElementById('file-selected-bar').style.display = 'none';
+            document.getElementById('upload-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('analysis-loading').style.display = 'none';
+            document.getElementById('loading-bar-fill').style.width = '0%';
+        }
+    </script>
+
+    <!-- PAGE 8: INTERVIEW -->
+    <div id="page-interview" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="849">
+        <div class="container" style="padding-top: 3rem;" vid="850">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="851">
+                <div vid="852">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" vid="853">Interview Prep</h1>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;" vid="854">
+                        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--fg); color: var(--bg); font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 20px; letter-spacing: 0.05em;" vid="855">FRONTEND ENGINEER</span>
+                    </div>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="856">Practice curated interview questions aligned to your skill gaps and target role. Filter by topic and difficulty to focus your preparation.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="857">← Back to Dashboard</button>
+            </div>
+
+            <!-- Filter Controls -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; padding: 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: var(--radius-window); background: var(--gray-light);" vid="858">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--gray-dark); letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0;" vid="859">Filter:</span>
+                <select id="iq-topic" onchange="renderInterviewQuestions()" style="font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); font-family: var(--font-main); cursor: pointer;" vid="860">
+                    <option value="all" vid="861">All Topics</option>
+                    <option value="React" vid="862">React</option>
+                    <option value="JavaScript" vid="863">JavaScript</option>
+                    <option value="TypeScript" vid="864">TypeScript</option>
+                    <option value="CSS" vid="865">CSS</option>
+                    <option value="A11y" vid="866">Accessibility</option>
+                    <option value="Performance" vid="867">Performance</option>
+                    <option value="Testing" vid="868">Testing</option>
+                    <option value="System Design" vid="869">System Design</option>
+                    <option value="Behavioral" vid="870">Behavioral</option>
+                </select>
+                <select id="iq-difficulty" onchange="renderInterviewQuestions()" style="font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); color: var(--fg); font-family: var(--font-main); cursor: pointer;" vid="871">
+                    <option value="all" vid="872">All Difficulties</option>
+                    <option value="Easy" vid="873">Easy</option>
+                    <option value="Medium" vid="874">Medium</option>
+                    <option value="Hard" vid="875">Hard</option>
+                </select>
+                <div style="margin-left: auto; display: flex; align-items: center; gap: 1rem;" vid="876">
+                    <span id="iq-count" style="font-size: 0.82rem; color: var(--gray-dark); font-weight: 500; white-space: nowrap;" vid="877">Showing 18 questions</span>
+                    <button onclick="iqMarkAllPracticed()" style="font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; font-family: var(--font-main); white-space: nowrap;" vid="878">Mark All Practiced</button>
+                    <button onclick="iqResetAll()" style="font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: transparent; color: var(--gray-dark); cursor: pointer; font-family: var(--font-main);" vid="879">Reset</button>
+                </div>
+            </div>
+
+            <!-- Results Summary Line -->
+            <div style="margin-bottom: 1.25rem; padding: 0 0.25rem; display: flex; align-items: center; justify-content: space-between;" vid="880">
+                <p id="iq-summary-line" style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="881">18 questions across 9 topics — 6 aligned to your skill gaps</p>
+                <p id="iq-practiced-count" style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="882">0 practiced</p>
+            </div>
+
+            <!-- Questions List -->
+            <div id="interview-questions-list" style="display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; margin-bottom: 2.5rem;" vid="883">
+            </div>
+
+        </div>
+    </div>
+
+    <script vid="884">
+        const interviewQuestionsData = [
+            { id: 0,  topic: 'React',         difficulty: 'Easy',   gap: false, question: 'What is the difference between a controlled and uncontrolled component in React?',                                                                  hint: 'Think about where the source of truth for form data lives — in React state vs. the DOM.' },
+            { id: 1,  topic: 'React',         difficulty: 'Medium', gap: false, question: 'Explain the difference between useEffect and useLayoutEffect, and when you would use each.',                                                            hint: 'Consider when each fires relative to browser paint, and what side effects belong in each.' },
+            { id: 2,  topic: 'React',         difficulty: 'Hard',   gap: false, question: 'How would you architect a large React application to avoid prop drilling without overusing Context?',                                                    hint: 'Consider state colocation, composition patterns, Zustand, or Jotai as alternatives.' },
+            { id: 3,  topic: 'JavaScript',    difficulty: 'Easy',   gap: false, question: 'Explain event delegation and why it is useful for performance.',                                                                                         hint: 'Think about how event bubbling allows a single listener on a parent to handle many child events.' },
+            { id: 4,  topic: 'JavaScript',    difficulty: 'Medium', gap: false, question: 'What is the event loop and how does it handle asynchronous operations?',                                                                                 hint: 'Describe the call stack, task queue, microtask queue, and how Promises relate to each.' },
+            { id: 5,  topic: 'TypeScript',    difficulty: 'Medium', gap: true,  question: 'What is the difference between interface and type in TypeScript? When would you choose one over the other?',                                             hint: 'Cover declaration merging (interfaces only), union types (types only), and extending behavior.' },
+            { id: 6,  topic: 'TypeScript',    difficulty: 'Hard',   gap: true,  question: 'Explain TypeScript generics and write a generic function that returns the last element of any array.',                                                   hint: 'Use a type parameter T, and think about how to constrain it to arrays.' },
+            { id: 7,  topic: 'CSS',           difficulty: 'Easy',   gap: false, question: 'Describe the CSS box model and how box-sizing: border-box changes element sizing.',                                                                      hint: 'Walk through content, padding, border, and margin, then explain the border-box shortcut.' },
+            { id: 8,  topic: 'CSS',           difficulty: 'Medium', gap: false, question: 'When would you use CSS Grid vs. Flexbox? Can you combine them?',                                                                                         hint: 'Grid is for 2D layouts; Flexbox is for 1D. Nesting both is common and encouraged.' },
+            { id: 9,  topic: 'A11y',          difficulty: 'Medium', gap: true,  question: 'What is ARIA and what are the rules for when you should and should not use ARIA roles?',                                                                 hint: 'First rule of ARIA: don’t use ARIA if a native HTML element already has the semantics.' },
+            { id: 10, topic: 'A11y',          difficulty: 'Hard',   gap: true,  question: 'How would you build a fully accessible custom dropdown menu that works for keyboard and screen reader users?',                                           hint: 'Think about role=listbox or role=combobox, focus management, aria-activedescendant, and keyboard events.' },
+            { id: 11, topic: 'Performance',   difficulty: 'Medium', gap: true,  question: 'What are Core Web Vitals and how do LCP, FID/INP, and CLS affect user experience?',                                                                    hint: 'LCP = load speed, FID/INP = interactivity, CLS = visual stability. Link each to real UX impact.' },
+            { id: 12, topic: 'Performance',   difficulty: 'Hard',   gap: true,  question: 'Walk through how you would diagnose and fix a slow initial page load in a React app.',                                                                  hint: 'Consider code splitting, lazy loading, SSR/SSG, image optimization, and reducing bundle size.' },
+            { id: 13, topic: 'Testing',       difficulty: 'Easy',   gap: false, question: 'What is the difference between unit tests, integration tests, and end-to-end tests?',                                                                   hint: 'Describe the testing pyramid and give one example tool for each level.' },
+            { id: 14, topic: 'Testing',       difficulty: 'Medium', gap: false, question: 'How do you test a React component that makes an API call on mount?',                                                                                    hint: 'Mock the fetch/axios call with Jest, render with React Testing Library, assert on the async output.' },
+            { id: 15, topic: 'System Design', difficulty: 'Hard',   gap: false, question: 'Design a real-time collaborative text editor (like Google Docs) for the frontend. How would you handle conflicts?',                                     hint: 'Cover WebSockets, Operational Transformation or CRDT, optimistic UI, and offline sync.' },
+            { id: 16, topic: 'Behavioral',    difficulty: 'Easy',   gap: false, question: 'Tell me about a time you received critical feedback on your code. How did you respond?',                                                                hint: 'Use the STAR method: Situation, Task, Action, Result. Show growth mindset.' },
+            { id: 17, topic: 'Behavioral',    difficulty: 'Medium', gap: false, question: 'Describe a situation where you had to balance technical debt against shipping a feature on deadline.',                                                  hint: 'Discuss how you communicated the tradeoff to stakeholders and what you did to address tech debt later.' },
+        ];
+
+        let iqPracticed = new Array(interviewQuestionsData.length).fill(false);
+        let iqExpanded  = new Set();
+
+        const iqDiffDot = { Easy: '#bbb', Medium: '#555', Hard: 'var(--fg)' };
+
+        function renderInterviewQuestions() {
+            const topicFilter = document.getElementById('iq-topic')?.value || 'all';
+            const diffFilter  = document.getElementById('iq-difficulty')?.value || 'all';
+
+            let data = interviewQuestionsData.filter(q => {
+                if (topicFilter !== 'all' && q.topic !== topicFilter) return false;
+                if (diffFilter  !== 'all' && q.difficulty !== diffFilter) return false;
+                return true;
+            });
+
+            const practiced = iqPracticed.filter(Boolean).length;
+            const gapCount  = data.filter(q => q.gap).length;
+
+            const countEl = document.getElementById('iq-count');
+            if (countEl) countEl.textContent = `Showing ${data.length} question${data.length !== 1 ? 's' : ''}`;
+
+            const summaryEl = document.getElementById('iq-summary-line');
+            if (summaryEl) summaryEl.textContent = `${data.length} question${data.length !== 1 ? 's' : ''} — ${gapCount} aligned to your skill gaps`;
+
+            const practicedEl = document.getElementById('iq-practiced-count');
+            if (practicedEl) practicedEl.textContent = `${practiced} practiced`;
+
+            const list = document.getElementById('interview-questions-list');
+            if (!list) return;
+
+            if (data.length === 0) {
+                list.innerHTML = `<div style="padding: 3rem; text-align: center; color: var(--gray-dark); font-size: 0.9rem;">No questions match the selected filters.</div>`;
+                return;
+            }
+
+            list.innerHTML = data.map((q, i) => {
+                const isExpanded  = iqExpanded.has(q.id);
+                const isPracticed = iqPracticed[q.id];
+                const isLast      = i === data.length - 1;
+                const diffLevel   = q.difficulty === 'Easy' ? 1 : q.difficulty === 'Medium' ? 2 : 3;
+                const dots        = [1,2,3].map(n => `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${n <= diffLevel ? iqDiffDot[q.difficulty] : 'var(--gray-mid)'};"></span>`).join('');
+
+                return `
+                <div style="border-bottom:${isLast ? 'none' : '1px solid var(--gray-mid)'}; background:${isPracticed ? 'var(--gray-light)' : 'var(--bg)'}; transition: background 0.2s;">
+
+                    <!-- Card header -->
+                    <div onclick="iqToggleExpand(${q.id})"
+                         style="display:grid; grid-template-columns:32px 1fr auto auto; align-items:center; gap:1rem; padding:1.25rem 1.5rem; cursor:pointer;"
+                         onmouseover="this.style.background='var(--gray-light)'" onmouseout="this.style.background='transparent'">
+
+                        <!-- Practiced dot/check -->
+                        <button onclick="event.stopPropagation(); iqTogglePracticed(${q.id})"
+                                style="width:22px;height:22px;border-radius:50%;border:2px solid ${isPracticed ? 'var(--fg)' : 'var(--border-color)'}; background:${isPracticed ? 'var(--fg)' : 'transparent'}; display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;flex-shrink:0;">
+                            ${isPracticed ? `<svg width="10" height="10" fill="none" stroke="var(--bg)" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>` : ''}
+                        </button>
+
+                        <!-- Question text -->
+                        <p style="font-weight:600;font-size:0.925rem;max-width:none;line-height:1.45;${isPracticed ? 'opacity:0.45;text-decoration:line-through;' : ''}">${q.question}</p>
+
+                        <!-- Badges -->
+                        <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
+                            ${q.gap ? `<span style="font-size:0.65rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:20px;border:2px solid var(--fg);color:var(--fg);background:transparent;letter-spacing:0.04em;white-space:nowrap;">YOUR GAP</span>` : ''}
+                            <span style="font-size:0.72rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:20px;border:1px solid var(--gray-mid);color:var(--gray-dark);background:transparent;white-space:nowrap;">${q.topic}</span>
+                            <div style="display:flex;align-items:center;gap:0.4rem;">
+                                <div style="display:flex;gap:3px;">${dots}</div>
+                                <span style="font-size:0.78rem;font-weight:600;color:${q.difficulty === 'Hard' ? 'var(--fg)' : q.difficulty === 'Medium' ? '#444' : '#888'};white-space:nowrap;">${q.difficulty}</span>
+                            </div>
+                        </div>
+
+                        <!-- Chevron -->
+                        <svg width="14" height="14" fill="none" stroke="var(--gray-dark)" stroke-width="2" viewBox="0 0 24 24"
+                             style="flex-shrink:0;transition:transform 0.2s;transform:rotate(${isExpanded ? 90 : 0}deg);">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </div>
+
+                    <!-- Expandable hint area -->
+                    ${isExpanded ? `
+                    <div style="padding:0 1.5rem 1.5rem 4rem;">
+                        <div style="padding:1rem 1.25rem;background:var(--gray-light);border:1px solid var(--border-color);border-radius:var(--radius-sm);margin-bottom:1rem;">
+                            <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--gray-dark);margin-bottom:0.45rem;max-width:none;">Hint</p>
+                            <p style="font-size:0.875rem;color:var(--fg);max-width:none;line-height:1.6;">${q.hint}</p>
+                        </div>
+                        <div style="display:flex;gap:0.75rem;align-items:center;">
+                            <button onclick="iqTogglePracticed(${q.id})"
+                                    style="font-size:0.82rem;font-weight:600;padding:0.4rem 1rem;border:1px solid ${isPracticed ? 'var(--border-color)' : 'var(--fg)'}; border-radius:var(--radius-sm);background:${isPracticed ? 'transparent' : 'var(--fg)'};color:${isPracticed ? 'var(--gray-dark)' : 'var(--bg)'};cursor:pointer;font-family:var(--font-main);transition:all 0.15s;">
+                                ${isPracticed ? 'Mark Unpracticed' : 'Mark as Practiced &#10003;'}
+                            </button>
+                            <span style="font-size:0.78rem;color:var(--gray-dark);">${isPracticed ? 'Already practiced' : 'Click to track your progress'}</span>
+                        </div>
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+        }
+
+        function iqToggleExpand(id) {
+            if (iqExpanded.has(id)) iqExpanded.delete(id);
+            else iqExpanded.add(id);
+            renderInterviewQuestions();
+        }
+
+        function iqTogglePracticed(id) {
+            iqPracticed[id] = !iqPracticed[id];
+            renderInterviewQuestions();
+        }
+
+        function iqMarkAllPracticed() {
+            iqPracticed = iqPracticed.map(() => true);
+            renderInterviewQuestions();
+        }
+
+        function iqResetAll() {
+            iqPracticed = new Array(interviewQuestionsData.length).fill(false);
+            iqExpanded.clear();
+            renderInterviewQuestions();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderInterviewQuestions);
+        renderInterviewQuestions();
+    </script>
+
+    <!-- PAGE 9: PROFILE -->
+    <div id="page-profile" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="885">
+        <div class="container" style="padding-top: 3rem; max-width: 780px;" vid="886">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="887">
+                <div vid="888">
+                    <h1 style="font-size: 2rem; margin-bottom: 0.35rem;" vid="889">Profile &amp; Settings</h1>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: none;" vid="890">Manage your account information, role, and subscription.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="891">← Back to Dashboard</button>
+            </div>
+
+            <!-- USER INFORMATION -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; margin-bottom: 1.5rem;" vid="892">
+                <div style="padding: 1.1rem 1.5rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;" vid="893">
+                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark);" vid="894">User Information</span>
+                </div>
+                <div style="padding: 2rem 1.5rem;" vid="895">
+                    <div style="display: flex; align-items: flex-start; gap: 2rem;" vid="896">
+
+                        <!-- Avatar -->
+                        <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;" vid="897">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--border-color); background: var(--gray-light); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;" vid="898">
+                                <svg width="32" height="32" fill="none" stroke="var(--gray-dark)" stroke-width="1.5" viewBox="0 0 24 24" vid="899"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" vid="900"></path><circle cx="12" cy="7" r="4" vid="901"></circle></svg>
+                            </div>
+                            <button onclick="profileAvatarClick()" style="font-size: 0.75rem; font-weight: 600; color: var(--gray-dark); background: none; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.25rem 0.65rem; cursor: pointer; font-family: var(--font-main); transition: all 0.15s;" onmouseover="this.style.color='var(--fg)'" onmouseout="this.style.color='var(--gray-dark)'" vid="902">Change</button>
+                        </div>
+
+                        <!-- Fields -->
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 1.25rem;" vid="903">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;" vid="904">
+                                <div vid="905">
+                                    <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.5rem;" vid="906">Full Name</label>
+                                    <input id="profile-name" type="text" value="Alex Johnson" style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s;" onfocus="this.style.borderColor='var(--fg)'" onblur="this.style.borderColor='var(--border-color)'" vid="907">
+                                </div>
+                                <div vid="908">
+                                    <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.5rem;" vid="909">Email Address</label>
+                                    <input id="profile-email" type="email" value="alex.johnson@email.com" style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s;" onfocus="this.style.borderColor='var(--fg)'" onblur="this.style.borderColor='var(--border-color)'" vid="910">
+                                </div>
+                            </div>
+                            <div vid="911">
+                                <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.5rem;" vid="912">Bio <span style="font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--gray-dark);" vid="913">— optional</span></label>
+                                <textarea id="profile-bio" rows="2" placeholder="A short description about yourself..." style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; resize: vertical; line-height: 1.5;" onfocus="this.style.borderColor='var(--fg)'" onblur="this.style.borderColor='var(--border-color)'" vid="914"></textarea>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;" vid="915">
+                                <button onclick="saveProfile()" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.55rem 1.5rem;" id="save-profile-btn" vid="916">Save Changes</button>
+                                <span id="profile-save-confirm" style="font-size: 0.82rem; color: var(--gray-dark); display: none;" vid="917">✓ Saved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROLE MANAGEMENT -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; margin-bottom: 1.5rem;" vid="918">
+                <div style="padding: 1.1rem 1.5rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color);" vid="919">
+                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark);" vid="920">Role Management</span>
+                </div>
+                <div style="padding: 1.75rem 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;" vid="921">
+
+                    <!-- Current role display -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--gray-light);" vid="922">
+                        <div style="display: flex; align-items: center; gap: 0.875rem;" vid="923">
+                            <div style="width: 36px; height: 36px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="924">
+                                <svg width="16" height="16" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="925"><polyline points="16 18 22 12 16 6" vid="926"></polyline><polyline points="8 6 2 12 8 18" vid="927"></polyline></svg>
+                            </div>
+                            <div vid="928">
+                                <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.15rem; max-width: none;" vid="929">Current Role</p>
+                                <p style="font-weight: 700; font-size: 0.95rem; max-width: none;" vid="930">Frontend Engineer</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; background: var(--fg); color: var(--bg); letter-spacing: 0.04em;" vid="931">ACTIVE</span>
+                    </div>
+
+                    <!-- Change role control -->
+                    <div vid="932">
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.5rem;" vid="933">Switch to a Different Role</label>
+                        <div style="display: flex; gap: 0.75rem; align-items: center;" vid="934">
+                            <select id="role-change-select" style="flex: 1; padding: 0.65rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; cursor: pointer;" onchange="onRoleSelectChange()" vid="935">
+                                <option value="" vid="936">Select new role...</option>
+                                <option value="frontend" vid="937">Frontend Engineer</option>
+                                <option value="backend" vid="938">Backend Engineer</option>
+                                <option value="designer" vid="939">Product Designer</option>
+                            </select>
+                            <button onclick="changeRole()" id="change-role-btn" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.55rem 1.25rem; flex-shrink: 0; opacity: 0.4; pointer-events: none;" vid="940">Change Role</button>
+                        </div>
+                    </div>
+
+                    <!-- Warning -->
+                    <div id="role-warning" style="display: none; padding: 1rem 1.25rem; border: 2px solid var(--fg); border-radius: var(--radius-sm); background: var(--gray-light); display: flex; align-items: flex-start; gap: 0.75rem;" vid="941">
+                        <svg width="16" height="16" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 1px;" vid="942"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" vid="943"></path><line x1="12" y1="9" x2="12" y2="13" vid="944"></line><line x1="12" y1="17" x2="12.01" y2="17" vid="945"></line></svg>
+                        <p style="font-size: 0.85rem; color: var(--fg); max-width: none; line-height: 1.55;" vid="946"><strong vid="947">Heads up:</strong> Changing your role will reset your skill assessments and roadmap. Your score history and resume analyses will be preserved.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SUBSCRIPTION -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; margin-bottom: 1.5rem;" vid="948">
+                <div style="padding: 1.1rem 1.5rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color);" vid="949">
+                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark);" vid="950">Subscription</span>
+                </div>
+                <div style="padding: 1.75rem 1.5rem;" vid="951">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 2rem;" vid="952">
+                        <div style="display: flex; align-items: center; gap: 1rem;" vid="953">
+                            <div style="width: 44px; height: 44px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="954">
+                                <svg width="18" height="18" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="955"><rect x="2" y="3" width="20" height="14" rx="2" vid="956"></rect><path d="M8 21h8M12 17v4" vid="957"></path></svg>
+                            </div>
+                            <div vid="958">
+                                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;" vid="959">
+                                    <p style="font-weight: 700; font-size: 1rem; max-width: none;" vid="960">Free Plan</p>
+                                    <span style="font-size: 0.68rem; font-weight: 700; padding: 0.18rem 0.5rem; border-radius: 20px; border: 1px solid var(--border-color); color: var(--gray-dark); letter-spacing: 0.04em;" vid="961">CURRENT</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--gray-dark); max-width: none;" vid="962">1 role track · Resume analysis · Basic roadmap</p>
+                            </div>
+                        </div>
+                        <button onclick="profileUpgrade()" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.6rem 1.5rem; flex-shrink: 0; white-space: nowrap;" vid="963">Upgrade to Pro ↗</button>
+                    </div>
+
+                    <!-- Plan comparison strip -->
+                    <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden;" vid="964">
+                        <div style="padding: 1.1rem 1.25rem; border-right: 1px solid var(--border-color);" vid="965">
+                            <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.75rem; max-width: none;" vid="966">Free</p>
+                            <div style="display: flex; flex-direction: column; gap: 0.45rem;" vid="967">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="968"><svg width="12" height="12" fill="none" stroke="var(--fg)" stroke-width="2.5" viewBox="0 0 24 24" vid="969"><polyline points="20 6 9 17 4 12" vid="970"></polyline></svg><span style="font-size: 0.82rem;" vid="971">1 role track</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="972"><svg width="12" height="12" fill="none" stroke="var(--fg)" stroke-width="2.5" viewBox="0 0 24 24" vid="973"><polyline points="20 6 9 17 4 12" vid="974"></polyline></svg><span style="font-size: 0.82rem;" vid="975">3 resume uploads / mo</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="976"><svg width="12" height="12" fill="none" stroke="var(--gray-mid)" stroke-width="2.5" viewBox="0 0 24 24" vid="977"><line x1="18" y1="6" x2="6" y2="18" vid="978"></line><line x1="6" y1="6" x2="18" y2="18" vid="979"></line></svg><span style="font-size: 0.82rem; color: var(--gray-dark);" vid="980">Peer comparison</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="981"><svg width="12" height="12" fill="none" stroke="var(--gray-mid)" stroke-width="2.5" viewBox="0 0 24 24" vid="982"><line x1="18" y1="6" x2="6" y2="18" vid="983"></line><line x1="6" y1="6" x2="18" y2="18" vid="984"></line></svg><span style="font-size: 0.82rem; color: var(--gray-dark);" vid="985">Verified certificate</span></div>
+                            </div>
+                        </div>
+                        <div style="padding: 1.1rem 1.25rem; background: var(--fg); color: var(--bg);" vid="986">
+                            <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.75rem; max-width: none;" vid="987">Pro — $12 / mo</p>
+                            <div style="display: flex; flex-direction: column; gap: 0.45rem;" vid="988">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="989"><svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" viewBox="0 0 24 24" vid="990"><polyline points="20 6 9 17 4 12" vid="991"></polyline></svg><span style="font-size: 0.82rem; color: rgba(255,255,255,0.85);" vid="992">Unlimited role tracks</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="993"><svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" viewBox="0 0 24 24" vid="994"><polyline points="20 6 9 17 4 12" vid="995"></polyline></svg><span style="font-size: 0.82rem; color: rgba(255,255,255,0.85);" vid="996">Unlimited resume uploads</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="997"><svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" viewBox="0 0 24 24" vid="998"><polyline points="20 6 9 17 4 12" vid="999"></polyline></svg><span style="font-size: 0.82rem; color: rgba(255,255,255,0.85);" vid="1000">Peer comparison</span></div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;" vid="1001"><svg width="12" height="12" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" viewBox="0 0 24 24" vid="1002"><polyline points="20 6 9 17 4 12" vid="1003"></polyline></svg><span style="font-size: 0.82rem; color: rgba(255,255,255,0.85);" vid="1004">Verified certificate</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACCOUNT ACTIONS -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1005">
+                <div style="padding: 1.1rem 1.5rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color);" vid="1006">
+                    <span style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark);" vid="1007">Account Actions</span>
+                </div>
+                <div style="padding: 0;" vid="1008">
+                    <!-- Logout -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-mid);" vid="1009">
+                        <div style="display: flex; align-items: center; gap: 0.875rem;" vid="1010">
+                            <div style="width: 36px; height: 36px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="1011">
+                                <svg width="16" height="16" fill="none" stroke="var(--fg)" stroke-width="2" viewBox="0 0 24 24" vid="1012"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" vid="1013"></path><polyline points="16 17 21 12 16 7" vid="1014"></polyline><line x1="21" y1="12" x2="9" y2="12" vid="1015"></line></svg>
+                            </div>
+                            <div vid="1016">
+                                <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.1rem;" vid="1017">Log Out</p>
+                                <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none;" vid="1018">Sign out of your ReadySet account on this device.</p>
+                            </div>
+                        </div>
+                        <button onclick="profileLogout()" class="btn btn-outline" style="font-size: 0.875rem; padding: 0.5rem 1.1rem; flex-shrink: 0;" vid="1019">Log Out</button>
+                    </div>
+                    <!-- Delete -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem;" vid="1020">
+                        <div style="display: flex; align-items: center; gap: 0.875rem;" vid="1021">
+                            <div style="width: 36px; height: 36px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;" vid="1022">
+                                <svg width="16" height="16" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24" vid="1023"><polyline points="3 6 5 6 21 6" vid="1024"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" vid="1025"></path><path d="M10 11v6M14 11v6" vid="1026"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" vid="1027"></path></svg>
+                            </div>
+                            <div vid="1028">
+                                <p style="font-weight: 600; font-size: 0.925rem; max-width: none; margin-bottom: 0.1rem; color: #c0392b;" vid="1029">Delete Account</p>
+                                <p style="font-size: 0.82rem; color: var(--gray-dark); max-width: none;" vid="1030">Permanently delete your account and all associated data. This cannot be undone.</p>
+                            </div>
+                        </div>
+                        <button onclick="profileDelete()" style="font-size: 0.875rem; font-weight: 500; padding: 0.5rem 1.1rem; flex-shrink: 0; border: 1px solid #c0392b; border-radius: var(--radius-btn); background: transparent; color: #c0392b; cursor: pointer; font-family: var(--font-main); transition: all 0.15s;" onmouseover="this.style.background='#fdf2f2'" onmouseout="this.style.background='transparent'" vid="1031">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Delete confirm modal -->
+    <div id="delete-confirm-modal" style="display:none; position:fixed; inset:0; z-index:300; background:rgba(0,0,0,0.35); align-items:center; justify-content:center;" onclick="closeDeleteModal(event)" vid="1032">
+        <div style="background:var(--bg); border:1px solid var(--border-color); border-radius:var(--radius-window); width:100%; max-width:440px; overflow:hidden; margin:2rem;" onclick="event.stopPropagation()" vid="1033">
+            <div style="padding:1.25rem 1.5rem; border-bottom:1px solid var(--border-color); background:var(--gray-light); display:flex; align-items:center; justify-content:space-between;" vid="1034">
+                <span style="font-size:0.8rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#c0392b;" vid="1035">Delete Account</span>
+                <button onclick="closeDeleteModal()" style="background:none; border:none; cursor:pointer; color:var(--gray-dark); font-size:1.1rem; line-height:1;" vid="1036">✕</button>
+            </div>
+            <div style="padding:2rem 1.5rem;" vid="1037">
+                <p style="font-weight:700; font-size:1rem; margin-bottom:0.75rem; max-width:none;" vid="1038">Are you absolutely sure?</p>
+                <p style="font-size:0.875rem; color:var(--gray-dark); max-width:none; margin-bottom:1.75rem; line-height:1.6;" vid="1039">This will permanently delete your account, all assessments, roadmap progress, and resume history. This action <strong vid="1040">cannot be undone</strong>.</p>
+                <div style="display:flex; gap:0.75rem;" vid="1041">
+                    <button onclick="confirmDelete()" style="flex:1; font-size:0.9rem; font-weight:600; padding:0.6rem 1rem; border:1px solid #c0392b; border-radius:var(--radius-btn); background:#c0392b; color:#fff; cursor:pointer; font-family:var(--font-main);" vid="1042">Yes, Delete My Account</button>
+                    <button onclick="closeDeleteModal()" class="btn btn-outline" style="font-size:0.9rem; padding:0.6rem 1.25rem;" vid="1043">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script vid="1044">
+        function onRoleSelectChange() {
+            const sel = document.getElementById('role-change-select');
+            const btn = document.getElementById('change-role-btn');
+            const warn = document.getElementById('role-warning');
+            const hasValue = sel.value !== '';
+            btn.style.opacity = hasValue ? '1' : '0.4';
+            btn.style.pointerEvents = hasValue ? 'auto' : 'none';
+            warn.style.display = hasValue ? 'flex' : 'none';
+        }
+
+        function changeRole() {
+            const sel = document.getElementById('role-change-select');
+            if (!sel.value) return;
+            const labels = { frontend: 'Frontend Engineer', backend: 'Backend Engineer', designer: 'Product Designer' };
+            const btn = document.getElementById('change-role-btn');
+            btn.textContent = 'Role Updated ✓';
+            btn.style.opacity = '0.6';
+            btn.style.pointerEvents = 'none';
+            document.getElementById('role-warning').style.display = 'none';
+            sel.value = '';
+            setTimeout(() => { btn.textContent = 'Change Role'; }, 2500);
+        }
+
+        function saveProfile() {
+            const btn = document.getElementById('save-profile-btn');
+            const confirm = document.getElementById('profile-save-confirm');
+            btn.textContent = 'Saving…';
+            setTimeout(() => {
+                btn.textContent = 'Save Changes';
+                confirm.style.display = 'inline';
+                setTimeout(() => { confirm.style.display = 'none'; }, 2500);
+            }, 700);
+        }
+
+        function profileAvatarClick() {
+            // placeholder — would open file picker
+        }
+
+        function profileUpgrade() {
+            // placeholder — would open upgrade flow
+        }
+
+        function profileLogout() {
+            navLogout();
+        }
+
+        function profileDelete() {
+            document.getElementById('delete-confirm-modal').style.display = 'flex';
+        }
+
+        function closeDeleteModal(e) {
+            if (e && e.target !== document.getElementById('delete-confirm-modal')) return;
+            document.getElementById('delete-confirm-modal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            document.getElementById('delete-confirm-modal').style.display = 'none';
+            navLogout();
+        }
+    </script>
+
+    <!-- PAGE 10.5: LOGIN -->
+    <div id="page-login" class="page page-flex" style="min-height: 100vh; background: var(--bg); align-items: center; justify-content: center; padding: 3rem 1.5rem 5rem;" vid="1045">
+        <div style="width: 100%; max-width: 460px;" vid="1046">
+
+            <!-- Trust badge -->
+            <div style="text-align: center; margin-bottom: 2rem;" vid="1047">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 600; color: var(--gray-dark); border: 1px solid var(--gray-mid); border-radius: 20px; padding: 0.3rem 0.85rem; letter-spacing: 0.02em;" vid="1048">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" vid="1049"><polyline points="20 6 9 17 4 12" vid="1050"></polyline></svg>
+                    Pick up where you left off
+                </span>
+            </div>
+
+            <!-- Card -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.05);" vid="1051">
+
+                <!-- Card Header -->
+                <div style="padding: 2.25rem 2.5rem 1.75rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); text-align: center;" vid="1052">
+                    <h1 style="font-size: 1.65rem; margin-bottom: 0.5rem;" vid="1053">Welcome back</h1>
+                    <p style="font-size: 0.925rem; color: var(--gray-dark); max-width: 32ch; margin: 0 auto;" vid="1054">Log in to continue your career readiness journey.</p>
+                </div>
+
+                <!-- Form Body -->
+                <div style="padding: 2rem 2.5rem;" vid="1055">
+
+                    <!-- Google button -->
+                    <button onclick="loginGoogleClick()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.65rem; padding: 0.7rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-btn); background: var(--bg); font-size: 0.9rem; font-weight: 500; font-family: var(--font-main); color: var(--fg); cursor: pointer; transition: background 0.15s; margin-bottom: 1.5rem;" onmouseover="this.style.background='var(--gray-light)'" onmouseout="this.style.background='var(--bg)'" vid="1056">
+                        <svg width="16" height="16" viewBox="0 0 24 24" vid="1057">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" vid="1058"></path>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" vid="1059"></path>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" vid="1060"></path>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" vid="1061"></path>
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <!-- Divider -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;" vid="1062">
+                        <div style="flex: 1; height: 1px; background: var(--gray-mid);" vid="1063"></div>
+                        <span style="font-size: 0.78rem; font-weight: 500; color: var(--gray-dark);" vid="1064">or</span>
+                        <div style="flex: 1; height: 1px; background: var(--gray-mid);" vid="1065"></div>
+                    </div>
+
+                    <!-- Form -->
+                    <form onsubmit="loginSubmit(event)" novalidate="" vid="1066">
+
+                        <!-- Email -->
+                        <div style="margin-bottom: 1.1rem;" vid="1067">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.45rem;" vid="1068">Email Address</label>
+                            <input id="login-email" type="email" placeholder="you@example.com" autocomplete="email" style="width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="this.style.borderColor='var(--border-color)'" vid="1069">
+                            <div id="login-email-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1070"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div style="margin-bottom: 0.5rem;" vid="1071">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;" vid="1072">
+                                <label style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark);" vid="1073">Password</label>
+                                <span onclick="loginForgotPassword()" style="font-size: 0.75rem; font-weight: 600; color: var(--gray-dark); text-decoration: underline; text-underline-offset: 2px; cursor: pointer;" vid="1074">Forgot password?</span>
+                            </div>
+                            <div style="position: relative;" vid="1075">
+                                <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" style="width: 100%; padding: 0.7rem 2.75rem 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="this.style.borderColor='var(--border-color)'" vid="1076">
+                                <button type="button" onclick="loginTogglePw()" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;color:var(--gray-dark);" vid="1077">
+                                    <svg id="login-pw-eye" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="1078"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" vid="1079"></path><circle cx="12" cy="12" r="3" vid="1080"></circle></svg>
+                                </button>
+                            </div>
+                            <div id="login-password-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1081"></div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button id="login-submit-btn" type="submit" style="width: 100%; margin-top: 1.5rem; padding: 0.85rem 1rem; background: var(--fg); color: var(--bg); border: none; border-radius: var(--radius-btn); font-size: 1rem; font-weight: 600; font-family: var(--font-main); cursor: pointer; transition: background 0.15s, transform 0.1s; letter-spacing: -0.01em;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='var(--fg)'" vid="1082">
+                            Log In
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- Card Footer -->
+                <div style="padding: 1.25rem 2.5rem; border-top: 1px solid var(--border-color); background: var(--gray-light); text-align: center;" vid="1083">
+                    <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="1084">
+                        Don't have an account?
+                        <button onclick="showPage('page-signup')" style="background: none; border: none; cursor: pointer; font-family: var(--font-main); font-size: 0.875rem; font-weight: 600; color: var(--fg); text-decoration: underline; text-underline-offset: 3px; padding: 0; margin-left: 0.25rem;" vid="1085">Sign up</button>
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Fine print -->
+            <p style="text-align: center; font-size: 0.75rem; color: var(--gray-dark); margin-top: 1.25rem; max-width: none;" vid="1086">
+                By logging in you agree to our
+                <span style="text-decoration: underline; cursor: pointer;" vid="1087">Terms of Service</span>
+                and
+                <span style="text-decoration: underline; cursor: pointer;" vid="1088">Privacy Policy</span>.
+            </p>
+
+        </div>
+    </div>
+
+    <script vid="1089">
+        function loginTogglePw() {
+            const input = document.getElementById('login-password');
+            const eye = document.getElementById('login-pw-eye');
+            if (!input) return;
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            if (eye) {
+                eye.innerHTML = isHidden
+                    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+                    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
+        function loginSubmit(e) {
+            e.preventDefault();
+            const emailEl = document.getElementById('login-email');
+            const pwEl    = document.getElementById('login-password');
+            const emailErr = document.getElementById('login-email-error');
+            const pwErr    = document.getElementById('login-password-error');
+            let valid = true;
+
+            emailErr.style.display = 'none';
+            pwErr.style.display    = 'none';
+
+            if (!emailEl.value.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(emailEl.value.trim())) {
+                emailErr.textContent = 'Please enter a valid email address.';
+                emailErr.style.display = 'block';
+                emailEl.style.borderColor = '#c0392b';
+                valid = false;
+            }
+            if (!pwEl.value) {
+                pwErr.textContent = 'Password is required.';
+                pwErr.style.display = 'block';
+                pwEl.style.borderColor = '#c0392b';
+                valid = false;
+            }
+            if (!valid) return;
+
+            const btn = document.getElementById('login-submit-btn');
+            btn.textContent = 'Logging in…';
+            btn.style.opacity = '0.65';
+            btn.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                btn.textContent = 'Log In';
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+                showPage('page-dashboard');
+                navSetActive('page-dashboard');
+            }, 900);
+        }
+
+        function loginForgotPassword() {
+            // placeholder — would open reset flow
+        }
+
+        function loginGoogleClick() {
+            // placeholder — would trigger OAuth
+        }
+    </script>
+
+    <!-- PAGE 11: SIGN UP -->
+    <div id="page-signup" class="page page-flex" style="min-height: 100vh; background: var(--bg); align-items: center; justify-content: center; padding: 3rem 1.5rem 5rem;" vid="1090">
+        <div style="width: 100%; max-width: 460px;" vid="1091">
+
+            <!-- Trust badge -->
+            <div style="text-align: center; margin-bottom: 2rem;" vid="1092">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 600; color: var(--gray-dark); border: 1px solid var(--gray-mid); border-radius: 20px; padding: 0.3rem 0.85rem; letter-spacing: 0.02em;" vid="1093">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" vid="1094"><polyline points="20 6 9 17 4 12" vid="1095"></polyline></svg>
+                    Takes less than a minute
+                </span>
+            </div>
+
+            <!-- Card -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.05);" vid="1096">
+
+                <!-- Card Header -->
+                <div style="padding: 2.25rem 2.5rem 1.75rem; border-bottom: 1px solid var(--border-color); background: var(--gray-light); text-align: center;" vid="1097">
+                    <h1 style="font-size: 1.65rem; margin-bottom: 0.5rem;" vid="1098">Create your account</h1>
+                    <p style="font-size: 0.925rem; color: var(--gray-dark); max-width: 34ch; margin: 0 auto;" vid="1099">Start measuring your skill–job gap and build your personalized roadmap.</p>
+                </div>
+
+                <!-- Form Body -->
+                <div style="padding: 2rem 2.5rem;" vid="1100">
+
+                    <!-- Google button -->
+                    <button onclick="signupGoogleClick()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.65rem; padding: 0.7rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-btn); background: var(--bg); font-size: 0.9rem; font-weight: 500; font-family: var(--font-main); color: var(--fg); cursor: pointer; transition: background 0.15s; margin-bottom: 1.5rem;" onmouseover="this.style.background='var(--gray-light)'" onmouseout="this.style.background='var(--bg)'" vid="1101">
+                        <svg width="16" height="16" viewBox="0 0 24 24" vid="1102">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" vid="1103"></path>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" vid="1104"></path>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" vid="1105"></path>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" vid="1106"></path>
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <!-- Divider -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;" vid="1107">
+                        <div style="flex: 1; height: 1px; background: var(--gray-mid);" vid="1108"></div>
+                        <span style="font-size: 0.78rem; font-weight: 500; color: var(--gray-dark);" vid="1109">or</span>
+                        <div style="flex: 1; height: 1px; background: var(--gray-mid);" vid="1110"></div>
+                    </div>
+
+                    <!-- Form -->
+                    <form onsubmit="signupSubmit(event)" novalidate="" vid="1111">
+
+                        <!-- Full Name -->
+                        <div style="margin-bottom: 1.1rem;" vid="1112">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.45rem;" vid="1113">Full Name</label>
+                            <input id="signup-name" type="text" placeholder="Alex Johnson" autocomplete="name" style="width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="signupValidateField(this)" oninput="signupClearError('name-error')" vid="1114">
+                            <div id="name-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1115"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div style="margin-bottom: 1.1rem;" vid="1116">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.45rem;" vid="1117">Email Address</label>
+                            <input id="signup-email" type="email" placeholder="you@example.com" autocomplete="email" style="width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="signupValidateField(this)" oninput="signupClearError('email-error')" vid="1118">
+                            <div id="email-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1119"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div style="margin-bottom: 1.1rem;" vid="1120">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.45rem;" vid="1121">Password</label>
+                            <div style="position: relative;" vid="1122">
+                                <input id="signup-password" type="password" placeholder="Min. 8 characters" autocomplete="new-password" style="width: 100%; padding: 0.7rem 2.75rem 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="signupValidateField(this)" oninput="signupPasswordStrength(); signupClearError('password-error')" vid="1123">
+                                <button type="button" onclick="signupTogglePw('signup-password', 'pw-eye-1')" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;color:var(--gray-dark);" vid="1124">
+                                    <svg id="pw-eye-1" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="1125"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" vid="1126"></path><circle cx="12" cy="12" r="3" vid="1127"></circle></svg>
+                                </button>
+                            </div>
+                            <!-- Strength bar -->
+                            <div id="pw-strength-wrap" style="display:none; margin-top:0.6rem;" vid="1128">
+                                <div style="height: 4px; background: var(--gray-mid); border-radius: 20px; overflow: hidden; margin-bottom: 0.35rem;" vid="1129">
+                                    <div id="pw-strength-bar" style="height:100%; width:0%; border-radius:20px; transition: width 0.3s, background 0.3s;" vid="1130"></div>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;" vid="1131">
+                                    <span id="pw-strength-label" style="font-size:0.72rem; font-weight:600;" vid="1132"></span>
+                                    <span style="font-size:0.72rem; color:var(--gray-dark);" vid="1133">· min. 8 chars, 1 number</span>
+                                </div>
+                            </div>
+                            <div id="password-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1134"></div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div style="margin-bottom: 1.75rem;" vid="1135">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 0.45rem;" vid="1136">Confirm Password</label>
+                            <div style="position: relative;" vid="1137">
+                                <input id="signup-confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password" style="width: 100%; padding: 0.7rem 2.75rem 0.7rem 0.9rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.925rem; font-family: var(--font-main); color: var(--fg); background: var(--bg); outline: none; transition: border-color 0.15s; box-sizing: border-box;" onfocus="this.style.borderColor='var(--fg)'" onblur="signupValidateField(this)" oninput="signupClearError('confirm-error')" vid="1138">
+                                <button type="button" onclick="signupTogglePw('signup-confirm', 'pw-eye-2')" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;color:var(--gray-dark);" vid="1139">
+                                    <svg id="pw-eye-2" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" vid="1140"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" vid="1141"></path><circle cx="12" cy="12" r="3" vid="1142"></circle></svg>
+                                </button>
+                            </div>
+                            <div id="confirm-error" style="display:none; font-size:0.78rem; color:#c0392b; margin-top:0.35rem; font-weight:500;" vid="1143"></div>
+                        </div>
+
+                        <!-- Submit -->
+                        <button id="signup-submit-btn" type="submit" style="width: 100%; padding: 0.85rem 1rem; background: var(--fg); color: var(--bg); border: none; border-radius: var(--radius-btn); font-size: 1rem; font-weight: 600; font-family: var(--font-main); cursor: pointer; transition: background 0.15s, transform 0.1s; letter-spacing: -0.01em;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='var(--fg)'" vid="1144">
+                            Create Account
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- Card Footer -->
+                <div style="padding: 1.25rem 2.5rem; border-top: 1px solid var(--border-color); background: var(--gray-light); text-align: center;" vid="1145">
+                    <p style="font-size: 0.875rem; color: var(--gray-dark); max-width: none;" vid="1146">
+                        Already have an account?
+                        <button onclick="showPage('page-login')" style="background: none; border: none; cursor: pointer; font-family: var(--font-main); font-size: 0.875rem; font-weight: 600; color: var(--fg); text-decoration: underline; text-underline-offset: 3px; padding: 0; margin-left: 0.25rem;" vid="1147">Log in</button>
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Fine print -->
+            <p style="text-align: center; font-size: 0.75rem; color: var(--gray-dark); margin-top: 1.25rem; max-width: none;" vid="1148">
+                By creating an account you agree to our
+                <span style="text-decoration: underline; cursor: pointer;" vid="1149">Terms of Service</span>
+                and
+                <span style="text-decoration: underline; cursor: pointer;" vid="1150">Privacy Policy</span>.
+            </p>
+
+        </div>
+    </div>
+
+    <script vid="1151">
+        function signupTogglePw(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (!input) return;
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            if (eye) {
+                eye.innerHTML = isHidden
+                    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+                    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
+        function signupPasswordStrength() {
+            const pw = document.getElementById('signup-password')?.value || '';
+            const wrap = document.getElementById('pw-strength-wrap');
+            const bar = document.getElementById('pw-strength-bar');
+            const label = document.getElementById('pw-strength-label');
+            if (!wrap || !bar || !label) return;
+
+            if (pw.length === 0) { wrap.style.display = 'none'; return; }
+            wrap.style.display = 'block';
+
+            let score = 0;
+            if (pw.length >= 8) score++;
+            if (/[0-9]/.test(pw)) score++;
+            if (/[A-Z]/.test(pw)) score++;
+            if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+            const levels = [
+                { pct: '25%', color: '#e74c3c', text: 'Weak' },
+                { pct: '50%', color: '#f39c12', text: 'Fair' },
+                { pct: '75%', color: '#3498db', text: 'Good' },
+                { pct: '100%', color: '#27ae60', text: 'Strong' },
+            ];
+            const lvl = levels[Math.max(0, score - 1)];
+            bar.style.width = lvl.pct;
+            bar.style.background = lvl.color;
+            label.textContent = lvl.text;
+            label.style.color = lvl.color;
+        }
+
+        function signupClearError(id) {
+            const el = document.getElementById(id);
+            if (el) { el.style.display = 'none'; el.textContent = ''; }
+            // Reset border color if input found
+            const inputMap = { 'name-error': 'signup-name', 'email-error': 'signup-email', 'password-error': 'signup-password', 'confirm-error': 'signup-confirm' };
+            const inputEl = document.getElementById(inputMap[id]);
+            if (inputEl) inputEl.style.borderColor = 'var(--border-color)';
+        }
+
+        function signupShowError(inputEl, errorId, msg) {
+            const errEl = document.getElementById(errorId);
+            if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+            if (inputEl) inputEl.style.borderColor = '#c0392b';
+        }
+
+        function signupValidateField(inputEl) {
+            const id = inputEl.id;
+            const val = inputEl.value.trim();
+
+            if (id === 'signup-name') {
+                if (!val) signupShowError(inputEl, 'name-error', 'Full name is required.');
+                else { signupClearError('name-error'); inputEl.style.borderColor = 'var(--fg)'; }
+            }
+            if (id === 'signup-email') {
+                if (!val) signupShowError(inputEl, 'email-error', 'Email address is required.');
+                else if (!/^[^@]+@[^@]+\.[^@]+$/.test(val)) signupShowError(inputEl, 'email-error', 'Please enter a valid email address.');
+                else { signupClearError('email-error'); inputEl.style.borderColor = 'var(--fg)'; }
+            }
+            if (id === 'signup-password') {
+                if (!val) signupShowError(inputEl, 'password-error', 'Password is required.');
+                else if (val.length < 8) signupShowError(inputEl, 'password-error', 'Password must be at least 8 characters.');
+                else { signupClearError('password-error'); inputEl.style.borderColor = 'var(--fg)'; }
+            }
+            if (id === 'signup-confirm') {
+                const pw = document.getElementById('signup-password')?.value || '';
+                if (!val) signupShowError(inputEl, 'confirm-error', 'Please confirm your password.');
+                else if (val !== pw) signupShowError(inputEl, 'confirm-error', 'Passwords do not match.');
+                else { signupClearError('confirm-error'); inputEl.style.borderColor = 'var(--fg)'; }
+            }
+        }
+
+        function signupSubmit(e) {
+            e.preventDefault();
+            const nameEl    = document.getElementById('signup-name');
+            const emailEl   = document.getElementById('signup-email');
+            const pwEl      = document.getElementById('signup-password');
+            const confirmEl = document.getElementById('signup-confirm');
+
+            // Force validate all
+            signupValidateField(nameEl);
+            signupValidateField(emailEl);
+            signupValidateField(pwEl);
+            signupValidateField(confirmEl);
+
+            const name  = nameEl.value.trim();
+            const email = emailEl.value.trim();
+            const pw    = pwEl.value;
+            const conf  = confirmEl.value;
+
+            if (!name || !email || !/^[^@]+@[^@]+\.[^@]+$/.test(email) || pw.length < 8 || pw !== conf) return;
+
+            // Simulate submit
+            const btn = document.getElementById('signup-submit-btn');
+            btn.textContent = 'Creating account…';
+            btn.style.opacity = '0.65';
+            btn.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                btn.textContent = 'Create Account';
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'auto';
+                showPage('page-onboarding');
+                navSetActive('page-onboarding');
+            }, 900);
+        }
+
+        function signupGoogleClick() {
+            // Placeholder — would trigger OAuth
+        }
+
+        function signupGoToLogin() {
+            showPage('page-login');
+        }
+    </script>
+
+    <!-- PAGE 10: VERIFY (DEV ONLY) -->
+    <div id="page-verify" class="page" style="min-height: 100vh; padding-bottom: 80px; background: var(--bg);" vid="1152">
+        <div class="container" style="padding-top: 3rem; max-width: 960px;" vid="1153">
+
+            <!-- Page Header -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; justify-content: space-between;" vid="1154">
+                <div vid="1155">
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--fg); color: var(--bg); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; letter-spacing: 0.08em; margin-bottom: 0.75rem;" vid="1156">DEV ONLY</div>
+                    <h1 style="font-size: 2rem; margin-bottom: 0.35rem;" vid="1157">System Verification</h1>
+                    <p style="font-size: 0.95rem; color: var(--gray-dark); max-width: 60ch;" vid="1158">Run diagnostic checks across all platform modules. Inspect score weights, data integrity, and page routing. For development and QA use only.</p>
+                </div>
+                <button onclick="showPage('page-dashboard'); navSetActive('page-dashboard');" class="btn btn-outline" style="font-size: 0.9rem; padding: 0.5rem 1rem; flex-shrink: 0;" vid="1159">← Back to Dashboard</button>
+            </div>
+
+            <!-- Main two-col layout -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; margin-bottom: 2rem;" vid="1160">
+
+                <!-- LEFT: Config + Actions -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;" vid="1161">
+
+                    <!-- Static Configuration Display -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1162">
+                        <div style="padding: 0.9rem 1.25rem; background: var(--fg); display: flex; align-items: center; justify-content: space-between;" vid="1163">
+                            <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bg);" vid="1164">Score Weight Config</span>
+                            <span style="font-family: monospace; font-size: 0.72rem; color: rgba(255,255,255,0.5);" vid="1165">v2.4.1</span>
+                        </div>
+                        <div style="padding: 0; font-family: monospace;" vid="1166">
+                            <div style="padding: 0.6rem 1.25rem; border-bottom: 1px solid var(--gray-mid); display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; align-items: center; background: var(--gray-light);" vid="1167">
+                                <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark);" vid="1168">Skill</span>
+                                <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark);" vid="1169">Weight</span>
+                                <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark);" vid="1170">Target</span>
+                            </div>
+                            <div id="verify-config-list" vid="1171">
+                                <!-- JS renders -->
+                            </div>
+                        </div>
+                        <div style="padding: 0.75rem 1.25rem; border-top: 1px solid var(--border-color); background: var(--gray-light); display: flex; justify-content: space-between; align-items: center;" vid="1172">
+                            <span style="font-family: monospace; font-size: 0.75rem; color: var(--gray-dark);" vid="1173">total_weight_sum:</span>
+                            <span id="verify-weight-sum" style="font-family: monospace; font-size: 0.82rem; font-weight: 700;" vid="1174">857</span>
+                        </div>
+                    </div>
+
+                    <!-- Page Routing Table -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1175">
+                        <div style="padding: 0.9rem 1.25rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;" vid="1176">
+                            <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark);" vid="1177">Page Routing Registry</span>
+                            <span id="verify-route-count" style="font-family: monospace; font-size: 0.72rem; color: var(--gray-dark);" vid="1178">10 routes</span>
+                        </div>
+                        <div id="verify-route-list" style="font-family: monospace;" vid="1179">
+                            <!-- JS renders -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Verification Actions -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;" vid="1180">
+
+                    <!-- Actions -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1181">
+                        <div style="padding: 0.9rem 1.25rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;" vid="1182">
+                            <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark);" vid="1183">Verification Actions</span>
+                            <button onclick="verifyRunAll()" style="font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.7rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; font-family: var(--font-main); letter-spacing: 0.04em;" vid="1184">RUN ALL</button>
+                        </div>
+                        <div style="padding: 0; display: flex; flex-direction: column; gap: 0;" id="verify-action-list" vid="1185">
+                            <!-- JS renders -->
+                        </div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1186">
+                        <div style="padding: 0.9rem 1.25rem; background: var(--gray-light); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;" vid="1187">
+                            <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark);" vid="1188">Results</span>
+                            <button onclick="verifyClearResults()" style="font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: transparent; color: var(--gray-dark); cursor: pointer; font-family: var(--font-main);" vid="1189">CLEAR</button>
+                        </div>
+                        <div id="verify-results" style="padding: 1rem 1.25rem; min-height: 180px; display: flex; flex-direction: column; gap: 0.5rem; font-family: monospace; font-size: 0.8rem;" vid="1190">
+                            <span style="color: var(--gray-dark);" vid="1191">// No checks run yet. Select an action above.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Console Status -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-window); overflow: hidden;" vid="1192">
+                <div style="padding: 0.9rem 1.25rem; background: var(--fg); display: flex; align-items: center; justify-content: space-between;" vid="1193">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;" vid="1194">
+                        <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bg);" vid="1195">Console</span>
+                        <span id="verify-console-status" style="font-size: 0.68rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 20px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); letter-spacing: 0.06em;" vid="1196">IDLE</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;" vid="1197">
+                        <span id="verify-pass-count" style="font-family: monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5);" vid="1198">0 passed</span>
+                        <span id="verify-fail-count" style="font-family: monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5);" vid="1199">0 failed</span>
+                        <button onclick="verifyClearConsole()" style="font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.55rem; border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; font-family: var(--font-main);" vid="1200">CLEAR</button>
+                    </div>
+                </div>
+                <div id="verify-console" style="background: #0f0f0f; padding: 1rem 1.25rem; min-height: 140px; max-height: 280px; overflow-y: auto; font-family: monospace; font-size: 0.78rem; line-height: 1.7; display: flex; flex-direction: column; gap: 0;" vid="1201">
+                    <span style="color: #555;" vid="1202">► System verification console ready. Run checks to see output.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script vid="1203">
+        const verifyWeightsData = [
+            { skill: 'React / Modern Frameworks', weight: 95, target: 5 },
+            { skill: 'JavaScript / TypeScript',   weight: 92, target: 5 },
+            { skill: 'Web Accessibility (A11y)',   weight: 88, target: 4 },
+            { skill: 'CSS, Grid & Flexbox',        weight: 85, target: 5 },
+            { skill: 'State Management',           weight: 82, target: 5 },
+            { skill: 'REST API Integration',       weight: 78, target: 4 },
+            { skill: 'Version Control (Git)',      weight: 75, target: 4 },
+            { skill: 'Testing (Unit / E2E)',        weight: 70, target: 4 },
+            { skill: 'Responsive Design',          weight: 72, target: 4 },
+            { skill: 'Performance Optimization',   weight: 80, target: 5 },
+            { skill: 'Build Tools & Bundlers',     weight: 65, target: 3 },
+            { skill: 'Browser DevTools',           weight: 60, target: 3 },
+        ];
+
+        const verifyRoutes = [
+            { id: 'page-home',        path: '/',            label: 'Home' },
+            { id: 'page-onboarding',  path: '/onboarding',  label: 'Onboarding' },
+            { id: 'page-dashboard',   path: '/dashboard',   label: 'Dashboard' },
+            { id: 'page-skills',      path: '/skills',      label: 'Skill Gap Analysis' },
+            { id: 'page-roadmap',     path: '/roadmap',     label: 'Roadmap' },
+            { id: 'page-projects',    path: '/projects',    label: 'Projects' },
+            { id: 'page-resume',      path: '/resume',      label: 'Resume Analysis' },
+            { id: 'page-interview',   path: '/interview',   label: 'Interview Prep' },
+            { id: 'page-profile',     path: '/profile',     label: 'Profile & Settings' },
+            { id: 'page-verify',      path: '/verify',      label: 'System Verify' },
+        ];
+
+        const verifyActions = [
+            { id: 'check-pages',    label: 'Check Page Registration',   desc: 'Verify all 10 pages exist in DOM' },
+            { id: 'check-weights',  label: 'Validate Score Weights',    desc: 'Confirm no weight is 0 or missing' },
+            { id: 'check-skills',   label: 'Check Skills Data',          desc: 'Validate skillsData array integrity' },
+            { id: 'check-roadmap',  label: 'Check Roadmap Nodes',        desc: 'Validate roadmapSkills & projects' },
+            { id: 'check-interview',label: 'Check Interview Questions',  desc: 'Validate 18 questions with hints' },
+            { id: 'check-nav',      label: 'Simulate Page Navigation',   desc: 'Test showPage() on each route' },
+            { id: 'check-storage',  label: 'Check Runtime State',        desc: 'Inspect iqPracticed, skillRatings' },
+        ];
+
+        let verifyPassCount = 0;
+        let verifyFailCount = 0;
+        let verifyActionStates = {}; // id -> 'idle' | 'running' | 'pass' | 'fail'
+
+        function renderVerifyConfig() {
+            const list = document.getElementById('verify-config-list');
+            if (!list) return;
+            const sum = verifyWeightsData.reduce((a,b) => a + b.weight, 0);
+            document.getElementById('verify-weight-sum').textContent = sum;
+            list.innerHTML = verifyWeightsData.map((s, i) => {
+                const barW = Math.round((s.weight / 100) * 100);
+                return `
+                <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; align-items: center; padding: 0.55rem 1.25rem; border-bottom: ${i < verifyWeightsData.length-1 ? '1px solid var(--gray-mid)' : 'none'};">
+                    <span style="font-family: monospace; font-size: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.skill}</span>
+                    <span style="font-family: monospace; font-size: 0.78rem; font-weight: 700; text-align: right; min-width: 32px;">${s.weight}</span>
+                    <span style="font-family: monospace; font-size: 0.78rem; color: var(--gray-dark); text-align: right; min-width: 20px;">${s.target}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderVerifyRoutes() {
+            const list = document.getElementById('verify-route-list');
+            if (!list) return;
+            list.innerHTML = verifyRoutes.map((r, i) => {
+                const exists = !!document.getElementById(r.id);
+                return `
+                <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; padding: 0.55rem 1.25rem; border-bottom: ${i < verifyRoutes.length-1 ? '1px solid var(--gray-mid)' : 'none'};">
+                    <span style="font-family: monospace; font-size: 0.72rem; color: var(--gray-dark); min-width: 100px;">${r.path}</span>
+                    <span style="font-family: monospace; font-size: 0.75rem;">${r.label}</span>
+                    <span style="font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; background: ${exists ? 'var(--fg)' : '#c0392b'}; color: ${exists ? 'var(--bg)' : '#fff'}; letter-spacing: 0.04em;">${exists ? 'OK' : 'MISSING'}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderVerifyActions() {
+            const list = document.getElementById('verify-action-list');
+            if (!list) return;
+            list.innerHTML = verifyActions.map((a, i) => {
+                const state = verifyActionStates[a.id] || 'idle';
+                const stateColors = { idle: 'var(--gray-dark)', running: 'var(--fg)', pass: '#27ae60', fail: '#c0392b' };
+                const stateLabels = { idle: 'RUN', running: '...', pass: 'PASS', fail: 'FAIL' };
+                const stateBg    = { idle: 'transparent', running: 'transparent', pass: '#27ae60', fail: '#c0392b' };
+                const stateColor2 = { idle: 'var(--fg)', running: 'var(--fg)', pass: '#fff', fail: '#fff' };
+                return `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.25rem; border-bottom: ${i < verifyActions.length-1 ? '1px solid var(--gray-mid)' : 'none'}; transition: background 0.15s;" onmouseover="this.style.background='var(--gray-light)'" onmouseout="this.style.background='transparent'">
+                    <div style="flex: 1; min-width: 0;">
+                        <p style="font-weight: 600; font-size: 0.875rem; max-width: none; margin-bottom: 0.1rem;">${a.label}</p>
+                        <p style="font-size: 0.75rem; color: var(--gray-dark); max-width: none; font-family: monospace;">${a.desc}</p>
+                    </div>
+                    <button onclick="verifyRunCheck('${a.id}')" style="font-size: 0.7rem; font-weight: 700; padding: 0.28rem 0.7rem; border: 1px solid ${stateColors[state]}; border-radius: var(--radius-sm); background: ${stateBg[state]}; color: ${stateColor2[state]}; cursor: pointer; font-family: var(--font-main); letter-spacing: 0.05em; flex-shrink: 0; min-width: 52px; text-align: center; transition: all 0.15s;">${stateLabels[state]}</button>
+                </div>`;
+            }).join('');
+        }
+
+        function verifyLog(msg, type) {
+            // type: 'info' | 'pass' | 'fail' | 'warn' | 'data'
+            const console_ = document.getElementById('verify-console');
+            if (!console_) return;
+            const colors = { info: '#888', pass: '#2ecc71', fail: '#e74c3c', warn: '#f39c12', data: '#74b9ff' };
+            const prefixes = { info: '&#x25BA;', pass: '&#x2714;', fail: '&#x2718;', warn: '&#x26A0;', data: '&#x2261;' };
+            const ts = new Date().toLocaleTimeString('en', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const line = document.createElement('div');
+            line.innerHTML = `<span style="color:#555;">[${ts}]</span> <span style="color:${colors[type] || '#888'};">${prefixes[type] || '>'} ${msg}</span>`;
+            console_.appendChild(line);
+            console_.scrollTop = console_.scrollHeight;
+        }
+
+        function verifyAddResult(msg, ok) {
+            const results = document.getElementById('verify-results');
+            if (!results) return;
+            // Remove placeholder
+            results.querySelectorAll('span').forEach(s => { if (s.textContent.startsWith('// No checks')) s.remove(); });
+            const line = document.createElement('div');
+            line.style.display = 'flex';
+            line.style.alignItems = 'flex-start';
+            line.style.gap = '0.5rem';
+            line.style.padding = '0.3rem 0';
+            line.style.borderBottom = '1px solid var(--gray-mid)';
+            line.innerHTML = `
+                <span style="font-size:0.7rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:4px;background:${ok ? '#27ae60' : '#c0392b'};color:#fff;letter-spacing:0.04em;flex-shrink:0;margin-top:1px;">${ok ? 'PASS' : 'FAIL'}</span>
+                <span style="font-family:monospace;font-size:0.8rem;color:var(--fg);">${msg}</span>`;
+            results.appendChild(line);
+        }
+
+        function updateVerifyCounts() {
+            document.getElementById('verify-pass-count').textContent = verifyPassCount + ' passed';
+            document.getElementById('verify-fail-count').textContent = verifyFailCount + ' failed';
+            const statusEl = document.getElementById('verify-console-status');
+            statusEl.textContent = (verifyFailCount > 0) ? 'ERRORS' : (verifyPassCount > 0) ? 'ALL PASS' : 'IDLE';
+            statusEl.style.background = verifyFailCount > 0 ? 'rgba(231,76,60,0.3)' : verifyPassCount > 0 ? 'rgba(46,204,113,0.3)' : 'rgba(255,255,255,0.15)';
+            statusEl.style.color = verifyFailCount > 0 ? '#e74c3c' : verifyPassCount > 0 ? '#2ecc71' : 'rgba(255,255,255,0.7)';
+        }
+
+        const verifyChecks = {
+            'check-pages': function() {
+                verifyLog('Checking page registration...', 'info');
+                let allOk = true;
+                verifyRoutes.forEach(r => {
+                    const el = document.getElementById(r.id);
+                    if (el) {
+                        verifyLog(`${r.path} → #${r.id} found`, 'pass');
+                        verifyPassCount++;
+                        verifyAddResult(`#${r.id} (${r.path}) registered`, true);
+                    } else {
+                        verifyLog(`${r.path} → #${r.id} MISSING`, 'fail');
+                        verifyFailCount++;
+                        verifyAddResult(`#${r.id} (${r.path}) NOT FOUND`, false);
+                        allOk = false;
+                    }
+                });
+                verifyLog(`Page check complete — ${allOk ? 'all 10 OK' : 'errors found'}`, allOk ? 'pass' : 'fail');
+                return allOk;
+            },
+            'check-weights': function() {
+                verifyLog('Validating score weights...', 'info');
+                let allOk = true;
+                verifyWeightsData.forEach(s => {
+                    const ok = s.weight > 0 && s.weight <= 100 && s.target >= 1 && s.target <= 5;
+                    verifyLog(`${s.skill}: weight=${s.weight}, target=${s.target} → ${ok ? 'OK' : 'INVALID'}`, ok ? 'pass' : 'fail');
+                    if (ok) verifyPassCount++; else { verifyFailCount++; allOk = false; }
+                    verifyAddResult(`${s.skill} — w:${s.weight} t:${s.target}`, ok);
+                });
+                const sum = verifyWeightsData.reduce((a,b)=>a+b.weight,0);
+                verifyLog(`Weight sum: ${sum}`, 'data');
+                verifyAddResult(`Total weight sum: ${sum}`, true);
+                return allOk;
+            },
+            'check-skills': function() {
+                verifyLog('Checking skillsData array...', 'info');
+                let ok = true;
+                try {
+                    const len = typeof skillsData !== 'undefined' ? skillsData.length : 0;
+                    verifyLog(`skillsData length: ${len}`, len >= 12 ? 'pass' : 'fail');
+                    verifyAddResult(`skillsData array — ${len} items`, len >= 12);
+                    if (len >= 12) verifyPassCount++; else { verifyFailCount++; ok = false; }
+                    if (typeof skillRatings !== 'undefined') {
+                        verifyLog(`skillRatings length: ${skillRatings.length}`, 'pass');
+                        verifyAddResult(`skillRatings runtime state — ${skillRatings.length} entries`, true);
+                        verifyPassCount++;
+                    }
+                } catch(e) {
+                    verifyLog('skillsData not found: ' + e.message, 'fail');
+                    verifyFailCount++; ok = false;
+                }
+                return ok;
+            },
+            'check-roadmap': function() {
+                verifyLog('Checking roadmap data...', 'info');
+                let ok = true;
+                try {
+                    const skillLen = typeof roadmapSkills !== 'undefined' ? roadmapSkills.length : 0;
+                    const projLen = typeof roadmapProjects !== 'undefined' ? roadmapProjects.length : 0;
+                    verifyLog(`roadmapSkills: ${skillLen} nodes`, skillLen >= 12 ? 'pass' : 'fail');
+                    verifyAddResult(`roadmapSkills — ${skillLen} nodes`, skillLen >= 12);
+                    if (skillLen >= 12) verifyPassCount++; else { verifyFailCount++; ok = false; }
+                    verifyLog(`roadmapProjects: ${projLen} projects`, projLen >= 5 ? 'pass' : 'fail');
+                    verifyAddResult(`roadmapProjects — ${projLen} projects`, projLen >= 5);
+                    if (projLen >= 5) verifyPassCount++; else { verifyFailCount++; ok = false; }
+                } catch(e) {
+                    verifyLog('roadmap data error: ' + e.message, 'fail');
+                    verifyFailCount++; ok = false;
+                }
+                return ok;
+            },
+            'check-interview': function() {
+                verifyLog('Checking interview questions...', 'info');
+                let ok = true;
+                try {
+                    const len = typeof interviewQuestionsData !== 'undefined' ? interviewQuestionsData.length : 0;
+                    const withHints = typeof interviewQuestionsData !== 'undefined' ? interviewQuestionsData.filter(q => q.hint && q.hint.length > 5).length : 0;
+                    const gapItems = typeof interviewQuestionsData !== 'undefined' ? interviewQuestionsData.filter(q => q.gap).length : 0;
+                    verifyLog(`interviewQuestionsData: ${len} items`, len >= 18 ? 'pass' : 'fail');
+                    verifyAddResult(`interviewQuestionsData — ${len} questions`, len >= 18);
+                    if (len >= 18) verifyPassCount++; else { verifyFailCount++; ok = false; }
+                    verifyLog(`Questions with hints: ${withHints}`, 'data');
+                    verifyAddResult(`Questions with hints — ${withHints}`, withHints === len);
+                    verifyPassCount++;
+                    verifyLog(`Gap-tagged questions: ${gapItems}`, 'data');
+                    verifyAddResult(`Gap-tagged questions — ${gapItems}`, gapItems >= 4);
+                    verifyPassCount++;
+                } catch(e) {
+                    verifyLog('interview data error: ' + e.message, 'fail');
+                    verifyFailCount++; ok = false;
+                }
+                return ok;
+            },
+            'check-nav': function() {
+                verifyLog('Simulating page navigation...', 'info');
+                const currentPage = document.querySelector('.page.active');
+                const currentId = currentPage ? currentPage.id : null;
+                let allOk = true;
+                verifyRoutes.slice(0, 5).forEach(r => {
+                    try {
+                        if (typeof showPage === 'function' && document.getElementById(r.id)) {
+                            verifyLog(`showPage('${r.id}') → callable`, 'pass');
+                            verifyAddResult(`showPage('${r.id}') navigable`, true);
+                            verifyPassCount++;
+                        } else {
+                            verifyLog(`showPage('${r.id}') → TARGET MISSING`, 'fail');
+                            verifyAddResult(`showPage('${r.id}') — target missing`, false);
+                            verifyFailCount++; allOk = false;
+                        }
+                    } catch(e) {
+                        verifyLog('nav error: ' + e.message, 'fail');
+                        verifyFailCount++; allOk = false;
+                    }
+                });
+                // Restore current page
+                if (currentId && typeof showPage === 'function') showPage('page-verify');
+                verifyLog('Navigation test complete — current page restored', 'info');
+                return allOk;
+            },
+            'check-storage': function() {
+                verifyLog('Inspecting runtime state...', 'info');
+                const checks = [
+                    { name: 'iqPracticed', ref: typeof iqPracticed !== 'undefined' ? iqPracticed : null },
+                    { name: 'iqExpanded',  ref: typeof iqExpanded  !== 'undefined' ? iqExpanded  : null },
+                    { name: 'skillRatings',ref: typeof skillRatings !== 'undefined' ? skillRatings: null },
+                    { name: 'currentFilter',ref: typeof currentFilter!== 'undefined' ? currentFilter: null },
+                ];
+                let allOk = true;
+                checks.forEach(c => {
+                    const ok = c.ref !== null;
+                    verifyLog(`${c.name}: ${ok ? JSON.stringify(c.ref).slice(0,40) : 'UNDEFINED'}`, ok ? 'data' : 'fail');
+                    verifyAddResult(`${c.name} — ${ok ? 'initialized' : 'undefined'}`, ok);
+                    if (ok) verifyPassCount++; else { verifyFailCount++; allOk = false; }
+                });
+                return allOk;
+            },
+        };
+
+        function verifyRunCheck(id) {
+            const action = verifyActions.find(a => a.id === id);
+            if (!action) return;
+            verifyActionStates[id] = 'running';
+            renderVerifyActions();
+            verifyLog(`Running: ${action.label}`, 'info');
+            updateVerifyCounts();
+
+            setTimeout(() => {
+                try {
+                    const result = verifyChecks[id] ? verifyChecks[id]() : true;
+                    verifyActionStates[id] = result ? 'pass' : 'fail';
+                } catch(e) {
+                    verifyLog('Unexpected error: ' + e.message, 'fail');
+                    verifyActionStates[id] = 'fail';
+                    verifyFailCount++;
+                }
+                renderVerifyActions();
+                updateVerifyCounts();
+            }, 320);
+        }
+
+        function verifyRunAll() {
+            verifyPassCount = 0;
+            verifyFailCount = 0;
+            Object.keys(verifyActionStates).forEach(k => delete verifyActionStates[k]);
+            verifyClearResults();
+            verifyClearConsole();
+            renderVerifyActions();
+            verifyLog('=== RUN ALL CHECKS ===', 'info');
+
+            let delay = 0;
+            verifyActions.forEach(a => {
+                setTimeout(() => verifyRunCheck(a.id), delay);
+                delay += 500;
+            });
+        }
+
+        function verifyClearResults() {
+            const results = document.getElementById('verify-results');
+            if (results) results.innerHTML = '<span style="color: var(--gray-dark);">// No checks run yet. Select an action above.</span>';
+        }
+
+        function verifyClearConsole() {
+            const console_ = document.getElementById('verify-console');
+            if (console_) console_.innerHTML = '<span style="color: #555;">&#x25BA; Console cleared.</span>';
+            verifyPassCount = 0;
+            verifyFailCount = 0;
+            verifyActionStates = {};
+            renderVerifyActions();
+            updateVerifyCounts();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderVerifyConfig();
+            renderVerifyRoutes();
+            renderVerifyActions();
+        });
+        renderVerifyConfig();
+        renderVerifyRoutes();
+        renderVerifyActions();
+    </script>
+
+</body></html>
+```
+u have convert it into react for each page x route 
