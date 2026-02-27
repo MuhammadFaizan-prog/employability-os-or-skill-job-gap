@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { setStoredRole } from '../hooks/useAuth'
+import { useAuth, setStoredRole } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 
 type RoleId = 'frontend' | 'backend' | 'data-analyst' | 'ai-ml' | 'mobile'
@@ -102,6 +102,7 @@ const PROJECTS_STORAGE_KEY = 'employabilityos_user_projects'
 
 export function Onboarding() {
   const navigate = useNavigate()
+  const { user, updateProfile } = useAuth()
   const [selectedRole, setSelectedRole] = useState<RoleId>('frontend')
   const [ratings, setRatings] = useState<Record<string, number>>({})
   const [fade, setFade] = useState(true)
@@ -109,6 +110,8 @@ export function Onboarding() {
   const [skillCounts, setSkillCounts] = useState<Record<RoleId, number>>({ frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 })
   const [projectCounts, setProjectCounts] = useState<Record<RoleId, number>>({ frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 })
   const [loadingSkills, setLoadingSkills] = useState(true)
+  const [syncing, setSyncing] = useState(false)
+  const [syncError, setSyncError] = useState<string | null>(null)
 
   const fetchCountsForAllRoles = useCallback(async () => {
     if (!supabase) return
@@ -165,16 +168,49 @@ export function Onboarding() {
     })
   }
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    setSyncing(true)
+    setSyncError(null)
+
+    const dbRole = ROLE_DB_MAP[selectedRole]
     setStoredRole(selectedRole)
 
     const skillRatings = supabaseSkills.map((s, i) => ({
       skillId: s.id,
       proficiency: ratings[s.id] ?? (i < 2 ? 3 : 2),
     }))
+
     localStorage.setItem(SKILLS_STORAGE_KEY, JSON.stringify(skillRatings))
     localStorage.removeItem(PROJECTS_STORAGE_KEY)
 
+    const userId = user?.id
+    if (userId && supabase) {
+      try {
+        const { error: roleErr } = await updateProfile({ role: dbRole })
+        if (roleErr) console.warn('Role sync failed:', roleErr)
+
+        await supabase.from('user_skills').delete().eq('user_id', userId)
+
+        const rows = skillRatings.map((sr) => ({
+          user_id: userId,
+          skill_id: sr.skillId,
+          proficiency: sr.proficiency,
+        }))
+
+        if (rows.length > 0) {
+          const { error: skillsErr } = await supabase
+            .from('user_skills')
+            .upsert(rows, { onConflict: 'user_id,skill_id' })
+          if (skillsErr) console.warn('Skills sync failed:', skillsErr.message)
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Sync failed'
+        console.warn('Onboarding sync error:', msg)
+        setSyncError(msg)
+      }
+    }
+
+    setSyncing(false)
     navigate('/dashboard')
   }
 
@@ -262,13 +298,19 @@ export function Onboarding() {
       </div>
 
       <footer className="sticky-footer visible">
+        {syncError && (
+          <p style={{ color: 'var(--danger, #e53e3e)', fontSize: '0.85rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+            {syncError} — your ratings are saved locally and will sync later.
+          </p>
+        )}
         <button
           type="button"
           className="btn btn-primary"
           style={{ width: '100%', maxWidth: 400, height: 52, fontSize: '1.1rem' }}
           onClick={handleContinue}
+          disabled={syncing}
         >
-          Continue to Assessment
+          {syncing ? 'Saving...' : 'Continue to Assessment'}
         </button>
       </footer>
     </div>
