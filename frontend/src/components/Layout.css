@@ -1,8 +1,0 @@
-.layout { min-height: 100vh; display: flex; flex-direction: column; }
-.layout__header { display: flex; align-items: center; gap: 1.5rem; padding: 0.75rem 1.5rem; background: #152219; color: #EAECE9; flex-wrap: wrap; }
-.layout__brand { font-weight: 700; font-size: 1.1rem; color: #9BBF89; text-decoration: none; }
-.layout__brand:hover { color: #fff; }
-.layout__nav { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; font-size: 0.9rem; }
-.layout__nav a { color: rgba(234,236,233,0.9); text-decoration: none; }
-.layout__nav a:hover { color: #9BBF89; }
-.layout__main { flex: 1; padding: 1.5rem; }

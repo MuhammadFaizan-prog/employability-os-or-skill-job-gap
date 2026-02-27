@@ -45,9 +45,11 @@ export interface InterviewQuestion {
   id: string
   question_text: string
   role: string
-  difficulty_level: string
+  difficulty_level: string | number
   category?: string
   hint?: string
+  options?: string[]
+  correct_answer?: string
 }
 
 export interface UserSkillRating {
@@ -148,6 +150,8 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
   const [interviewQuestions, setInterviewQuestions] = useState<InterviewQuestion[]>([])
   const [userSkillRatings, setUserSkillRatings] = useState<UserSkillRating[]>(loadPersistedSkills)
   const [userProjectStatuses, setUserProjectStatuses] = useState<UserProjectStatus[]>(loadPersistedProjects)
+  const [resumeScore, setResumeScore] = useState(0)
+  const [interviewScore, setInterviewScore] = useState(0)
   const userIdRef = useRef<string | null>(null)
 
   const fetchData = useCallback(async () => {
@@ -175,7 +179,7 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
       const [skillsRes, projectsRes, questionsRes] = await Promise.all([
         withTimeout(supabase.from('skills').select('id, name, role, difficulty, weight').eq('role', role).order('difficulty'), 'Skills query'),
         withTimeout(supabase.from('projects').select('id, title, role, difficulty, description, required_skills, evaluation_criteria').eq('role', role).order('difficulty'), 'Projects query'),
-        withTimeout(supabase.from('interview_questions').select('id, question_text, role, difficulty_level, category, hint').eq('role', role), 'Questions query'),
+        withTimeout(supabase.from('interview_questions').select('id, question_text, role, difficulty_level, category, hint, options, correct_answer').eq('role', role), 'Questions query'),
       ])
 
       if (skillsRes.error) throw new Error('Skills: ' + skillsRes.error.message)
@@ -251,6 +255,30 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
           persistProjects(defaults)
         }
       }
+
+      // Fetch latest resume score for employability calculation
+      if (userId) {
+        const { data: resumeRows } = await supabase
+          .from('resume_uploads')
+          .select('analysis_result')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(1)
+        const score = (resumeRows?.[0] as { analysis_result?: { score?: number } } | null)?.analysis_result?.score
+        setResumeScore(typeof score === 'number' ? score : 0)
+
+        // Fetch user_interview_progress to compute interview score (correct / total * 100)
+        const { data: progressRows } = await supabase
+          .from('user_interview_progress')
+          .select('is_correct')
+          .eq('user_id', userId)
+        const total = progressRows?.length ?? 0
+        const correct = progressRows?.filter((r: { is_correct: boolean }) => r.is_correct).length ?? 0
+        setInterviewScore(total > 0 ? Math.round((correct / total) * 100) : 0)
+      } else {
+        setResumeScore(0)
+        setInterviewScore(0)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     } finally {
@@ -300,7 +328,7 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
       const status = userProjectStatuses.find(ps => ps.projectId === p.id)
       return { completed: status?.completed ?? false, project: { difficulty: p.difficulty } }
     })
-    return calculateScore(userSkillsForScore, userProjectsForScore, 0, 0, 0)
+    return calculateScore(userSkillsForScore, userProjectsForScore, resumeScore, 0, interviewScore)
   })() : null
 
   // Persist score to Supabase whenever it changes (debounced by effect)

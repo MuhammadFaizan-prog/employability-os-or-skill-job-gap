@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, type DragEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useResumeUpload, useResumeHistory } from '../hooks/useSupabaseData'
+import { useResumeUpload, useResumeHistory, useSkills } from '../hooks/useSupabaseData'
 import { getStoredRole } from '../hooks/useAuth'
 
 type Phase = 'upload' | 'loading' | 'results'
@@ -27,8 +27,10 @@ export function Resume() {
   const inputRef = useRef<HTMLInputElement>(null)
   const role = getStoredRole()
 
+  const { skills } = useSkills(role)
   const { upload, uploading, error: uploadError, lastUpload } = useResumeUpload()
   const { history, refresh: refreshHistory } = useResumeHistory()
+  const roleSkillNames = skills.map(s => s.name)
 
   const [file, setFile] = useState<File | null>(null)
   const [phase, setPhase] = useState<Phase>('upload')
@@ -58,7 +60,7 @@ export function Resume() {
     setLoadingProgress(0)
     setLoadingText(LOADING_MESSAGES[0])
 
-    const result = await upload(file)
+    const result = await upload(file, roleSkillNames)
     if (result?.analysis_result) {
       setAnalysisScore(result.analysis_result.score ?? 50)
       setAnalysisSuggestions(result.analysis_result.suggestions ?? [])
@@ -67,7 +69,7 @@ export function Resume() {
       setAnalysisSuggestions(['Add 2–3 projects relevant to your target role.', 'Quantify achievements with numbers where possible.', 'Ensure ATS-friendly formatting.'])
     }
     refreshHistory()
-  }, [file, upload, refreshHistory])
+  }, [file, upload, refreshHistory, roleSkillNames])
 
   const resetToUpload = () => {
     setPhase('upload')

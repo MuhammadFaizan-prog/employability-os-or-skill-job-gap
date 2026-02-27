@@ -156,12 +156,13 @@ export function useInterviewQuestions(role = DEFAULT_ROLE) {
 }
 
 // ─── Resume Upload ─────────────────────────────────────────────────
+/** roleSkillNames: skill names for the target role, used by the analyzer for keyword matching. */
 export function useResumeUpload() {
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [lastUpload, setLastUpload] = useState<ResumeUpload | null>(null)
 
-  const upload = useCallback(async (file: File) => {
+  const upload = useCallback(async (file: File, roleSkillNames: string[] = []) => {
     if (!supabase) { setError('Supabase not configured'); return null }
     setUploading(true); setError(null)
     try {
@@ -174,7 +175,7 @@ export function useResumeUpload() {
       const { error: uploadErr } = await supabase.storage.from('documents').upload(path, file, { contentType: file.type, upsert: false })
       if (uploadErr) throw new Error(uploadErr.message)
 
-      const analysis = analyzeResume(file)
+      const analysis = await analyzeResume(file, roleSkillNames)
 
       const { data: row, error: insertErr } = await supabase.from('resume_uploads').insert({
         user_id: userId, file_name: file.name, file_path: path, file_size: file.size, mime_type: file.type, analysis_result: analysis,
