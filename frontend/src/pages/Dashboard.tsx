@@ -71,7 +71,7 @@ export function Dashboard() {
       )}
 
       {/* 1. Header Strip */}
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '3rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1.25rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '3rem' }}>
         <div>
           <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Your Dashboard</h1>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1rem' }}>
@@ -83,7 +83,7 @@ export function Dashboard() {
       </div>
 
       {/* 2. Score Overview */}
-      <div className="dash-score-grid" style={{ display: 'grid', gap: '3rem', margin: '2rem 0 3rem' }}>
+      <div className="dash-score-grid" style={{ margin: '2rem 0 3rem' }}>
         <div className="card" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
           <svg width="180" height="180" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="80" fill="none" stroke="var(--gray-mid)" strokeWidth="14" strokeDasharray="502" strokeLinecap="round" transform="rotate(-90 100 100)" />
@@ -121,7 +121,7 @@ export function Dashboard() {
       </div>
 
       {/* 3. Summary Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
+      <div className="dash-summary-grid" style={{ marginBottom: '1.5rem' }}>
         <div className="stat-card">
           <p className="stat-label">Strengths</p>
           <p className="stat-value">{strengthCount}</p>
@@ -145,7 +145,7 @@ export function Dashboard() {
       </div>
 
       {/* 5. Bottom Grid */}
-      <div className="dash-bottom-grid" style={{ display: 'grid', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div className="dash-bottom-grid" style={{ marginBottom: '2rem' }}>
         <div className="card">
           <div className="card-header">
             <h3 style={{ fontSize: '1rem', margin: 0 }}>Roadmap</h3>
@@ -182,7 +182,7 @@ export function Dashboard() {
 
           <div className="card" style={{ padding: '1.5rem' }}>
             <h3 style={{ fontSize: '1rem', marginBottom: '1rem' }}>Quick Actions</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div className="quick-actions-grid">
               <button className="btn btn-outline" style={{ fontSize: '0.85rem', padding: '0.6rem 1rem', justifyContent: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => navigate('/onboarding')}>
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" /></svg>
                 New Assessment

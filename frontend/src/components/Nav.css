@@ -333,4 +333,39 @@
   .nav-center { display: none; }
   .nav-right > div:first-child { display: none; }
   .nav-hamburger { display: flex; }
+  .nav-inner {
+    padding-right: 1.25rem;
+  }
+  .nav-brand {
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-inner {
+    padding-left: 0.75rem;
+    padding-right: 0.9rem;
+  }
+  .nav-brand {
+    padding-right: 0.75rem;
+    font-size: 0.98rem;
+    max-width: 55%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-right {
+    padding-left: 0.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-inner {
+    padding-left: 0.5rem;
+    padding-right: 0.75rem;
+  }
+  .nav-brand svg {
+    width: 24px;
+    height: 24px;
+  }
 }

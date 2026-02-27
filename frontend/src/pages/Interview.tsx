@@ -176,7 +176,10 @@ export function Interview() {
         </div>
 
         {/* Tabs: Quiz | Coding */}
-        <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)' }}>
+        <div
+          className="interview-tabs"
+          style={{ display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)' }}
+        >
           <button
             type="button"
             onClick={() => setActiveTab('quiz')}

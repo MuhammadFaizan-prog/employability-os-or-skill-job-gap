@@ -91,7 +91,7 @@ export function Skills() {
   const roleBadge = role.toUpperCase()
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 100 }}>
+      <div style={{ minHeight: '100vh', paddingBottom: 100 }}>
       <div className="container" style={{ paddingTop: '3rem' }}>
         {error && (
           <div style={{ padding: '0.75rem 1rem', border: '1px solid var(--gray-mid)', borderRadius: 'var(--radius-sm)', background: 'var(--gray-light)', marginBottom: '1.5rem', fontSize: '0.85rem', color: 'var(--gray-dark)' }}>
@@ -100,7 +100,7 @@ export function Skills() {
         )}
 
         {/* Header */}
-        <div className="page-header">
+        <div className="page-header" style={{ gap: '1.25rem', flexWrap: 'wrap' }}>
           <div>
             <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Skill Gap Analysis</h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem' }}>
@@ -117,7 +117,7 @@ export function Skills() {
         </div>
 
         {/* Summary Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
+        <div className="skills-summary-grid" style={{ marginBottom: '2rem' }}>
           <div className="stat-card" style={{ padding: '1.5rem' }}>
             <p className="stat-label" style={{ marginBottom: '0.5rem' }}>Strengths</p>
             <p style={{ fontSize: '2.25rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.3rem' }}>{summary.strengths}</p>
@@ -137,7 +137,7 @@ export function Skills() {
 
         {/* Suggested Next Skill */}
         {suggestedSkillData && (
-          <div style={{ border: '2px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.25rem 1.5rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', background: 'var(--gray-light)' }}>
+          <div className="skills-suggested-next" style={{ border: '2px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.25rem 1.5rem', marginBottom: '2rem', background: 'var(--gray-light)' }}>
             <svg width="20" height="20" fill="none" stroke="var(--fg)" strokeWidth="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
             <div style={{ flex: 1 }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gray-dark)' }}>RECOMMENDED NEXT SKILL</span>
@@ -154,8 +154,8 @@ export function Skills() {
         )}
 
         {/* Filter + Sort */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', padding: '0.875rem 1.25rem', border: '1px solid var(--border-color)', borderBottom: 'none', borderRadius: 'var(--radius-sm) var(--radius-sm) 0 0', background: 'var(--gray-light)' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <div className="skills-filter-bar">
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--gray-dark)', marginRight: '0.5rem' }}>FILTER:</span>
             {(['all', 'gap', 'strength', 'priority'] as const).map(f => (
               <button key={f} onClick={() => setCurrentFilter(f)} style={{ fontSize: '0.8rem', fontWeight: 500, padding: '0.3rem 0.8rem', border: `1px solid ${currentFilter === f ? 'var(--fg)' : 'var(--border-color)'}`, borderRadius: 20, background: currentFilter === f ? 'var(--fg)' : 'transparent', color: currentFilter === f ? 'var(--bg)' : 'var(--fg)', cursor: 'pointer', fontFamily: 'var(--font-main)' }}>
@@ -176,8 +176,8 @@ export function Skills() {
         </div>
 
         {/* Skills Table */}
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '0 0 var(--radius-window) var(--radius-window)', overflow: 'hidden', marginBottom: '2.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 100px 80px 200px 110px', background: 'var(--fg)', color: 'var(--bg)', padding: '0.75rem 1.5rem', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' as const }}>
+        <div className="skills-table-wrap">
+          <div className="skills-table-header">
             <span>Skill Name</span><span>Difficulty</span><span>Weight</span><span>Proficiency</span><span style={{ textAlign: 'center' }}>Status</span>
           </div>
           {filteredAndSorted.map(s => {
@@ -187,7 +187,7 @@ export function Skills() {
                 ? { border: '2px solid var(--fg)', color: 'var(--fg)', background: 'transparent', fontWeight: 700 }
                 : { border: '1px solid var(--border-color)', color: 'var(--fg)', background: 'transparent' }
             return (
-              <div key={s.id} data-skill-id={s.id} style={{ display: 'grid', gridTemplateColumns: '2fr 100px 80px 200px 110px', alignItems: 'center', padding: '0.9rem 1.5rem', borderBottom: '1px solid var(--gray-mid)' }}>
+              <div key={s.id} data-skill-id={s.id} className="skills-table-row">
                 <p style={{ fontWeight: 600, fontSize: '0.9rem', maxWidth: 'none', margin: 0 }}>{s.name}</p>
                 <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>{s.difficulty <= 2 ? 'Easy' : s.difficulty <= 3 ? 'Medium' : 'Hard'}</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>{s.weight}</span>
@@ -218,14 +218,14 @@ export function Skills() {
 
         {/* Priority Focus */}
         {priorityFocus.length > 0 && (
-          <div style={{ marginBottom: '3rem' }}>
+          <div style={{ marginBottom: '3rem', overflowX: 'auto' }}>
             <h3 style={{ fontSize: '1rem', marginBottom: '1.25rem' }}>Priority Focus — Top Gaps to Close</h3>
             <div className="card">
-              <div style={{ display: 'grid', gridTemplateColumns: '48px 1fr 180px 180px', gap: '1.5rem', alignItems: 'center', padding: '0.75rem 1.5rem', borderBottom: '1px solid var(--border-color)', background: 'var(--gray-light)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' as const, color: 'var(--gray-dark)' }}>
+              <div className="skills-priority-header">
                 <span>#</span><span>Skill</span><span>Your Level</span><span>Target Level</span>
               </div>
               {priorityFocus.map((s, i) => (
-                <div key={s.id} style={{ display: 'grid', gridTemplateColumns: '48px 1fr 180px 180px', gap: '1.5rem', alignItems: 'center', padding: '1.25rem 1.5rem', borderBottom: i < priorityFocus.length - 1 ? '1px solid var(--gray-mid)' : 'none' }}>
+                <div key={s.id} className="skills-priority-row" style={{ borderBottom: i < priorityFocus.length - 1 ? undefined : 'none' }}>
                   <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>{i + 1}</span>
                   <p style={{ fontWeight: 600, fontSize: '0.925rem', maxWidth: 'none', margin: 0 }}>{s.name}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -248,7 +248,7 @@ export function Skills() {
       </div>
 
       {/* Fixed Action Bar */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', background: 'var(--bg)', borderTop: '1px solid var(--border-color)', padding: '1rem 2rem', display: 'flex', justifyContent: 'center', gap: '1rem', zIndex: 50 }}>
+      <div className="skills-action-bar">
         <button className="btn btn-primary" onClick={handleSave}>{saveText}</button>
         <button className="btn btn-outline" onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
       </div>

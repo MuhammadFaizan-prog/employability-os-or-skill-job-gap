@@ -202,9 +202,9 @@ export function Verify() {
 
       {/* Main 2-col grid */}
       <div
+        className="verify-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
           gap: '2rem',
           marginBottom: '2rem',
         }}

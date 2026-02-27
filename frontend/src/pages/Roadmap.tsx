@@ -59,7 +59,7 @@ export function RoadmapPage() {
           <button className="btn btn-outline" onClick={() => navigate('/dashboard')}>← Back to Dashboard</button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
+        <div className="roadmap-layout">
           <div>
             <h2 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: 'var(--gray-dark)' }}>{tree.title}</h2>
             <RoadmapTree
@@ -78,7 +78,7 @@ export function RoadmapPage() {
                 onClose={() => setSelectedNode(null)}
               />
             ) : (
-              <div className="card" style={{ position: 'sticky', top: 80, padding: '2rem' }}>
+              <div className="card roadmap-detail-card" style={{ padding: '2rem' }}>
                 <p style={{ fontSize: '0.9rem', color: 'var(--gray-dark)', textAlign: 'center', margin: 0 }}>
                   Click any topic to view details and set your progress (Done / In Progress / Pending).
                 </p>

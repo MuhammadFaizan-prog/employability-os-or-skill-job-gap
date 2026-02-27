@@ -103,17 +103,16 @@ export function CodingChallenge() {
           )}
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
-            gap: '1.5rem',
-            alignItems: 'start',
-          }}
-          className="coding-layout"
-        >
+        <div className="coding-layout">
           {/* Left: Problem */}
-          <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.5rem', position: 'sticky', top: '1rem' }}>
+          <div
+            className="coding-layout-sticky"
+            style={{
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-window)',
+              padding: '1.5rem',
+            }}
+          >
             <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{challenge.title}</h1>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '0.2rem 0.6rem', borderRadius: 20, border: '1px solid var(--gray-mid)', color: 'var(--gray-dark)' }}>

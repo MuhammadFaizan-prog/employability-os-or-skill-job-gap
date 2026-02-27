@@ -4,7 +4,7 @@ export function Landing() {
   const navigate = useNavigate()
 
   return (
-    <div className="fade-in" style={{ position: 'relative' }}>
+    <div className="fade-in landing-page" style={{ position: 'relative', overflowX: 'hidden' }}>
       {/* Sparkle SVGs */}
       <svg className="sparkle" width="24" height="24" viewBox="0 0 24 24" style={{ top: '15%', left: '10%' }}>
         <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" className="sparkle-icon" />

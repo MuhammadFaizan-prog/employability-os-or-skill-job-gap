@@ -100,7 +100,7 @@ export function Projects() {
         </div>
 
         {/* Filter Bar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem', padding: '1rem 1.25rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', background: 'var(--gray-light)' }}>
+        <div className="projects-filter-bar" style={{ marginBottom: '2rem' }}>
           <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--gray-dark)', textTransform: 'uppercase' }}>FILTER</span>
           <select value={diffFilter} onChange={e => setDiffFilter(e.target.value)} style={{ width: 'auto' }}>
             <option value="all">All Difficulties</option>
@@ -118,7 +118,7 @@ export function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', marginBottom: '2.5rem' }}>
+        <div className="projects-grid" style={{ marginBottom: '2.5rem' }}>
           {filtered.map(p => (
             <div key={p.id} className={`proj-card ${p.status === 'done' ? 'proj-done' : ''} ${p.status === 'locked' ? 'proj-locked' : ''}`} onClick={() => p.status !== 'locked' && setModalProject(p.id)}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.85rem' }}>
@@ -167,7 +167,7 @@ export function Projects() {
 
         {/* Progress Summary */}
         <div className="card" style={{ marginBottom: '2rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0 }}>
+          <div className="projects-summary-grid">
             <div style={{ padding: '1.75rem 2rem', borderRight: '1px solid var(--border-color)' }}>
               <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--gray-dark)', marginBottom: '0.75rem' }}>Overall Progress</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '1rem' }}>
@@ -201,12 +201,12 @@ export function Projects() {
       {/* Modal */}
       {modalProj && (
         <div onClick={() => setModalProject(null)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: 'var(--bg)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', width: '100%', maxWidth: 560, overflow: 'hidden', margin: '2rem' }}>
+          <div onClick={e => e.stopPropagation()} className="projects-modal">
             <div className="card-header">
               <span className="card-header-label" style={{ color: 'var(--gray-dark)' }}>Project Details</span>
               <button onClick={() => setModalProject(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-dark)', fontSize: '1.1rem' }}>✕</button>
             </div>
-            <div style={{ padding: '2rem' }}>
+            <div className="projects-modal-body-scroll" style={{ padding: '2rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem' }}>
                 <h2 style={{ fontSize: '1.35rem', margin: 0 }}>{modalProj.title}</h2>
                 <span className={statusBadgeClass(modalProj.status)}>{statusLabel(modalProj.status)}</span>

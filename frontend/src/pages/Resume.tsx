@@ -176,7 +176,7 @@ export function Resume() {
 
       {/* Results Phase */}
       {phase === 'results' && file && (
-        <div className="fade-in" style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '2.5rem', alignItems: 'start' }}>
+        <div className="fade-in resume-results-layout" style={{ display: 'grid', gap: '2.5rem', alignItems: 'start' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ border: '2px solid var(--border-color)', borderRadius: 'var(--radius-window)', overflow: 'hidden' }}>
               <div style={{ padding: '1rem 1.25rem', background: 'var(--fg)', color: 'var(--bg)' }}>
@@ -272,12 +272,6 @@ export function Resume() {
           </div>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 900px) {
-          .fade-in { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   )
 }

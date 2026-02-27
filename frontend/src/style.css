@@ -257,6 +257,9 @@ label {
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  width: 100%;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
 }
 .hero-actions {
   margin-top: 2rem;
@@ -264,6 +267,13 @@ label {
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Landing page root */
+.landing-page {
+  width: 100%;
+  min-width: 0;
 }
 
 /* ===== STEPS GRID ===== */
@@ -343,6 +353,8 @@ label {
   border-radius: var(--radius-window);
   background: var(--bg);
   box-shadow: 12px 12px 0px rgba(0,0,0,0.05);
+  max-width: 100%;
+  min-width: 0;
 }
 .window-header {
   border-bottom: var(--border-width) solid var(--border-color);
@@ -351,6 +363,8 @@ label {
   align-items: center;
   gap: 6px;
   background: var(--bg);
+  flex-wrap: wrap;
+  min-width: 0;
 }
 .dot {
   width: 10px;
@@ -429,6 +443,13 @@ label {
   background: var(--gray-light);
   border-top: var(--border-width) solid var(--border-color);
   border-bottom: var(--border-width) solid var(--border-color);
+}
+.cta-section h2 {
+  margin-bottom: 1rem;
+}
+.cta-section .btn {
+  min-width: 0;
+  width: auto;
 }
 
 /* ===== ONBOARDING ===== */
@@ -707,25 +728,565 @@ label {
 /* ===== UTILITY ===== */
 .text-free { max-width: none; }
 
-/* ===== DASHBOARD GRIDS ===== */
-.dash-score-grid { grid-template-columns: 1fr 1fr; }
-.dash-bottom-grid { grid-template-columns: 1fr 1fr; }
+/* ===== DASHBOARD GRIDS & LAYOUT HELPERS ===== */
+.dash-score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.dash-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Dashboard summary cards */
+.dash-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Skills summary cards */
+.skills-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Projects grid (cards) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* Dashboard quick actions */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* Coding challenge split layout */
+.coding-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.coding-layout-sticky {
+  position: sticky;
+  top: 1rem;
+}
+
+/* Projects filter bar */
+.projects-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-window);
+  background: var(--gray-light);
+  flex-wrap: wrap;
+}
+
+/* Projects progress summary grid */
+.projects-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Resume results layout */
+.resume-results-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+}
+
+/* Verify main grid */
+.verify-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Profile two-column grids */
+.profile-grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Profile page wrapper (narrow max-width, responsive padding) */
+.profile-page {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Profile user section: avatar + form row */
+.profile-user-section {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Profile form block (avoids overflow on small screens) */
+.profile-form-block {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Profile role select row */
+.profile-role-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+}
+
+.profile-section-body {
+  padding: 2rem;
+}
+
+/* Roadmap layout (tree + detail) */
+.roadmap-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Roadmap sticky detail card (desktop / tablet only) */
+.roadmap-detail-card {
+  position: sticky;
+  top: 80px;
+}
+
+/* Skills fixed action bar */
+.skills-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg);
+  border-top: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 50;
+}
+
+/* Skills filter/sort bar */
+.skills-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--gray-light);
+}
+
+/* Skills suggested-next block */
+.skills-suggested-next {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Skills table wrapper (horizontal scroll on small screens) */
+.skills-table-wrap {
+  border: 1px solid var(--border-color);
+  border-radius: 0 0 var(--radius-window) var(--radius-window);
+  overflow-x: auto;
+  margin-bottom: 2.5rem;
+}
+
+.skills-table-header {
+  display: grid;
+  grid-template-columns: 2fr 100px 80px 200px 110px;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  min-width: min-content;
+}
+
+.skills-table-row {
+  display: grid;
+  grid-template-columns: 2fr 100px 80px 200px 110px;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--gray-mid);
+  min-width: min-content;
+}
+
+/* Skills priority focus grid */
+.skills-priority-header {
+  display: grid;
+  grid-template-columns: 48px 1fr 180px 180px;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--gray-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-dark);
+}
+
+.skills-priority-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 180px 180px;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--gray-mid);
+}
+
+/* Projects modal shell */
+.projects-modal {
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-window);
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  margin: 2rem;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Interview tabs */
+.interview-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.projects-modal-body-scroll {
+  overflow-y: auto;
+}
 
 /* ===== RESPONSIVE ===== */
+
+/* Tablet and small desktop adjustments */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  .dash-score-grid {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 2.5rem;
+  }
+  .dash-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+  .section-spacer {
+    padding: 4.5rem 0;
+  }
+  .hero {
+    padding: 6rem 0 4.5rem;
+  }
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .resume-results-layout {
+    grid-template-columns: 1fr 1.1fr;
+  }
+  .verify-grid {
+    grid-template-columns: 1fr;
+  }
+  .roadmap-layout {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
 @media (max-width: 900px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .onboarding-grid { grid-template-columns: 1fr; }
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
   .dash-score-grid { grid-template-columns: 1fr; }
   .dash-bottom-grid { grid-template-columns: 1fr; }
+  .dash-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .skills-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quick-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stat-card {
+    padding: 1.5rem;
+  }
+  .coding-layout {
+    grid-template-columns: 1fr;
+  }
+  .roadmap-layout {
+    grid-template-columns: 1fr;
+  }
+  .roadmap-detail-card {
+    position: static;
+    top: auto;
+  }
+  .projects-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .coding-layout-sticky {
+    position: static;
+    top: auto;
+  }
 }
+
 @media (max-width: 768px) {
   h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  .container {
+    padding: 0 1rem;
+  }
+  .hero {
+    padding: 5rem 0 4rem;
+  }
+  .hero-content {
+    padding: 0;
+  }
+  .section-spacer {
+    padding: 3.5rem 0;
+  }
   .steps-grid { grid-template-columns: 1fr; gap: 1rem; }
   .features-grid { grid-template-columns: 1fr; }
-  .score-layout { grid-template-columns: 1fr; }
+  .feature-card {
+    padding: 1.5rem;
+  }
+  .score-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .score-content {
+    padding: 1.5rem 1.25rem;
+  }
+  .score-main {
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+  .gauge {
+    width: 100px;
+    height: 100px;
+  }
+  .gauge-value {
+    font-size: 2rem;
+  }
   .steps-connector { display: none !important; }
   .skill-row { grid-template-columns: 1fr; gap: 1rem; }
   .rating-control { width: 100%; justify-content: space-between; }
+  .drop-zone {
+    padding: 3rem 1.75rem;
+  }
+  .profile-grid-two {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .profile-page {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .profile-form-block {
+    min-width: 0;
+    width: 100%;
+  }
+  .profile-user-section {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .profile-role-row {
+    flex-wrap: wrap;
+  }
+  .profile-role-row select {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .profile-role-row .btn {
+    width: 100%;
+  }
+  .profile-page .card > div:not([class*="card-header"]) {
+    padding: 1.25rem 1rem;
+  }
+  .profile-section-body {
+    padding: 1.25rem 1rem;
+  }
+  .projects-filter-bar {
+    align-items: flex-start;
+  }
+}
+
+/* Small and large mobile fine-tuning */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 0.9rem;
+  }
+  h1 {
+    font-size: 2.1rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+  }
+  .section-spacer {
+    padding: 2.5rem 0;
+  }
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  .feature-card {
+    padding: 1.25rem;
+  }
+  .score-content {
+    padding: 1.25rem 1rem;
+  }
+  .breakdown-item {
+    grid-template-columns: 70px 1fr 36px;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .cta-section .section-spacer {
+    padding: 2rem 0;
+  }
+  .page-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .dash-score-grid,
+  .dash-bottom-grid {
+    gap: 2rem;
+  }
+  .sticky-footer {
+    padding: 1rem;
+  }
+  .dash-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .skills-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .skills-action-bar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem 1rem;
+  }
+  .skills-action-bar .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+  .skills-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .skills-filter-bar > div:first-child {
+    flex-wrap: wrap;
+  }
+  .skills-suggested-next .btn {
+    width: 100%;
+  }
+  .skills-priority-header,
+  .skills-priority-row {
+    grid-template-columns: 28px 1fr 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .projects-modal {
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .resume-results-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  .profile-page {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  h1 {
+    font-size: 1.9rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  .hero {
+    padding: 3rem 0 2.5rem;
+  }
+  .section-spacer {
+    padding: 2rem 0;
+  }
+  .feature-card {
+    padding: 1rem;
+  }
+  .score-content {
+    padding: 1rem 0.75rem;
+  }
+  .breakdown-item {
+    grid-template-columns: 60px 1fr 32px;
+    font-size: 0.8rem;
+  }
+  .role-badge {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.6rem;
+  }
+  .btn {
+    padding: 0.7rem 1.1rem;
+  }
+  .drop-zone {
+    padding: 2.5rem 1.25rem;
+    min-height: 220px;
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .resume-results-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== SCROLLBAR ===== */

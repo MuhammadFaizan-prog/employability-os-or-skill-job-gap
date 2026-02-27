@@ -123,14 +123,10 @@ export function Profile() {
   return (
     <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
       <div
-        className="container"
+        className="container profile-page"
         style={{
-          maxWidth: 780,
           marginLeft: 'auto',
           marginRight: 'auto',
-          paddingTop: '3rem',
-          paddingLeft: '2rem',
-          paddingRight: '2rem',
         }}
       >
         {/* Header */}
@@ -164,7 +160,7 @@ export function Profile() {
           <div className="card-header">
             <span className="card-header-label">USER INFORMATION</span>
           </div>
-          <div style={{ padding: '2rem', display: 'flex', flexDirection: 'row', gap: '2rem', flexWrap: 'wrap' }}>
+          <div className="profile-user-section profile-section-body">
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
               <input
                 ref={fileInputRef}
@@ -209,11 +205,10 @@ export function Profile() {
                 {avatarUploading ? 'Uploading...' : 'Change'}
               </button>
             </div>
-            <div style={{ flex: 1, minWidth: 280 }}>
+            <div className="profile-form-block">
               <div
+                className="profile-grid-two"
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
                   gap: '1.25rem',
                   marginBottom: '1.25rem',
                 }}
@@ -272,7 +267,7 @@ export function Profile() {
           <div className="card-header">
             <span className="card-header-label">ROLE MANAGEMENT</span>
           </div>
-          <div style={{ padding: '2rem' }}>
+          <div className="profile-section-body">
             <div
               style={{
                 border: '1px solid var(--border-color)',
@@ -320,7 +315,7 @@ export function Profile() {
             </div>
             <div style={{ marginBottom: '1rem' }}>
               <label htmlFor="profile-role">Switch to a Different Role</label>
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end', marginTop: '0.5rem' }}>
+              <div className="profile-role-row">
                 <select
                   id="profile-role"
                   value={selectedRole}
@@ -384,7 +379,7 @@ export function Profile() {
           <div className="card-header">
             <span className="card-header-label">SUBSCRIPTION</span>
           </div>
-          <div style={{ padding: '2rem' }}>
+          <div className="profile-section-body">
             <div
               style={{
                 display: 'flex',
@@ -419,7 +414,7 @@ export function Profile() {
               Upgrade to Pro ↗
             </button>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <div className="profile-grid-two" style={{ gap: '1.5rem' }}>
               {/* Free column */}
               <div
                 style={{
@@ -508,7 +503,7 @@ export function Profile() {
           <div className="card-header">
             <span className="card-header-label">ACCOUNT ACTIONS</span>
           </div>
-          <div style={{ padding: '2rem' }}>
+          <div className="profile-section-body">
             <div
               style={{
                 display: 'flex',
@@ -627,7 +622,9 @@ export function Profile() {
             style={{
               maxWidth: 420,
               width: '100%',
-              overflow: 'hidden',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              overflowX: 'hidden',
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -685,7 +682,7 @@ export function Profile() {
               {deleteError && (
                 <p style={{ fontSize: '0.9rem', color: 'var(--danger)', marginBottom: '1rem' }}>{deleteError}</p>
               )}
-              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                 <button
                   type="button"
                   className="btn"
