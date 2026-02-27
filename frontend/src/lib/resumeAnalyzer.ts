@@ -3,10 +3,22 @@
  * For now: fixed score + placeholder suggestions; analyze uses random/sample resume text.
  */
 
+export interface ResumeSubScores {
+  keywords: number
+  format: number
+  skillsGap: number
+  clarity: number
+}
+
 export interface ResumeAnalysisResult {
   score: number
+  subScores: ResumeSubScores
   suggestions: string[]
   keywordMatch?: Record<string, boolean>
+}
+
+function clamp(val: number, min = 0, max = 100): number {
+  return Math.max(min, Math.min(max, Math.round(val)))
 }
 
 /**
@@ -14,9 +26,15 @@ export interface ResumeAnalysisResult {
  * Dynamic: same interface for future real implementation (parse PDF/DOCX + NLP/GPT).
  */
 export function analyzeResume(_fileOrText: string | File | null | undefined): ResumeAnalysisResult {
-  // Stub: return fixed score + suggestions; later replace with real parsing (e.g. randomResumeText() or PDF/DOCX)
+  const score = 50
   return {
-    score: 50,
+    score,
+    subScores: {
+      keywords: clamp(score + 4),
+      format: clamp(score + 13),
+      skillsGap: clamp(score - 14),
+      clarity: clamp(score - 4),
+    },
     suggestions: [
       'Add 2–3 projects relevant to your target role.',
       'Quantify achievements with numbers where possible.',

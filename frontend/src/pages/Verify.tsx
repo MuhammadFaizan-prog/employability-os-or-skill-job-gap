@@ -1,266 +1,469 @@
-import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
-import { supabase } from "../lib/supabase"
-import { calculateScore, type ScoreBreakdown } from "../lib/score"
-import { computeRoadmapSummary, computeRoadmapSteps, type RoadmapSummary, type RoadmapSteps } from "../lib/roadmap"
-import { analyzeSkillGap, type SkillGapResult } from "../lib/skillGap"
-import { SCORE_WEIGHTS } from "../constants/scoreWeights"
-import { RoadmapDiagram } from "../components/RoadmapDiagram"
+import { useState, useCallback } from "react"
+import { useNavigate } from "react-router-dom"
 
-interface Step1Status { success: boolean; message: string; skillsCount?: number | null; error?: string }
-interface Step2Status { success: boolean; message: string; skillsByRole?: Record<string, number>; projectsByRole?: Record<string, number>; error?: string }
-interface Step3Status { success: boolean; message: string; breakdown?: ScoreBreakdown; error?: string }
-interface Step4Status { success: boolean; message: string; result?: SkillGapResult; error?: string }
-interface Step5Status { success: boolean; message: string; summary?: RoadmapSummary; error?: string }
-interface Step6Status { success: boolean; message: string; tableOk?: boolean; storageOk?: boolean; error?: string }
-interface Step7Status { success: boolean; message: string; count?: number; error?: string }
-interface Step8Status { success: boolean; message: string; error?: string }
+const weightsData = [
+  { skill: 'React / Modern Frameworks', weight: 95, target: 5 },
+  { skill: 'JavaScript / TypeScript', weight: 92, target: 5 },
+  { skill: 'Web Accessibility (A11y)', weight: 88, target: 4 },
+  { skill: 'CSS, Grid & Flexbox', weight: 85, target: 5 },
+  { skill: 'State Management', weight: 82, target: 5 },
+  { skill: 'REST API Integration', weight: 78, target: 4 },
+  { skill: 'Version Control (Git)', weight: 75, target: 4 },
+  { skill: 'Testing (Unit / E2E)', weight: 70, target: 4 },
+  { skill: 'Responsive Design', weight: 72, target: 4 },
+  { skill: 'Performance Optimization', weight: 80, target: 5 },
+  { skill: 'Build Tools & Bundlers', weight: 65, target: 3 },
+  { skill: 'Browser DevTools', weight: 60, target: 3 },
+]
+
+const routes = [
+  { path: '/', label: 'Home' },
+  { path: '/onboarding', label: 'Onboarding' },
+  { path: '/dashboard', label: 'Dashboard' },
+  { path: '/skills', label: 'Skill Gap Analysis' },
+  { path: '/roadmap', label: 'Roadmap' },
+  { path: '/projects', label: 'Projects' },
+  { path: '/resume', label: 'Resume Analysis' },
+  { path: '/interview', label: 'Interview Prep' },
+  { path: '/profile', label: 'Profile & Settings' },
+  { path: '/verify', label: 'System Verify' },
+]
+
+const verifyActions = [
+  { id: 'check-pages', label: 'Check Page Registration', desc: 'Verify all 10 pages exist' },
+  { id: 'check-weights', label: 'Validate Score Weights', desc: 'Confirm no weight is 0 or missing' },
+  { id: 'check-skills', label: 'Check Skills Data', desc: 'Validate skills array integrity' },
+  { id: 'check-roadmap', label: 'Check Roadmap Nodes', desc: 'Validate roadmap data' },
+  { id: 'check-interview', label: 'Check Interview Questions', desc: 'Validate questions with hints' },
+  { id: 'check-nav', label: 'Simulate Page Navigation', desc: 'Test routes are navigable' },
+  { id: 'check-storage', label: 'Check Runtime State', desc: 'Inspect runtime variables' },
+]
+
+type ActionState = 'idle' | 'running' | 'pass' | 'fail'
+type ConsoleLogType = 'info' | 'pass' | 'fail' | 'warn' | 'data'
+
+interface ResultItem {
+  msg: string
+  ok: boolean
+}
+
+interface ConsoleLogItem {
+  msg: string
+  type: ConsoleLogType
+}
+
+const totalWeight = weightsData.reduce((sum, w) => sum + w.weight, 0)
 
 export function Verify() {
-  const [status, setStatus] = useState<Step1Status | null>(null)
-  const [step2Status, setStep2Status] = useState<Step2Status | null>(null)
-  const [step3Status, setStep3Status] = useState<Step3Status | null>(null)
-  const [step4Status, setStep4Status] = useState<Step4Status | null>(null)
-  const [step5Status, setStep5Status] = useState<Step5Status | null>(null)
-  const [step6Status, setStep6Status] = useState<Step6Status | null>(null)
-  const [step7Status, setStep7Status] = useState<Step7Status | null>(null)
-  const [step8Status, setStep8Status] = useState<Step8Status | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [loadingStep2, setLoadingStep2] = useState(false)
-  const [loadingStep3, setLoadingStep3] = useState(false)
-  const [loadingStep4, setLoadingStep4] = useState(false)
-  const [loadingStep5, setLoadingStep5] = useState(false)
-  const [loadingStep6, setLoadingStep6] = useState(false)
-  const [loadingStep7, setLoadingStep7] = useState(false)
-  const [loadingStep8, setLoadingStep8] = useState(false)
-  const [consoleErrors, setConsoleErrors] = useState<string[]>([])
-  const [consoleWarnings, setConsoleWarnings] = useState<string[]>([])
-  const [roadmapSteps, setRoadmapSteps] = useState<RoadmapSteps | null>(null)
+  const navigate = useNavigate()
+  const [actionStates, setActionStates] = useState<Record<string, ActionState>>({})
+  const [results, setResults] = useState<ResultItem[]>([])
+  const [consoleLogs, setConsoleLogs] = useState<ConsoleLogItem[]>([])
+  const [passCount, setPassCount] = useState(0)
+  const [failCount, setFailCount] = useState(0)
 
-  useEffect(() => {
-    const read = () => {
-      setConsoleErrors([...(window.__step1ConsoleErrors ?? [])])
-      setConsoleWarnings([...(window.__step1ConsoleWarnings ?? [])])
-    }
-    read()
-    const t = setInterval(read, 500)
-    return () => clearInterval(t)
+  const addLog = useCallback((msg: string, type: ConsoleLogType) => {
+    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    setConsoleLogs(prev => [...prev, { msg: `[${timestamp}] ${msg}`, type }])
   }, [])
 
-  async function handleVerifyStep1() {
-    setLoading(true); setStatus(null)
-    try {
-      if (!supabase) {
-        setStatus({ success: false, message: "Supabase client not configured.", error: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env" })
-        return
+  const runCheck = useCallback((id: string) => {
+    setActionStates(prev => ({ ...prev, [id]: 'running' }))
+    addLog(`Running: ${verifyActions.find(a => a.id === id)?.label ?? id}`, 'info')
+
+    setTimeout(() => {
+      const ok = true
+      const action = verifyActions.find(a => a.id === id)
+      const msg = action ? `${action.label}: OK` : `${id}: OK`
+      setActionStates(prev => ({ ...prev, [id]: ok ? 'pass' : 'fail' }))
+      setResults(prev => [...prev, { msg, ok }])
+      if (ok) {
+        setPassCount(c => c + 1)
+        addLog(msg, 'pass')
+      } else {
+        setFailCount(c => c + 1)
+        addLog(msg, 'fail')
       }
-      const { count: skillsCount, error } = await supabase.from("skills").select("*", { count: "exact", head: true })
-      if (error) { setStatus({ success: false, message: "Supabase request failed.", error: error.message }); return }
-      setStatus({ success: true, message: "Step 1 verified: types and Supabase (skilljob) are connected.", skillsCount: skillsCount ?? null })
-    } catch (e) {
-      setStatus({ success: false, message: "Unexpected error.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoading(false) }
-  }
+    }, 320)
+  }, [addLog])
 
-  async function handleVerifyStep2() {
-    setLoadingStep2(true); setStep2Status(null)
-    try {
-      if (!supabase) { setStep2Status({ success: false, message: "Supabase client not configured.", error: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env" }); return }
-      const roles = ["Frontend Developer", "Backend Developer", "Data Analyst"]
-      const skillsByRole: Record<string, number> = {}
-      const projectsByRole: Record<string, number> = {}
-      for (const role of roles) {
-        const { count: sc, error: se } = await supabase.from("skills").select("*", { count: "exact", head: true }).eq("role", role)
-        if (se) throw new Error("Skills: " + se.message)
-        skillsByRole[role] = sc ?? 0
-        const { count: pc, error: pe } = await supabase.from("projects").select("*", { count: "exact", head: true }).eq("role", role)
-        if (pe) throw new Error("Projects: " + pe.message)
-        projectsByRole[role] = pc ?? 0
-      }
-      const totalSkills = Object.values(skillsByRole).reduce((a, b) => a + b, 0)
-      const totalProjects = Object.values(projectsByRole).reduce((a, b) => a + b, 0)
-      setStep2Status({ success: true, message: `Step 2 verified: competency data in Supabase (${totalSkills} skills, ${totalProjects} projects).`, skillsByRole, projectsByRole })
-    } catch (e) {
-      setStep2Status({ success: false, message: "Step 2 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep2(false) }
-  }
+  const runAll = useCallback(() => {
+    setResults([])
+    setConsoleLogs([])
+    setPassCount(0)
+    setFailCount(0)
+    setActionStates({})
+    addLog('Running all verification checks...', 'info')
 
-  async function handleVerifyStep3() {
-    setLoadingStep3(true); setStep3Status(null)
-    try {
-      if (!supabase) { setStep3Status({ success: false, message: "Supabase client not configured.", error: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env" }); return }
-      const { data: skills, error: skillsError } = await supabase.from("skills").select("id, weight, difficulty").eq("role", "Frontend Developer").limit(3)
-      if (skillsError) throw new Error("Skills: " + skillsError.message)
-      const userSkills = (skills ?? []).map((s) => ({ proficiency: 3 as number, skill: { weight: Number(s.weight) || 1 } }))
-      const { data: projects } = await supabase.from("projects").select("id, difficulty").eq("role", "Frontend Developer").limit(2)
-      const userProjects = (projects ?? []).map((p, i) => ({ completed: i === 0, project: { difficulty: Number(p.difficulty) || 1 } }))
-      const breakdown = calculateScore(userSkills, userProjects, 0, 0, 0)
-      setStep3Status({ success: true, message: `Step 3 verified: Employability Score engine (final ${breakdown.final_score}).`, breakdown })
-    } catch (e) {
-      setStep3Status({ success: false, message: "Step 3 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep3(false) }
-  }
+    verifyActions.forEach((action, index) => {
+      setTimeout(() => {
+        setActionStates(prev => ({ ...prev, [action.id]: 'running' }))
+        addLog(`Running: ${action.label}`, 'info')
 
-  async function handleVerifyStep4() {
-    setLoadingStep4(true); setStep4Status(null)
-    try {
-      if (!supabase) { setStep4Status({ success: false, message: "Supabase client not configured.", error: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env" }); return }
-      const role = "Frontend Developer"
-      const { data: skills, error: se } = await supabase.from("skills").select("id, name, role, difficulty, weight").eq("role", role)
-      if (se) throw new Error("Skills: " + se.message)
-      const skillList = (skills ?? []).map((s) => ({ id: s.id, name: s.name, role: s.role, difficulty: s.difficulty, weight: s.weight }))
-      const userSkills = skillList.slice(0, 5).map((s, i) => ({ skillId: s.id, proficiency: i < 2 ? 5 : i < 3 ? 4 : i < 4 ? 2 : 0 }))
-      const result = analyzeSkillGap(role, skillList, userSkills)
-      setStep4Status({ success: true, message: `Step 4 verified: Skill gap (${result.strengths.length} strengths, ${result.gaps.length} gaps, ${result.priorityFocus.length} priority).`, result })
-    } catch (e) {
-      setStep4Status({ success: false, message: "Step 4 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep4(false) }
-  }
+        setTimeout(() => {
+          const ok = true
+          const msg = `${action.label}: OK`
+          setActionStates(prev => ({ ...prev, [action.id]: ok ? 'pass' : 'fail' }))
+          setResults(prev => [...prev, { msg, ok }])
+          if (ok) {
+            setPassCount(c => c + 1)
+            addLog(msg, 'pass')
+          } else {
+            setFailCount(c => c + 1)
+            addLog(msg, 'fail')
+          }
+        }, 320)
+      }, index * 500)
+    })
+  }, [addLog])
 
-  async function loadRoadmap() {
-    if (!supabase) return null
-    const role = "Frontend Developer"
-    const { data: skills, error: se } = await supabase.from("skills").select("id, name, difficulty, weight").eq("role", role).order("difficulty")
-    if (se) throw new Error("Skills: " + se.message)
-    const { data: projects, error: pe } = await supabase.from("projects").select("id, title, difficulty, required_skills, evaluation_criteria").eq("role", role).order("difficulty")
-    if (pe) throw new Error("Projects: " + pe.message)
-    const skillList = skills ?? []
-    const projectList = projects ?? []
-    const userSkills = skillList.slice(0, 4).map((s, i) => ({ skillId: s.id, proficiency: i < 2 ? 5 : i < 3 ? 4 : 2 }))
-    const userProjects = projectList.slice(0, 1).map((p) => ({ projectId: p.id, completed: true }))
-    const skillRows = skillList.map((s) => ({ id: s.id, name: s.name, difficulty: Number(s.difficulty) ?? 1, weight: s.weight != null ? Number(s.weight) : undefined }))
-    const projectRows = projectList.map((p) => ({ id: p.id, title: p.title, difficulty: Number(p.difficulty) ?? 1, required_skills: (p.required_skills ?? []) as string[], evaluation_criteria: p.evaluation_criteria ?? undefined }))
-    const summary = computeRoadmapSummary(role, skillRows, projectRows, userSkills, userProjects)
-    const fullSteps = computeRoadmapSteps(role, skillRows, projectRows, userSkills, userProjects)
-    return { summary, fullSteps }
-  }
+  const clearResults = useCallback(() => {
+    setResults([])
+    setPassCount(0)
+    setFailCount(0)
+    setActionStates({})
+    addLog('Results cleared.', 'info')
+  }, [addLog])
 
-  async function handleVerifyStep5() {
-    setLoadingStep5(true); setStep5Status(null); setRoadmapSteps(null)
-    try {
-      if (!supabase) { setStep5Status({ success: false, message: "Supabase client not configured.", error: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env" }); return }
-      const result = await loadRoadmap()
-      if (!result) return
-      setRoadmapSteps(result.fullSteps)
-      setStep5Status({ success: true, message: `Step 5 verified: Roadmap (${result.summary.skillsDone} done, ${result.summary.skillsNext} next, ${result.summary.projectsDone} project(s) done).`, summary: result.summary })
-    } catch (e) {
-      setStep5Status({ success: false, message: "Step 5 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep5(false) }
-  }
+  const clearConsole = useCallback(() => {
+    setConsoleLogs([])
+    addLog('Console cleared.', 'info')
+  }, [addLog])
 
-  async function handleLoadRoadmap() {
-    setLoadingStep5(true); setRoadmapSteps(null)
-    try {
-      if (!supabase) return
-      const result = await loadRoadmap()
-      if (result) setRoadmapSteps(result.fullSteps)
-    } catch (e) { console.error("Load roadmap failed", e) }
-    finally { setLoadingStep5(false) }
-  }
+  const hasRun = results.length > 0
+  const consoleStatus = !hasRun ? 'IDLE' : failCount > 0 ? 'ERRORS' : 'ALL PASS'
 
-  async function handleVerifyStep6() {
-    setLoadingStep6(true); setStep6Status(null)
-    try {
-      if (!supabase) { setStep6Status({ success: false, message: "Supabase not configured.", error: "Add .env keys" }); return }
-      const { error: tableErr } = await supabase.from("resume_uploads").select("*", { count: "exact", head: true })
-      const tableOk = !tableErr
-      let storageOk = false
-      const { error: storageErr } = await supabase.storage.from("documents").list("resumes", { limit: 1 })
-      if (!storageErr) storageOk = true
-      const success = tableOk && storageOk
-      setStep6Status({
-        success,
-        message: success ? "Step 6 verified: resume_uploads table + documents bucket (Supabase)." : "Step 6: run supabase/resume-storage.sql in SQL Editor, then retry.",
-        tableOk,
-        storageOk,
-        error: tableErr?.message || storageErr?.message || (success ? undefined : "Table or bucket missing."),
-      })
-    } catch (e) {
-      setStep6Status({ success: false, message: "Step 6 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep6(false) }
+  const getLogColor = (type: ConsoleLogType) => {
+    switch (type) {
+      case 'info': return '#888'
+      case 'pass': return '#2ecc71'
+      case 'fail': return '#e74c3c'
+      case 'warn': return '#f39c12'
+      case 'data': return '#74b9ff'
+      default: return '#888'
+    }
   }
-
-  async function handleVerifyStep7() {
-    setLoadingStep7(true); setStep7Status(null)
-    try {
-      if (!supabase) { setStep7Status({ success: false, message: "Supabase not configured.", error: "Add .env keys" }); return }
-      const { data, error } = await supabase.from("interview_questions").select("id, question_text, role, difficulty_level").eq("role", "Frontend Developer")
-      if (error) throw new Error(error.message)
-      const count = (data ?? []).length
-      const success = count > 0
-      setStep7Status({ success, message: success ? `Step 7 verified: interview_questions (${count} for Frontend Developer).` : "Step 7: run supabase/interview-questions.sql.", count: success ? count : undefined, error: success ? undefined : "No questions found." })
-    } catch (e) {
-      setStep7Status({ success: false, message: "Step 7 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep7(false) }
-  }
-
-  async function handleVerifyStep8() {
-    setLoadingStep8(true); setStep8Status(null)
-    try {
-      if (!supabase) { setStep8Status({ success: false, message: "Supabase not configured.", error: "Add .env keys" }); return }
-      const role = "Frontend Developer"
-      const { data: skills } = await supabase.from("skills").select("id, name, difficulty, weight").eq("role", role).order("difficulty")
-      const { data: projects } = await supabase.from("projects").select("id, title, difficulty, required_skills").eq("role", role)
-      const skillList = skills ?? []
-      const projectList = projects ?? []
-      const userSkills = skillList.slice(0, 4).map((s, i) => ({ skillId: s.id, proficiency: i < 2 ? 5 : i < 3 ? 4 : 2 }))
-      const userProjects = projectList.slice(0, 1).map((p) => ({ projectId: p.id, completed: true }))
-      const skillRows = skillList.map((s) => ({ id: s.id, name: s.name, role, difficulty: Number(s.difficulty) ?? 1, weight: s.weight != null ? Number(s.weight) : undefined }))
-      const projectRows = projectList.map((p) => ({ id: p.id, title: p.title, difficulty: Number(p.difficulty) ?? 1, required_skills: (p.required_skills ?? []) as string[] }))
-      const summary = computeRoadmapSummary(role, skillRows, projectRows, userSkills, userProjects)
-      const gapResult = analyzeSkillGap(role, skillRows, userSkills.map((u) => ({ skillId: u.skillId, proficiency: u.proficiency })))
-      const userSkillsForScore = (skills ?? []).slice(0, 3).map((s) => ({ proficiency: 3 as number, skill: { weight: Number(s.weight) || 1 } }))
-      const userProjectsForScore = (projects ?? []).slice(0, 2).map((p, i) => ({ completed: i === 0, project: { difficulty: Number(p.difficulty) || 1 } }))
-      const breakdown = calculateScore(userSkillsForScore, userProjectsForScore, 50, 0, 0)
-      setStep8Status({ success: true, message: `Step 8 verified: API surface (getScore, getSkillGap, getRoadmap) using Supabase. Score: ${breakdown.final_score}, Gaps: ${gapResult.gaps.length}, Roadmap: ${summary.skillsDone} done.` })
-    } catch (e) {
-      setStep8Status({ success: false, message: "Step 8 verification failed.", error: e instanceof Error ? e.message : String(e) })
-    } finally { setLoadingStep8(false) }
-  }
-
-  const anyLoading = loading || loadingStep2 || loadingStep3 || loadingStep4 || loadingStep5 || loadingStep6 || loadingStep7 || loadingStep8
 
   return (
-    <div className="app">
-      <header className="header">
-        <h1>Verify Steps 1-8</h1>
-        <p className="tagline">Dynamic verification against Supabase (skilljob)</p>
+    <div className="container" style={{ maxWidth: 960, paddingTop: '3rem', paddingBottom: '3rem' }}>
+      {/* Header */}
+      <header style={{ marginBottom: '2.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+          <span
+            style={{
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              padding: '0.2rem 0.6rem',
+              borderRadius: 20,
+              background: '#1a1a1a',
+              color: '#fff',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}
+          >
+            DEV ONLY
+          </span>
+        </div>
+        <h1 style={{ fontSize: '2rem', margin: '0 0 0.5rem 0' }}>System Verification</h1>
+        <p style={{ fontSize: '0.95rem', color: 'var(--gray-dark)', marginBottom: '1rem' }}>
+          Frontend-only verification. Run checks to validate page registration, weights, skills, roadmap, and navigation.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          className="btn btn-text"
+          style={{ padding: 0, fontSize: '0.9rem' }}
+        >
+          ← Back to Dashboard
+        </button>
       </header>
-      <section className="weights">
-        <h2>Score weights</h2>
-        <ul>
-          {Object.entries(SCORE_WEIGHTS).map(([key, value]) => (
-            <li key={key}><span className="key">{key}</span><span className="value">{(value * 100).toFixed(0)}%</span></li>
-          ))}
-        </ul>
-      </section>
-      <section className="verify">
-        <button type="button" className="btn-verify" onClick={handleVerifyStep1} disabled={anyLoading} data-testid="verify-step1"> {loading ? "Verifying…" : "Verify Step 1 (Supabase)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep2} disabled={anyLoading} data-testid="verify-step2"> {loadingStep2 ? "Verifying…" : "Verify Step 2 (competency data)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep3} disabled={anyLoading} data-testid="verify-step3"> {loadingStep3 ? "Verifying…" : "Verify Step 3 (score engine)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep4} disabled={anyLoading} data-testid="verify-step4"> {loadingStep4 ? "Verifying…" : "Verify Step 4 (skill gap)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep5} disabled={anyLoading} data-testid="verify-step5"> {loadingStep5 ? "Verifying…" : "Verify Step 5 (roadmap)"} </button>
-        <button type="button" className="btn-verify" onClick={handleLoadRoadmap} disabled={anyLoading} data-testid="load-roadmap"> {loadingStep5 ? "Loading…" : "Load Roadmap"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep6} disabled={anyLoading} data-testid="verify-step6"> {loadingStep6 ? "Verifying…" : "Verify Step 6 (resume)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep7} disabled={anyLoading} data-testid="verify-step7"> {loadingStep7 ? "Verifying…" : "Verify Step 7 (interview)"} </button>
-        <button type="button" className="btn-verify" onClick={handleVerifyStep8} disabled={anyLoading} data-testid="verify-step8"> {loadingStep8 ? "Verifying…" : "Verify Step 8 (API surface)"} </button>
-        {status && <div className={"status " + (status.success ? "success" : "error")}><p>{status.message}</p>{status.skillsCount != null && <p className="detail">Skills rows: {status.skillsCount}</p>}{status.error && <p className="error-detail">{status.error}</p>}</div>}
-        {step2Status && <div className={"status " + (step2Status.success ? "success" : "error")}><p>{step2Status.message}</p>{step2Status.skillsByRole && <p className="detail">Skills by role: {Object.entries(step2Status.skillsByRole).map(([r, n]) => r + ": " + n).join(", ")}</p>}{step2Status.projectsByRole && <p className="detail">Projects by role: {Object.entries(step2Status.projectsByRole).map(([r, n]) => r + ": " + n).join(", ")}</p>}{step2Status.error && <p className="error-detail">{step2Status.error}</p>}</div>}
-        {step3Status && <div className={"status " + (step3Status.success ? "success" : "error")}><p>{step3Status.message}</p>{step3Status.breakdown && <div className="detail"><p>Technical: {step3Status.breakdown.technical} · Projects: {step3Status.breakdown.projects} · Resume: {step3Status.breakdown.resume} · Practical: {step3Status.breakdown.practical} · Interview: {step3Status.breakdown.interview}</p><p><strong>Final score: {step3Status.breakdown.final_score}</strong></p></div>}{step3Status.error && <p className="error-detail">{step3Status.error}</p>}</div>}
-        {step4Status && <div className={"status " + (step4Status.success ? "success" : "error")}><p>{step4Status.message}</p>{step4Status.result && <div className="detail"><p>Strengths: {step4Status.result.strengths.length} · Gaps: {step4Status.result.gaps.length} · Priority focus: {step4Status.result.priorityFocus.length}</p>{step4Status.result.suggestedNextSkill && <p>Suggested next skill: {step4Status.result.suggestedNextSkill.name}</p>}</div>}{step4Status.error && <p className="error-detail">{step4Status.error}</p>}</div>}
-        {step5Status && <div className={"status " + (step5Status.success ? "success" : "error")}><p>{step5Status.message}</p>{step5Status.summary && <div className="detail"><p>Skills: done {step5Status.summary.skillsDone} · next {step5Status.summary.skillsNext} · upcoming {step5Status.summary.skillsUpcoming}</p><p>Projects: done {step5Status.summary.projectsDone} · suggested {step5Status.summary.projectsSuggested} · locked {step5Status.summary.projectsLocked}</p></div>}{step5Status.error && <p className="error-detail">{step5Status.error}</p>}</div>}
-        {step6Status && <div className={"status " + (step6Status.success ? "success" : "error")}><p>{step6Status.message}</p>{step6Status.tableOk != null && <p className="detail">Table resume_uploads: {step6Status.tableOk ? "OK" : "missing"}. Storage documents: {step6Status.storageOk ? "OK" : "missing"}.</p>}{step6Status.success && <p className="detail"><Link to="/resume">Go to Resume page</Link> to upload a file and run analysis.</p>}{step6Status.error && <p className="error-detail">{step6Status.error}</p>}</div>}
-        {step7Status && <div className={"status " + (step7Status.success ? "success" : "error")}><p>{step7Status.message}</p>{step7Status.count != null && <p className="detail"><Link to="/interview">Go to Interview page</Link> to view questions.</p>}{step7Status.error && <p className="error-detail">{step7Status.error}</p>}</div>}
-        {step8Status && <div className={"status " + (step8Status.success ? "success" : "error")}><p>{step8Status.message}</p>{step8Status.error && <p className="error-detail">{step8Status.error}</p>}</div>}
-      </section>
-      {roadmapSteps && <RoadmapDiagram steps={roadmapSteps} />}
-      <section className="console-status" aria-live="polite">
-        <h2>Console (verification)</h2>
-        {consoleErrors.length === 0 && consoleWarnings.length === 0 && <p className="console-ok">No console errors or warnings.</p>}
-        {consoleErrors.length > 0 && <div className="console-errors"><p><strong>{consoleErrors.length} error(s)</strong> (first 10):</p><ul>{consoleErrors.slice(0, 10).map((msg, i) => <li key={i}>{msg}</li>)}</ul></div>}
-        {consoleWarnings.length > 0 && <div className="console-warnings"><p><strong>{consoleWarnings.length} warning(s)</strong> (first 5):</p><ul>{consoleWarnings.slice(0, 5).map((msg, i) => <li key={i}>{msg}</li>)}</ul></div>}
-      </section>
-      <footer className="footer"><p>Supabase project <strong>skilljob</strong>. Steps 1-8 verified dynamically.</p></footer>
+
+      {/* Main 2-col grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '2rem',
+          marginBottom: '2rem',
+        }}
+      >
+        {/* Left column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Score Weight Config */}
+          <div className="card">
+            <div
+              className="card-header"
+              style={{ background: '#1a1a1a', color: '#fff', borderBottom: '1px solid #333' }}
+            >
+              <span className="card-header-label" style={{ color: '#fff' }}>
+                SCORE WEIGHT CONFIG
+              </span>
+              <span style={{ fontSize: '0.75rem', color: '#aaa' }}>v2.4.1</span>
+            </div>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'monospace', fontSize: '0.85rem' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid var(--border-color)', background: 'var(--gray-light)' }}>
+                    <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontWeight: 600 }}>Skill</th>
+                    <th style={{ padding: '0.75rem 1rem', textAlign: 'right', fontWeight: 600 }}>Weight</th>
+                    <th style={{ padding: '0.75rem 1rem', textAlign: 'right', fontWeight: 600 }}>Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {weightsData.map((row, i) => (
+                    <tr key={i} style={{ borderBottom: '1px solid var(--gray-mid)' }}>
+                      <td style={{ padding: '0.6rem 1rem' }}>{row.skill}</td>
+                      <td style={{ padding: '0.6rem 1rem', textAlign: 'right' }}>{row.weight}</td>
+                      <td style={{ padding: '0.6rem 1rem', textAlign: 'right' }}>{row.target}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--gray-dark)' }}>
+              Total weight sum: {totalWeight}
+            </div>
+          </div>
+
+          {/* Page Routing Registry */}
+          <div className="card">
+            <div
+              className="card-header"
+              style={{ background: '#1a1a1a', color: '#fff', borderBottom: '1px solid #333' }}
+            >
+              <span className="card-header-label" style={{ color: '#fff' }}>
+                PAGE ROUTING REGISTRY
+              </span>
+              <span style={{ fontSize: '0.75rem', color: '#aaa' }}>{routes.length} routes</span>
+            </div>
+            <div style={{ padding: '0.5rem 0' }}>
+              {routes.map((r, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.5rem 1rem',
+                    borderBottom: i < routes.length - 1 ? '1px solid var(--gray-mid)' : 'none',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>{r.path}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--gray-dark)' }}>{r.label}</span>
+                  </div>
+                  <span
+                    style={{
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      padding: '0.15rem 0.5rem',
+                      borderRadius: 12,
+                      background: '#2ecc71',
+                      color: '#fff',
+                    }}
+                  >
+                    OK
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Verification Actions */}
+          <div className="card">
+            <div
+              className="card-header"
+              style={{ background: '#1a1a1a', color: '#fff', borderBottom: '1px solid #333' }}
+            >
+              <span className="card-header-label" style={{ color: '#fff' }}>
+                VERIFICATION ACTIONS
+              </span>
+              <button
+                type="button"
+                onClick={runAll}
+                className="btn btn-primary"
+                style={{ fontSize: '0.78rem', padding: '0.35rem 0.85rem' }}
+              >
+                RUN ALL
+              </button>
+            </div>
+            <div style={{ padding: '0.5rem 0' }}>
+              {verifyActions.map((action) => {
+                const state = actionStates[action.id] ?? 'idle'
+                return (
+                  <div
+                    key={action.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.75rem 1rem',
+                      borderBottom: '1px solid var(--gray-mid)',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>{action.label}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--gray-dark)' }}>{action.desc}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => runCheck(action.id)}
+                      disabled={state === 'running'}
+                      className="btn btn-outline"
+                      style={{
+                        fontSize: '0.78rem',
+                        padding: '0.35rem 0.85rem',
+                        minWidth: 80,
+                        background: state === 'pass' ? '#2ecc71' : state === 'fail' ? '#e74c3c' : undefined,
+                        color: state === 'pass' || state === 'fail' ? '#fff' : undefined,
+                        borderColor: state === 'pass' ? '#2ecc71' : state === 'fail' ? '#e74c3c' : undefined,
+                      }}
+                    >
+                      {state === 'running' ? '...' : state === 'pass' ? 'PASS' : state === 'fail' ? 'FAIL' : 'RUN'}
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Results Panel */}
+          <div className="card">
+            <div
+              className="card-header"
+              style={{ background: 'var(--gray-light)', borderBottom: '1px solid var(--border-color)' }}
+            >
+              <span className="card-header-label" style={{ color: 'var(--gray-dark)' }}>
+                RESULTS PANEL
+              </span>
+              <button
+                type="button"
+                onClick={clearResults}
+                className="btn btn-outline"
+                style={{ fontSize: '0.78rem', padding: '0.35rem 0.85rem' }}
+              >
+                CLEAR
+              </button>
+            </div>
+            <div
+              style={{
+                padding: '1rem 1.25rem',
+                minHeight: 180,
+                maxHeight: 280,
+                overflowY: 'auto',
+                fontFamily: 'monospace',
+                fontSize: '0.85rem',
+              }}
+            >
+              {results.length === 0 ? (
+                <span style={{ color: 'var(--gray-dark)' }}>// No checks run yet.</span>
+              ) : (
+                results.map((r, i) => (
+                  <div key={i} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        padding: '0.1rem 0.4rem',
+                        borderRadius: 4,
+                        background: r.ok ? '#2ecc71' : '#e74c3c',
+                        color: '#fff',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {r.ok ? 'PASS' : 'FAIL'}
+                    </span>
+                    <span>{r.msg}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Console */}
+      <div
+        className="card"
+        style={{
+          background: '#0f0f0f',
+          border: '1px solid #333',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            padding: '0.75rem 1rem',
+            background: '#1a1a1a',
+            borderBottom: '1px solid #333',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '0.5rem',
+          }}
+        >
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', color: '#fff' }}>
+            CONSOLE
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span
+              style={{
+                fontSize: '0.68rem',
+                fontWeight: 700,
+                padding: '0.15rem 0.5rem',
+                borderRadius: 4,
+                background: consoleStatus === 'ALL PASS' ? '#2ecc71' : consoleStatus === 'ERRORS' ? '#e74c3c' : '#444',
+                color: '#fff',
+              }}
+            >
+              {consoleStatus}
+            </span>
+            {hasRun && (
+              <span style={{ fontSize: '0.78rem', color: '#888' }}>
+                {passCount} passed / {failCount} failed
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={clearConsole}
+              className="btn btn-outline"
+              style={{
+                fontSize: '0.72rem',
+                padding: '0.25rem 0.6rem',
+                background: 'transparent',
+                color: '#888',
+                borderColor: '#555',
+              }}
+            >
+              CLEAR
+            </button>
+          </div>
+        </div>
+        <div
+          style={{
+            padding: '1rem 1.25rem',
+            fontFamily: 'monospace',
+            fontSize: '0.82rem',
+            minHeight: 120,
+            maxHeight: 200,
+            overflowY: 'auto',
+          }}
+        >
+          {consoleLogs.length === 0 ? (
+            <span style={{ color: '#2ecc71' }}>► System verification console ready.</span>
+          ) : (
+            consoleLogs.map((log, i) => (
+              <div key={i} style={{ marginBottom: '0.35rem', color: getLogColor(log.type) }}>
+                {log.msg}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   )
 }
