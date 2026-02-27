@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/employability_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/employability_container_padding">
+
+        <!-- Hero -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="Validate your career readiness with data."
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/employability_fg"
+            android:letterSpacing="-0.02" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Measure your professional skills against industry benchmarks using our standardized assessment framework. Built for the modern workforce."
+            android:textSize="16sp"
+            android:textColor="@color/employability_gray_dark"
+            android:lineSpacingExtra="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/landingStartAssessment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Assessment"
+                android:textSize="16sp"
+                app:cornerRadius="@dimen/employability_radius_btn" />
+
+            <Button
+                android:id="@+id/landingViewSample"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="View Sample Report" />
+
+            <Button
+                android:id="@+id/landingLogin"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Log In"
+                app:strokeColor="@color/employability_border"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:id="@+id/landingSignup"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Sign Up" />
+        </LinearLayout>
+
+        <!-- How It Works -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_gravity="center_horizontal"
+            android:text="How It Works"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/employability_fg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Four simple steps to certify your skills."
+            android:textSize="14sp"
+            android:textColor="@color/employability_gray_dark" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="@dimen/employability_radius_window"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/employability_gray_light">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/employability_spacing_xl">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. Register — Create your profile and select your target industry."
+                    android:textSize="14sp"
+                    android:textColor="@color/employability_fg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="2. Assess — Complete the core competency evaluation."
+                    android:textSize="14sp"
+                    android:textColor="@color/employability_fg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="3. Analyze — Receive instant scoring and gap analysis."
+                    android:textSize="14sp"
+                    android:textColor="@color/employability_fg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="4. Certify — Get your verified badge and readiness report."
+                    android:textSize="14sp"
+                    android:textColor="@color/employability_fg" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- CTA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Ready to prove your skills?"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/employability_fg" />
+
+        <Button
+            android:id="@+id/landingCta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="48dp"
+            android:text="Get Certified Now"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:cornerRadius="@dimen/employability_radius_btn" />
+    </LinearLayout>
+</ScrollView>

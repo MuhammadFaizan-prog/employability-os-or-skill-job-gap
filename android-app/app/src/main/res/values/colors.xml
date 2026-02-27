@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- EmployabilityOS design tokens (aligned with web style.css) -->
+    <color name="employability_bg">#FFFFFF</color>
+    <color name="employability_fg">#1A1A1A</color>
+    <color name="employability_gray_light">#F9F9F9</color>
+    <color name="employability_gray_mid">#E0E0E0</color>
+    <color name="employability_gray_dark">#666666</color>
+    <color name="employability_border">#1A1A1A</color>
+    <color name="employability_danger">#C0392B</color>
+    <!-- Primary (used for buttons, accents) -->
+    <color name="employability_primary">#1A1A1A</color>
+    <color name="employability_primary_variant">#333333</color>
+    <color name="employability_on_primary">#FFFFFF</color>
+</resources>

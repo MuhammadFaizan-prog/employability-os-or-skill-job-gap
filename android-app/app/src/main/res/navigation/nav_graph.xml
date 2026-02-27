@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/landingFragment">
+
+    <!-- Landing (web: /) -->
+    <fragment
+        android:id="@+id/landingFragment"
+        android:name="com.skilljobgap.employability.ui.LandingFragment"
+        android:label="Landing" >
+        <action
+            android:id="@+id/action_landing_to_login"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_landing_to_signup"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_landing_to_onboarding"
+            app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_landing_to_dashboard"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+
+    <!-- Auth (web: /login, /signup) -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.skilljobgap.employability.ui.LoginFragment"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_login_to_dashboard"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.skilljobgap.employability.ui.SignupFragment"
+        android:label="Sign up" >
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signup_to_onboarding"
+            app:destination="@id/onboardingFragment" />
+    </fragment>
+
+    <!-- Onboarding (web: /onboarding) -->
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.skilljobgap.employability.ui.OnboardingFragment"
+        android:label="Onboarding" >
+        <action
+            android:id="@+id/action_onboarding_to_dashboard"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+
+    <!-- Main app destinations (web: protected routes) -->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.skilljobgap.employability.ui.DashboardFragment"
+        android:label="Dashboard" />
+
+    <fragment
+        android:id="@+id/skillsFragment"
+        android:name="com.skilljobgap.employability.ui.SkillsFragment"
+        android:label="Skills" />
+
+    <fragment
+        android:id="@+id/roadmapFragment"
+        android:name="com.skilljobgap.employability.ui.RoadmapFragment"
+        android:label="Roadmap" />
+
+    <fragment
+        android:id="@+id/projectsFragment"
+        android:name="com.skilljobgap.employability.ui.ProjectsFragment"
+        android:label="Projects" />
+
+    <fragment
+        android:id="@+id/resumeFragment"
+        android:name="com.skilljobgap.employability.ui.ResumeFragment"
+        android:label="Resume" />
+
+    <fragment
+        android:id="@+id/interviewFragment"
+        android:name="com.skilljobgap.employability.ui.InterviewFragment"
+        android:label="Interview" />
+
+    <!-- Coding challenge detail (web: /interview/coding/:challengeId) -->
+    <fragment
+        android:id="@+id/codingChallengeFragment"
+        android:name="com.skilljobgap.employability.ui.CodingChallengeFragment"
+        android:label="Coding Challenge" >
+        <argument
+            android:name="challengeId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.skilljobgap.employability.ui.ProfileFragment"
+        android:label="Profile" />
+
+    <fragment
+        android:id="@+id/verifyFragment"
+        android:name="com.skilljobgap.employability.ui.VerifyFragment"
+        android:label="Verify" />
+
+</navigation>
+

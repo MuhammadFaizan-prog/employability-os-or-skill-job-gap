@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.EmployabilityOS" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/employability_primary</item>
+        <item name="colorPrimaryVariant">@color/employability_primary_variant</item>
+        <item name="colorOnPrimary">@color/employability_on_primary</item>
+        <item name="android:colorBackground">@color/employability_bg</item>
+        <item name="android:windowBackground">@color/employability_bg</item>
+        <item name="android:statusBarColor">@color/employability_bg</item>
+        <item name="android:navigationBarColor">@color/employability_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorError">@color/employability_danger</item>
+        <item name="android:textColorPrimary">@color/employability_fg</item>
+        <item name="android:textColorSecondary">@color/employability_gray_dark</item>
+    </style>
+</resources>

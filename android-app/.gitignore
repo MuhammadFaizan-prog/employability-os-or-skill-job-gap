@@ -1,0 +1,16 @@
+# Local overrides (Supabase URL/key) — do not commit
+local.properties
+
+# Build
+build/
+*.apk
+*.aab
+
+# Gradle cache and distribution
+.gradle/
+gradle-8.7-bin.zip
+gradle-8.7/
+
+# Android Studio
+.idea/
+*.iml

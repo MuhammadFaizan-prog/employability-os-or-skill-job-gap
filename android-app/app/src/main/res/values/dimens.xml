@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Padding / margins (mirror web container) -->
+    <dimen name="employability_spacing_xs">4dp</dimen>
+    <dimen name="employability_spacing_sm">8dp</dimen>
+    <dimen name="employability_spacing_md">12dp</dimen>
+    <dimen name="employability_spacing_lg">16dp</dimen>
+    <dimen name="employability_spacing_xl">24dp</dimen>
+    <dimen name="employability_spacing_xxl">32dp</dimen>
+    <!-- Container padding -->
+    <dimen name="employability_container_padding">24dp</dimen>
+    <!-- Corner radii (web: radius-window 12px, radius-btn 8px, radius-sm 6px) -->
+    <dimen name="employability_radius_sm">6dp</dimen>
+    <dimen name="employability_radius_btn">8dp</dimen>
+    <dimen name="employability_radius_window">12dp</dimen>
+    <dimen name="employability_radius_badge">20dp</dimen>
+</resources>
