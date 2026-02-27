@@ -62,6 +62,8 @@ export interface UserProjectStatus {
   completed: boolean
 }
 
+export type RoadmapProgressStatus = 'done' | 'in_progress' | 'pending'
+
 interface RoleData {
   loading: boolean
   error: string | null
@@ -75,8 +77,10 @@ interface RoleData {
   skillGapResult: SkillGapResult | null
   roadmapSummary: RoadmapSummary | null
   roadmapSteps: RoadmapSteps | null
+  roadmapProgress: Record<string, RoadmapProgressStatus>
   setUserSkillRating: (skillId: string, proficiency: number) => void
   toggleProjectComplete: (projectId: string) => void
+  setRoadmapNodeStatus: (nodeId: string, status: RoadmapProgressStatus) => Promise<void>
   refresh: () => void
 }
 
@@ -152,6 +156,7 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
   const [userProjectStatuses, setUserProjectStatuses] = useState<UserProjectStatus[]>(loadPersistedProjects)
   const [resumeScore, setResumeScore] = useState(0)
   const [interviewScore, setInterviewScore] = useState(0)
+  const [roadmapProgress, setRoadmapProgress] = useState<Record<string, RoadmapProgressStatus>>({})
   const userIdRef = useRef<string | null>(null)
 
   const fetchData = useCallback(async () => {
@@ -275,9 +280,27 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
         const total = progressRows?.length ?? 0
         const correct = progressRows?.filter((r: { is_correct: boolean }) => r.is_correct).length ?? 0
         setInterviewScore(total > 0 ? Math.round((correct / total) * 100) : 0)
+
+        // Fetch user_roadmap progress_json for tree status
+        const { data: roadmapRow } = await supabase
+          .from('user_roadmap')
+          .select('progress_json')
+          .eq('user_id', userId)
+          .maybeSingle()
+        const progress = (roadmapRow as { progress_json?: Record<string, string> } | null)?.progress_json
+        if (progress && typeof progress === 'object') {
+          const typed: Record<string, RoadmapProgressStatus> = {}
+          for (const [k, v] of Object.entries(progress)) {
+            if (v === 'done' || v === 'in_progress' || v === 'pending') typed[k] = v
+          }
+          setRoadmapProgress(typed)
+        } else {
+          setRoadmapProgress({})
+        }
       } else {
         setResumeScore(0)
         setInterviewScore(0)
+        setRoadmapProgress({})
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
@@ -314,6 +337,25 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
       return next
     })
   }, [])
+
+  const setRoadmapNodeStatus = useCallback(async (nodeId: string, status: RoadmapProgressStatus) => {
+    const uid = userIdRef.current
+    if (!uid || !supabase) return
+    const nextProgress = { ...roadmapProgress, [nodeId]: status }
+    setRoadmapProgress(nextProgress)
+    try {
+      await supabase.from('user_roadmap').upsert(
+        { user_id: uid, role, progress_json: nextProgress, roadmap_json: {}, last_updated: new Date().toISOString() },
+        { onConflict: 'user_id' }
+      )
+    } catch {
+      setRoadmapProgress(prev => {
+        const next = { ...prev }
+        delete next[nodeId]
+        return next
+      })
+    }
+  }, [role, roadmapProgress])
 
   const skillRows: SkillRow[] = skills.map(s => ({
     id: s.id, name: s.name, role: s.role, difficulty: s.difficulty, weight: s.weight,
@@ -365,6 +407,7 @@ export function useRoleData(role: string = DEFAULT_ROLE): RoleData {
     loading, error, role, skills, projects, interviewQuestions,
     userSkillRatings, userProjectStatuses,
     scoreBreakdown, skillGapResult, roadmapSummary, roadmapSteps,
+    roadmapProgress, setRoadmapNodeStatus,
     setUserSkillRating, toggleProjectComplete, refresh: fetchData,
   }
 }

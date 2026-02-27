@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useRoleData } from '../hooks/useRoleData'
+import { useCodingChallenges } from '../hooks/useCodingChallenges'
 import { useAuth, getStoredRole } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import type { InterviewQuestion } from '../hooks/useRoleData'
@@ -21,11 +22,15 @@ function ensureOptions(q: InterviewQuestion): string[] {
   return []
 }
 
+type Tab = 'quiz' | 'coding'
+
 export function Interview() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const role = getStoredRole()
   const { loading, error, interviewQuestions, refresh } = useRoleData(role)
+  const { challenges, attempts, loading: codingLoading } = useCodingChallenges(role)
+  const [activeTab, setActiveTab] = useState<Tab>('quiz')
 
   const quizQuestions = interviewQuestions.filter(
     q => ensureOptions(q).length >= 2 && q.correct_answer != null && q.correct_answer !== ''
@@ -154,12 +159,98 @@ export function Interview() {
               <span className="role-badge">{roleBadge}</span>
             </div>
             <p style={{ fontSize: '0.95rem', color: 'var(--gray-dark)' }}>
-              Practice MCQ questions aligned to your role. Complete the quiz to see your score and feed it into your employability score.
+              Practice MCQ questions and coding challenges aligned to your role.
             </p>
           </div>
           <button className="btn btn-outline" onClick={() => navigate('/dashboard')}>← Back to Dashboard</button>
         </div>
 
+        {/* Tabs: Quiz | Coding */}
+        <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)' }}>
+          <button
+            type="button"
+            onClick={() => setActiveTab('quiz')}
+            style={{
+              padding: '0.6rem 1.25rem',
+              border: 'none',
+              borderBottom: activeTab === 'quiz' ? '2px solid var(--fg)' : '2px solid transparent',
+              background: 'none',
+              fontWeight: activeTab === 'quiz' ? 600 : 500,
+              cursor: 'pointer',
+              color: 'var(--fg)',
+            }}
+          >
+            Quiz (MCQ)
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('coding')}
+            style={{
+              padding: '0.6rem 1.25rem',
+              border: 'none',
+              borderBottom: activeTab === 'coding' ? '2px solid var(--fg)' : '2px solid transparent',
+              background: 'none',
+              fontWeight: activeTab === 'coding' ? 600 : 500,
+              cursor: 'pointer',
+              color: 'var(--fg)',
+            }}
+          >
+            Coding Challenges
+          </button>
+        </div>
+
+        {/* Coding Challenges list */}
+        {activeTab === 'coding' && (
+          <div style={{ maxWidth: 720 }}>
+            {codingLoading ? (
+              <p style={{ color: 'var(--gray-dark)' }}>Loading coding challenges...</p>
+            ) : challenges.length === 0 ? (
+              <p style={{ color: 'var(--gray-dark)' }}>No coding challenges for this role yet.</p>
+            ) : (
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {challenges.map(c => {
+                  const attempt = attempts[c.id]
+                  return (
+                    <li key={c.id} style={{ marginBottom: '0.75rem' }}>
+                      <Link
+                        to={`/interview/coding/${c.id}`}
+                        style={{
+                          display: 'block',
+                          padding: '1rem 1.25rem',
+                          border: '1px solid var(--border-color)',
+                          borderRadius: 'var(--radius-sm)',
+                          textDecoration: 'none',
+                          color: 'var(--fg)',
+                          background: 'var(--bg)',
+                          transition: 'border-color 0.15s, background 0.15s',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                          <span style={{ fontWeight: 600 }}>{c.title}</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: 20, border: '1px solid var(--gray-mid)', color: 'var(--gray-dark)' }}>{c.difficulty}</span>
+                            {attempt && <span style={{ fontSize: '0.75rem', color: 'var(--gray-dark)' }}>{attempt.passed ? 'Solved' : 'Attempted'}</span>}
+                          </div>
+                        </div>
+                        {Array.isArray(c.company_tags) && c.company_tags.length > 0 && (
+                          <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                            {c.company_tags.slice(0, 4).map((t, i) => (
+                              <span key={i} style={{ fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: 12, background: 'var(--gray-light)', color: 'var(--gray-dark)' }}>{t}</span>
+                            ))}
+                          </div>
+                        )}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
+        )}
+
+        {/* Quiz content (Overview / Active / Results) */}
+        {activeTab === 'quiz' && (
+        <>
         {/* Overview */}
         {phase === 'overview' && (
           <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '2.5rem', maxWidth: 520 }}>
@@ -314,6 +405,8 @@ export function Interview() {
               <button className="btn btn-outline" onClick={() => navigate('/dashboard')}>Dashboard</button>
             </div>
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

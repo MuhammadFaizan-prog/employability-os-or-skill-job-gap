@@ -12,6 +12,7 @@ import { RoadmapPage } from './pages/Roadmap'
 import { Projects } from './pages/Projects'
 import { Resume } from './pages/Resume'
 import { Interview } from './pages/Interview'
+import { CodingChallenge } from './pages/CodingChallenge'
 import { Profile } from './pages/Profile'
 import { Verify } from './pages/Verify'
 
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
           <Route path="resume" element={<ProtectedRoute><Resume /></ProtectedRoute>} />
           <Route path="interview" element={<ProtectedRoute><Interview /></ProtectedRoute>} />
+          <Route path="interview/coding/:challengeId" element={<ProtectedRoute><CodingChallenge /></ProtectedRoute>} />
           <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="verify" element={<ProtectedRoute><Verify /></ProtectedRoute>} />
 
