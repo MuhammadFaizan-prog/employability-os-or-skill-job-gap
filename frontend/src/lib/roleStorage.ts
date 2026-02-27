@@ -4,9 +4,15 @@ const DEFAULT_ROLE = 'Frontend Developer'
 const ROLE_MAP: Record<string, string> = {
   'Frontend Engineer': 'Frontend Developer',
   'Backend Engineer': 'Backend Developer',
+  'Data Analyst': 'Data Analyst',
+  'AI/ML Engineer': 'AI/ML Engineer',
+  'Mobile Developer': 'Mobile Developer',
   'Product Designer': 'Frontend Developer',
   'frontend': 'Frontend Developer',
   'backend': 'Backend Developer',
+  'data-analyst': 'Data Analyst',
+  'ai-ml': 'AI/ML Engineer',
+  'mobile': 'Mobile Developer',
   'designer': 'Frontend Developer',
 }
 

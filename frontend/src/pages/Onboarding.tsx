@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { setStoredRole } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 
-type RoleId = 'designer' | 'frontend' | 'backend'
+type RoleId = 'frontend' | 'backend' | 'data-analyst' | 'ai-ml' | 'mobile'
 
 const ROLE_DB_MAP: Record<RoleId, string> = {
   frontend: 'Frontend Developer',
   backend: 'Backend Developer',
-  designer: 'Frontend Developer',
+  'data-analyst': 'Data Analyst',
+  'ai-ml': 'AI/ML Engineer',
+  mobile: 'Mobile Developer',
 }
 
 interface RoleMeta {
@@ -18,9 +20,11 @@ interface RoleMeta {
 }
 
 const ROLE_CARDS: RoleMeta[] = [
-  { id: 'designer', title: 'Product Designer', desc: 'Focus on user experience, visual interface design, and product strategy.' },
   { id: 'frontend', title: 'Frontend Engineer', desc: 'Build responsive, interactive web applications using modern frameworks.' },
   { id: 'backend', title: 'Backend Engineer', desc: 'Architect scalable systems, APIs, and database structures.' },
+  { id: 'data-analyst', title: 'Data Analyst', desc: 'Analyze data, build dashboards, and generate actionable business insights.' },
+  { id: 'ai-ml', title: 'AI/ML Engineer', desc: 'Build intelligent systems with machine learning and deep learning models.' },
+  { id: 'mobile', title: 'Mobile Developer', desc: 'Create cross-platform mobile apps for iOS and Android.' },
 ]
 
 interface SupabaseSkillRow {
@@ -31,17 +35,6 @@ interface SupabaseSkillRow {
   weight: number
 }
 
-
-function PenToolIcon() {
-  return (
-    <svg className="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 19l7-7 3 3-7 7-3-3z" />
-      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-      <path d="M2 2l7.586 7.586" />
-      <circle cx="11" cy="11" r="2" />
-    </svg>
-  )
-}
 
 function CodeBracketsIcon() {
   return (
@@ -59,17 +52,47 @@ function ServerIcon() {
       <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
       <line x1="6" y1="6" x2="6.01" y2="6" />
       <line x1="6" y1="18" x2="6.01" y2="18" />
-      <line x1="10" y1="6" x2="10" y2="6" />
-      <line x1="10" y1="18" x2="10" y2="18" />
+    </svg>
+  )
+}
+
+function ChartBarIcon() {
+  return (
+    <svg className="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="12" width="4" height="9" rx="1" />
+      <rect x="10" y="6" width="4" height="15" rx="1" />
+      <rect x="17" y="2" width="4" height="19" rx="1" />
+    </svg>
+  )
+}
+
+function BrainIcon() {
+  return (
+    <svg className="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+      <path d="M9 21h6" />
+      <path d="M10 17v4" />
+      <path d="M14 17v4" />
+    </svg>
+  )
+}
+
+function SmartphoneIcon() {
+  return (
+    <svg className="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+      <line x1="12" y1="18" x2="12.01" y2="18" />
     </svg>
   )
 }
 
 function RoleIcon({ id }: { id: RoleId }) {
   switch (id) {
-    case 'designer': return <PenToolIcon />
     case 'frontend': return <CodeBracketsIcon />
     case 'backend': return <ServerIcon />
+    case 'data-analyst': return <ChartBarIcon />
+    case 'ai-ml': return <BrainIcon />
+    case 'mobile': return <SmartphoneIcon />
     default: return null
   }
 }
@@ -83,14 +106,14 @@ export function Onboarding() {
   const [ratings, setRatings] = useState<Record<string, number>>({})
   const [fade, setFade] = useState(true)
   const [supabaseSkills, setSupabaseSkills] = useState<SupabaseSkillRow[]>([])
-  const [skillCounts, setSkillCounts] = useState<Record<RoleId, number>>({ designer: 0, frontend: 0, backend: 0 })
-  const [projectCounts, setProjectCounts] = useState<Record<RoleId, number>>({ designer: 0, frontend: 0, backend: 0 })
+  const [skillCounts, setSkillCounts] = useState<Record<RoleId, number>>({ frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 })
+  const [projectCounts, setProjectCounts] = useState<Record<RoleId, number>>({ frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 })
   const [loadingSkills, setLoadingSkills] = useState(true)
 
   const fetchCountsForAllRoles = useCallback(async () => {
     if (!supabase) return
-    const sc: Record<RoleId, number> = { designer: 0, frontend: 0, backend: 0 }
-    const pc: Record<RoleId, number> = { designer: 0, frontend: 0, backend: 0 }
+    const sc: Record<RoleId, number> = { frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 }
+    const pc: Record<RoleId, number> = { frontend: 0, backend: 0, 'data-analyst': 0, 'ai-ml': 0, mobile: 0 }
     for (const card of ROLE_CARDS) {
       const dbRole = ROLE_DB_MAP[card.id]
       const [sRes, pRes] = await Promise.all([
