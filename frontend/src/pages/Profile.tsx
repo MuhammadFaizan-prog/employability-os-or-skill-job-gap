@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth, getStoredRole } from '../hooks/useAuth'
 import { ROLE_IDS } from '../constants/scoreWeights'
+import { supabase } from '../lib/supabase'
 
 export function Profile() {
   const navigate = useNavigate()
   const { user, profile, signOut, updateProfile } = useAuth()
   const currentRole = getStoredRole()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,6 +19,8 @@ export function Profile() {
   const [saveError, setSaveError] = useState('')
   const [saving, setSaving] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
   useEffect(() => {
     if (profile) {
@@ -64,7 +68,51 @@ export function Profile() {
     window.location.reload()
   }
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !user || !supabase) return
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!allowed.includes(file.type)) {
+      setSaveError('Please choose a JPEG, PNG, WebP, or GIF image.')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setSaveError('Image must be under 2 MB.')
+      return
+    }
+    setAvatarUploading(true)
+    setSaveError('')
+    try {
+      const ext = file.name.split('.').pop() || 'jpg'
+      const path = `${user.id}/avatar.${ext}`
+      const { error: uploadErr } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
+      if (uploadErr) throw uploadErr
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)
+      const { error: profileErr } = await updateProfile({ avatar_url: urlData.publicUrl })
+      if (profileErr) throw new Error(profileErr)
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'Avatar upload failed')
+    } finally {
+      setAvatarUploading(false)
+      e.target.value = ''
+    }
+  }
+
   const handleDeleteConfirm = async () => {
+    if (!user?.id || !supabase) {
+      setShowDeleteModal(false)
+      await signOut()
+      navigate('/')
+      return
+    }
+    setDeleteError('')
+    try {
+      const { error } = await supabase.rpc('delete_user_data', { target_user_id: user.id })
+      if (error) throw error
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : 'Failed to delete data')
+      return
+    }
     setShowDeleteModal(false)
     await signOut()
     navigate('/')
@@ -118,6 +166,13 @@ export function Profile() {
           </div>
           <div style={{ padding: '2rem', display: 'flex', flexDirection: 'row', gap: '2rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={handleAvatarChange}
+                style={{ display: 'none' }}
+              />
               <div
                 style={{
                   width: 80,
@@ -128,26 +183,30 @@ export function Profile() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  overflow: 'hidden',
                 }}
               >
-                <svg
-                  width="36"
-                  height="36"
-                  fill="none"
-                  stroke="var(--gray-dark)"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
+                {(profile?.avatar_url || user?.user_metadata?.avatar_url) ? (
+                  <img
+                    src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+                    alt="Avatar"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <svg width="36" height="36" fill="none" stroke="var(--gray-dark)" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                )}
               </div>
               <button
                 type="button"
                 className="btn btn-outline"
                 style={{ fontSize: '0.8rem', padding: '0.4rem 0.9rem' }}
+                disabled={avatarUploading}
+                onClick={() => fileInputRef.current?.click()}
               >
-                Change
+                {avatarUploading ? 'Uploading...' : 'Change'}
               </button>
             </div>
             <div style={{ flex: 1, minWidth: 280 }}>
@@ -623,6 +682,9 @@ export function Profile() {
                 This action cannot be undone. All your data, progress, and assessment history will be
                 permanently deleted.
               </p>
+              {deleteError && (
+                <p style={{ fontSize: '0.9rem', color: 'var(--danger)', marginBottom: '1rem' }}>{deleteError}</p>
+              )}
               <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
                 <button
                   type="button"

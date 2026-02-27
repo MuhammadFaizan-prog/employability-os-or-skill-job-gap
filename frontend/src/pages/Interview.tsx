@@ -22,7 +22,13 @@ function ensureOptions(q: InterviewQuestion): string[] {
   return []
 }
 
-type Tab = 'quiz' | 'coding'
+type Tab = 'quiz' | 'coding' | 'system_design'
+
+const SYSTEM_DESIGN_SCENARIOS: { key: string; title: string; scenario: string; referenceSolution: string }[] = [
+  { key: 'realtime-editor', title: 'Real-time collaborative editor', scenario: 'Design a real-time collaborative text editor (like Google Docs) for the frontend. How would you handle conflicts?', referenceSolution: 'Use WebSockets for real-time sync. Consider Operational Transformation (OT) or CRDTs for conflict resolution. Optimistic UI updates with rollback on conflict. Offline support with queue and sync when back online.' },
+  { key: 'feed-ranking', title: 'Social feed ranking', scenario: 'How would you design a feed ranking system that shows relevant content to users?', referenceSolution: 'Define signals: recency, engagement (likes, comments), user interests, diversity. Score = weighted sum. Use batch jobs for precomputation; cache hot results. A/B test ranking weights.' },
+  { key: 'rate-limiter', title: 'API rate limiter', scenario: 'Design a distributed rate limiter for an API (e.g. per user, per IP).', referenceSolution: 'Sliding window or token bucket. Store counters in Redis with TTL. Key: user_id or IP. For distributed: use consistent hashing or a single Redis cluster. Return 429 and Retry-After header.' },
+]
 
 export function Interview() {
   const navigate = useNavigate()
@@ -31,6 +37,10 @@ export function Interview() {
   const { loading, error, interviewQuestions, refresh } = useRoleData(role)
   const { challenges, attempts, loading: codingLoading } = useCodingChallenges(role)
   const [activeTab, setActiveTab] = useState<Tab>('quiz')
+  const [sdScenarioKey, setSdScenarioKey] = useState<string | null>(null)
+  const [sdResponse, setSdResponse] = useState('')
+  const [sdSubmitted, setSdSubmitted] = useState(false)
+  const [sdSaving, setSdSaving] = useState(false)
 
   const quizQuestions = interviewQuestions.filter(
     q => ensureOptions(q).length >= 2 && q.correct_answer != null && q.correct_answer !== ''
@@ -197,7 +207,110 @@ export function Interview() {
           >
             Coding Challenges
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('system_design')}
+            style={{
+              padding: '0.6rem 1.25rem',
+              border: 'none',
+              borderBottom: activeTab === 'system_design' ? '2px solid var(--fg)' : '2px solid transparent',
+              background: 'none',
+              fontWeight: activeTab === 'system_design' ? 600 : 500,
+              cursor: 'pointer',
+              color: 'var(--fg)',
+            }}
+          >
+            System Design
+          </button>
         </div>
+
+        {/* System Design */}
+        {activeTab === 'system_design' && (
+          <div style={{ maxWidth: 720 }}>
+            {!sdScenarioKey ? (
+              <>
+                <p style={{ color: 'var(--gray-dark)', marginBottom: '1rem' }}>Scenario-based system design questions. Pick one and write your approach.</p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {SYSTEM_DESIGN_SCENARIOS.map(s => (
+                    <li key={s.key} style={{ marginBottom: '0.75rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => { setSdScenarioKey(s.key); setSdResponse(''); setSdSubmitted(false); }}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '1rem 1.25rem',
+                          border: '1px solid var(--border-color)',
+                          borderRadius: 'var(--radius-sm)',
+                          background: 'var(--bg)',
+                          color: 'var(--fg)',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {s.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (() => {
+              const scenario = SYSTEM_DESIGN_SCENARIOS.find(s => s.key === sdScenarioKey)
+              if (!scenario) return null
+              if (sdSubmitted) {
+                return (
+                  <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.5rem' }}>
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Reference solution</h3>
+                    <p style={{ whiteSpace: 'pre-wrap', fontSize: '0.95rem', color: 'var(--gray-dark)', lineHeight: 1.6 }}>{scenario.referenceSolution}</p>
+                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+                      <button type="button" className="btn btn-outline" onClick={() => { setSdScenarioKey(null); setSdResponse(''); setSdSubmitted(false); }}>Back to list</button>
+                      <button type="button" className="btn btn-outline" onClick={() => { setSdResponse(''); setSdSubmitted(false); }}>Try again</button>
+                    </div>
+                  </div>
+                )
+              }
+              return (
+                <div style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-window)', padding: '1.5rem' }}>
+                  <button type="button" className="btn btn-outline" style={{ marginBottom: '1rem', fontSize: '0.85rem' }} onClick={() => { setSdScenarioKey(null); setSdResponse(''); setSdSubmitted(false); }}>← Back to list</button>
+                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.75rem' }}>{scenario.title}</h3>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--gray-dark)', marginBottom: '1.25rem', lineHeight: 1.5 }}>{scenario.scenario}</p>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>Your approach</label>
+                  <textarea
+                    value={sdResponse}
+                    onChange={e => setSdResponse(e.target.value)}
+                    placeholder="Describe your design: components, data flow, trade-offs..."
+                    rows={8}
+                    style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', fontFamily: 'inherit', fontSize: '0.9rem', marginBottom: '1rem', resize: 'vertical' }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={sdSaving}
+                    onClick={async () => {
+                      setSdSaving(true)
+                      if (user?.id && supabase) {
+                        try {
+                          await supabase.from('system_design_attempts').insert({
+                            user_id: user.id,
+                            scenario_key: sdScenarioKey,
+                            response_text: sdResponse,
+                          })
+                        } catch {
+                          // table may not exist yet
+                        }
+                      }
+                      setSdSaving(false)
+                      setSdSubmitted(true)
+                    }}
+                  >
+                    {sdSaving ? 'Saving...' : 'Submit & see solution'}
+                  </button>
+                </div>
+              )
+            })()}
+          </div>
+        )}
 
         {/* Coding Challenges list */}
         {activeTab === 'coding' && (

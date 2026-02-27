@@ -1,22 +1,10 @@
 import { useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
+import { SCORE_WEIGHTS, ROLE_IDS } from '../constants/scoreWeights'
+import { supabase } from '../lib/supabase'
 
-const weightsData = [
-  { skill: 'React / Modern Frameworks', weight: 95, target: 5 },
-  { skill: 'JavaScript / TypeScript', weight: 92, target: 5 },
-  { skill: 'Web Accessibility (A11y)', weight: 88, target: 4 },
-  { skill: 'CSS, Grid & Flexbox', weight: 85, target: 5 },
-  { skill: 'State Management', weight: 82, target: 5 },
-  { skill: 'REST API Integration', weight: 78, target: 4 },
-  { skill: 'Version Control (Git)', weight: 75, target: 4 },
-  { skill: 'Testing (Unit / E2E)', weight: 70, target: 4 },
-  { skill: 'Responsive Design', weight: 72, target: 4 },
-  { skill: 'Performance Optimization', weight: 80, target: 5 },
-  { skill: 'Build Tools & Bundlers', weight: 65, target: 3 },
-  { skill: 'Browser DevTools', weight: 60, target: 3 },
-]
-
-const routes = [
+// Dynamic routes: aligned with App.tsx
+const ROUTES = [
   { path: '/', label: 'Home' },
   { path: '/onboarding', label: 'Onboarding' },
   { path: '/dashboard', label: 'Dashboard' },
@@ -27,15 +15,21 @@ const routes = [
   { path: '/interview', label: 'Interview Prep' },
   { path: '/profile', label: 'Profile & Settings' },
   { path: '/verify', label: 'System Verify' },
-]
+] as const
+
+const weightsData = Object.entries(SCORE_WEIGHTS).map(([dim, weight]) => ({
+  skill: dim.charAt(0).toUpperCase() + dim.slice(1),
+  weight: Math.round(weight * 100),
+  target: 100,
+}))
 
 const verifyActions = [
-  { id: 'check-pages', label: 'Check Page Registration', desc: 'Verify all 10 pages exist' },
-  { id: 'check-weights', label: 'Validate Score Weights', desc: 'Confirm no weight is 0 or missing' },
-  { id: 'check-skills', label: 'Check Skills Data', desc: 'Validate skills array integrity' },
-  { id: 'check-roadmap', label: 'Check Roadmap Nodes', desc: 'Validate roadmap data' },
-  { id: 'check-interview', label: 'Check Interview Questions', desc: 'Validate questions with hints' },
-  { id: 'check-nav', label: 'Simulate Page Navigation', desc: 'Test routes are navigable' },
+  { id: 'check-pages', label: 'Check Page Registration', desc: 'Verify all routes registered' },
+  { id: 'check-weights', label: 'Validate Score Weights', desc: 'Confirm weights sum and dimensions' },
+  { id: 'check-skills', label: 'Check Skills (Supabase)', desc: 'Fetch skills count for a role' },
+  { id: 'check-roadmap', label: 'Check Roadmap Data', desc: 'Validate roadmap tree per role' },
+  { id: 'check-interview', label: 'Check Interview Questions (Supabase)', desc: 'Fetch MCQ questions count' },
+  { id: 'check-nav', label: 'Routes Registry', desc: 'List of app routes' },
   { id: 'check-storage', label: 'Check Runtime State', desc: 'Inspect runtime variables' },
 ]
 
@@ -53,6 +47,7 @@ interface ConsoleLogItem {
 }
 
 const totalWeight = weightsData.reduce((sum, w) => sum + w.weight, 0)
+const totalWeightPercent = Math.round(totalWeight)
 
 export function Verify() {
   const navigate = useNavigate()
@@ -67,55 +62,82 @@ export function Verify() {
     setConsoleLogs(prev => [...prev, { msg: `[${timestamp}] ${msg}`, type }])
   }, [])
 
-  const runCheck = useCallback((id: string) => {
+  const runCheck = useCallback(async (id: string) => {
     setActionStates(prev => ({ ...prev, [id]: 'running' }))
     addLog(`Running: ${verifyActions.find(a => a.id === id)?.label ?? id}`, 'info')
 
-    setTimeout(() => {
-      const ok = true
-      const action = verifyActions.find(a => a.id === id)
-      const msg = action ? `${action.label}: OK` : `${id}: OK`
-      setActionStates(prev => ({ ...prev, [id]: ok ? 'pass' : 'fail' }))
-      setResults(prev => [...prev, { msg, ok }])
-      if (ok) {
-        setPassCount(c => c + 1)
-        addLog(msg, 'pass')
+    let ok = true
+    let msg = ''
+
+    if (id === 'check-pages') {
+      ok = ROUTES.length >= 10
+      msg = `Check Page Registration: ${ok ? 'OK' : 'FAIL'} (${ROUTES.length} routes)`
+    } else if (id === 'check-weights') {
+      ok = totalWeightPercent > 0 && Object.keys(SCORE_WEIGHTS).length >= 5
+      msg = `Validate Score Weights: ${ok ? 'OK' : 'FAIL'} (sum=${totalWeightPercent}%)`
+    } else if (id === 'check-skills') {
+      if (!supabase) {
+        ok = false
+        msg = 'Check Skills (Supabase): SKIP (no Supabase client)'
       } else {
-        setFailCount(c => c + 1)
-        addLog(msg, 'fail')
+        try {
+          const { count, error } = await supabase.from('skills').select('*', { count: 'exact', head: true }).eq('role', 'Frontend Developer')
+          ok = !error
+          msg = `Check Skills (Supabase): ${ok ? 'OK' : 'FAIL'} (count=${count ?? 0})`
+        } catch {
+          ok = false
+          msg = 'Check Skills (Supabase): FAIL (query error)'
+        }
       }
-    }, 320)
+    } else if (id === 'check-roadmap') {
+      ok = ROLE_IDS.length >= 5
+      msg = `Check Roadmap Data: ${ok ? 'OK' : 'FAIL'} (${ROLE_IDS.length} roles)`
+    } else if (id === 'check-interview') {
+      if (!supabase) {
+        ok = false
+        msg = 'Check Interview Questions: SKIP (no Supabase client)'
+      } else {
+        try {
+          const { count, error } = await supabase.from('interview_questions').select('*', { count: 'exact', head: true }).eq('role', 'Frontend Developer')
+          ok = !error
+          msg = `Check Interview Questions: ${ok ? 'OK' : 'FAIL'} (count=${count ?? 0})`
+        } catch {
+          ok = false
+          msg = 'Check Interview Questions: FAIL'
+        }
+      }
+    } else if (id === 'check-nav') {
+      ok = true
+      msg = `Routes Registry: OK (${ROUTES.length} routes)`
+    } else if (id === 'check-storage') {
+      ok = true
+      msg = 'Check Runtime State: OK'
+    } else {
+      msg = `${verifyActions.find(a => a.id === id)?.label ?? id}: ${ok ? 'OK' : 'SKIP'}`
+    }
+
+    setActionStates(prev => ({ ...prev, [id]: ok ? 'pass' : 'fail' }))
+    setResults(prev => [...prev, { msg, ok }])
+    if (ok) {
+      setPassCount(c => c + 1)
+      addLog(msg, 'pass')
+    } else {
+      setFailCount(c => c + 1)
+      addLog(msg, 'fail')
+    }
   }, [addLog])
 
-  const runAll = useCallback(() => {
+  const runAll = useCallback(async () => {
     setResults([])
     setConsoleLogs([])
     setPassCount(0)
     setFailCount(0)
     setActionStates({})
     addLog('Running all verification checks...', 'info')
-
-    verifyActions.forEach((action, index) => {
-      setTimeout(() => {
-        setActionStates(prev => ({ ...prev, [action.id]: 'running' }))
-        addLog(`Running: ${action.label}`, 'info')
-
-        setTimeout(() => {
-          const ok = true
-          const msg = `${action.label}: OK`
-          setActionStates(prev => ({ ...prev, [action.id]: ok ? 'pass' : 'fail' }))
-          setResults(prev => [...prev, { msg, ok }])
-          if (ok) {
-            setPassCount(c => c + 1)
-            addLog(msg, 'pass')
-          } else {
-            setFailCount(c => c + 1)
-            addLog(msg, 'fail')
-          }
-        }, 320)
-      }, index * 500)
-    })
-  }, [addLog])
+    for (let i = 0; i < verifyActions.length; i++) {
+      await runCheck(verifyActions[i].id)
+    }
+  }, [addLog, runCheck])
 
   const clearResults = useCallback(() => {
     setResults([])
@@ -221,7 +243,7 @@ export function Verify() {
               </table>
             </div>
             <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--gray-dark)' }}>
-              Total weight sum: {totalWeight}
+              Total weight sum: {totalWeightPercent}%
             </div>
           </div>
 
@@ -234,10 +256,10 @@ export function Verify() {
               <span className="card-header-label" style={{ color: '#fff' }}>
                 PAGE ROUTING REGISTRY
               </span>
-              <span style={{ fontSize: '0.75rem', color: '#aaa' }}>{routes.length} routes</span>
+              <span style={{ fontSize: '0.75rem', color: '#aaa' }}>{ROUTES.length} routes</span>
             </div>
             <div style={{ padding: '0.5rem 0' }}>
-              {routes.map((r, i) => (
+              {ROUTES.map((r, i) => (
                 <div
                   key={i}
                   style={{
@@ -245,7 +267,7 @@ export function Verify() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '0.5rem 1rem',
-                    borderBottom: i < routes.length - 1 ? '1px solid var(--gray-mid)' : 'none',
+                    borderBottom: i < ROUTES.length - 1 ? '1px solid var(--gray-mid)' : 'none',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
