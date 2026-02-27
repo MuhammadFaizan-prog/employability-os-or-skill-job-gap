@@ -4,6 +4,8 @@ plugins {
     kotlin("plugin.serialization") version "1.9.23"
 }
 
+import java.util.Properties
+
 android {
     namespace = "com.skilljobgap.employability"
     compileSdk = 34
@@ -18,11 +20,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Prefer local.properties (gitignored), then gradle.properties — same env as frontend/.env
-        val localProps = java.util.Properties()
-        rootProject.file("local.properties").takeIf { it.exists() }?.reader(Charsets.UTF_8)?.use { localProps.load(it) }
-        val supabaseUrl = (localProps.getProperty("supabase.url")?.takeIf { it.isNotBlank() }
+        val localProps = Properties()
+        rootProject.file("local.properties").takeIf { file -> file.exists() }?.reader(Charsets.UTF_8)?.use { reader -> localProps.load(reader) }
+        val supabaseUrl = (localProps.getProperty("supabase.url")?.takeIf { str -> str.isNotBlank() }
             ?: project.findProperty("SUPABASE_URL") as? String) ?: ""
-        val supabaseAnonKey = (localProps.getProperty("supabase.anonKey")?.takeIf { it.isNotBlank() }
+        val supabaseAnonKey = (localProps.getProperty("supabase.anonKey")?.takeIf { str -> str.isNotBlank() }
             ?: project.findProperty("SUPABASE_ANON_KEY") as? String) ?: ""
         buildConfigField("String", "SUPABASE_URL", "\"${supabaseUrl.replace("\"", "\\\"")}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${supabaseAnonKey.replace("\"", "\\\"")}\"")
@@ -78,4 +80,3 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
-

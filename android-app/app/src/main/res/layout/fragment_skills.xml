@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="← Back to Dashboard"
+                    android:text="Back to Dashboard"
                     app:strokeColor="@color/employability_border" />
 
                 <TextView
@@ -65,7 +65,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/employability_gray_dark" />
 
-                <!-- Summary cards -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -164,7 +163,6 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <!-- Suggested next -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/skillsSuggestedCard"
                     android:layout_width="match_parent"
@@ -207,7 +205,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp"
                                 android:textColor="@color/employability_gray_dark"
-                                android:text="Weight · Proficiency" />
+                                android:text="Weight - Proficiency" />
                         </LinearLayout>
                         <Button
                             android:id="@+id/skillsFocusThis"
@@ -217,7 +215,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Filter -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -232,9 +229,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="12dp">
+                </LinearLayout>
 
-                <!-- Sort -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -250,7 +247,6 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp" />
 
-                <!-- Skills list -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -265,12 +261,11 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false" />
 
-                <!-- Priority focus -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Priority Focus — Top Gaps"
+                    android:text="Priority Focus - Top Gaps"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -284,7 +279,6 @@
             </LinearLayout>
         </ScrollView>
 
-        <!-- Bottom bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -311,4 +305,5 @@
                 android:text="Back to Dashboard"
                 app:strokeColor="@color/employability_border" />
         </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
