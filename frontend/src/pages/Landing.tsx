@@ -4,10 +4,10 @@ import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Landing() {
   usePageMeta({
-    title: 'Skill–Job Gap | AI-Powered Career Readiness & Skills Assessment Platform',
+    title: 'Employability OS | AI-Powered Career Readiness & Skill-Job Gap Platform',
     description:
-      'Measure your professional skills against real employer benchmarks, identify critical skill gaps, and get a personalized AI-powered learning roadmap. Start your free career readiness assessment today.',
-    canonical: 'https://www.skilljobgap.com/',
+      'Employability OS measures your skills against employer benchmarks, identifies your skill-job gaps, and delivers a personalised AI learning roadmap. Free for students, job seekers, universities & employers.',
+    canonical: 'https://employabilityos.pages.dev/',
     noIndex: false,
   })
   const navigate = useNavigate()
