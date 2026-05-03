@@ -57,9 +57,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
-            app:progressIndicatorColor="@color/employability_fg"
+            app:indicatorColor="@color/employability_fg"
             app:trackColor="@color/employability_gray_mid"
-            app:indeterminate="false" />
+            android:indeterminate="false" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/projectsRecycler"

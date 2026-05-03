@@ -17,6 +17,10 @@ import { Profile } from './pages/Profile'
 import { Verify } from './pages/Verify'
 import { Privacy } from './pages/Privacy'
 import { Terms } from './pages/Terms'
+import { EmployabilityOS } from './pages/EmployabilityOS'
+import { EmployabilityApp } from './pages/EmployabilityApp'
+import { SkillJobGapPage } from './pages/SkillJobGapPage'
+import { EmployabilityHub } from './pages/EmployabilityHub'
 
 export default function App() {
   return (
@@ -28,6 +32,12 @@ export default function App() {
           <Route index element={<Landing />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
+          {/* SEO Target Query Pages */}
+          <Route path="employability-os" element={<EmployabilityOS />} />
+          <Route path="employability-app" element={<EmployabilityApp />} />
+          <Route path="skill-job-gap" element={<SkillJobGapPage />} />
+          <Route path="employability" element={<EmployabilityHub />} />
+
 
           {/* Auth pages: redirect to dashboard if already logged in */}
           <Route path="login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />

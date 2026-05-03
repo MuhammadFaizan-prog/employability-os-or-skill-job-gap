@@ -98,9 +98,9 @@
                         android:layout_gravity="center"
                         app:indicatorSize="140dp"
                         app:trackThickness="12dp"
-                        app:progressIndicatorColor="@color/employability_fg"
+                        app:indicatorColor="@color/employability_fg"
                         app:trackColor="@color/employability_gray_mid"
-                        app:indicatorDirectionCircular="0" />
+                        app:indicatorDirectionCircular="clockwise" />
 
                     <TextView
                         android:id="@+id/dashboardScoreValue"
@@ -375,8 +375,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:trackColor="@color/employability_gray_mid"
-                    app:progressIndicatorColor="@color/employability_fg"
-                    app:indeterminate="false" />
+                    app:indicatorColor="@color/employability_fg"
+                    android:indeterminate="false" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
