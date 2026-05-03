@@ -10,7 +10,7 @@ export function EmployabilityApp() {
   usePageMeta({
     title: 'Employability App | AI Career Readiness App for Students & Job Seekers',
     description: 'The Employability App that measures your skills, identifies job gaps, and gives you a personalised AI roadmap. Free for students, job seekers, universities, and employers.',
-    canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability-app',
+    canonical: 'https://employabilityos.pages.dev/employability-app',
     noIndex: false,
   })
   useJsonLd({
@@ -18,14 +18,14 @@ export function EmployabilityApp() {
     '@graph': [
       {
         '@type': 'WebPage',
-        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app#webpage',
-        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app',
+        '@id': 'https://employabilityos.pages.dev/employability-app#webpage',
+        'url': 'https://employabilityos.pages.dev/employability-app',
         'name': 'Employability App | AI Career Readiness App for Students & Job Seekers',
         'description': 'The Employability App that measures your skills, identifies job gaps, and gives you a personalised AI roadmap. Free for students, job seekers, universities, and employers.',
-        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'isPartOf': { '@id': 'https://employabilityos.pages.dev/#website' },
         'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app' },
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employabilityos.pages.dev/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'item': 'https://employabilityos.pages.dev/employability-app' },
         ]},
       },
       {

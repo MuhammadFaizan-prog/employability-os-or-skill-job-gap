@@ -1,5 +1,5 @@
-# robots.txt — Skill–Job Gap
-# https://www.skilljobgap.com/robots.txt
+# robots.txt — Employability OS
+# https://employabilityos.pages.dev/robots.txt
 # Updated: 2026-05-03
 
 # ─── Default: Allow all crawlers ────────────────────────────────────────────
@@ -20,14 +20,13 @@ Disallow: /interview/
 Disallow: /profile
 Disallow: /verify
 
-# Block common build artifacts
+# Block build artifacts
 Disallow: /src/
 Disallow: /.git/
 Disallow: /node_modules/
 Disallow: /dist/
 
 # ─── AI Crawlers: Explicitly allow for GEO/AEO citation ─────────────────────
-# Allowing AI crawlers helps with generative engine optimization (GEO)
 User-agent: GPTBot
 Allow: /
 Disallow: /dashboard
@@ -59,4 +58,4 @@ User-agent: Bytespider
 Disallow: /
 
 # ─── Sitemap ─────────────────────────────────────────────────────────────────
-Sitemap: https://www.skilljobgap.com/sitemap.xml
+Sitemap: https://employabilityos.pages.dev/sitemap.xml

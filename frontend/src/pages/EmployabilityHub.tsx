@@ -9,7 +9,7 @@ export function EmployabilityHub() {
   usePageMeta({
     title: 'Employability | Your Complete Guide to Career Readiness & Job Skills',
     description: 'Everything you need to know about employability — skills, assessment, gap analysis, career readiness, and AI-powered tools to become job-ready faster.',
-    canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability',
+    canonical: 'https://employabilityos.pages.dev/employability',
     noIndex: false,
   })
   useJsonLd({
@@ -17,14 +17,14 @@ export function EmployabilityHub() {
     '@graph': [
       {
         '@type': 'WebPage',
-        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability#webpage',
-        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability',
+        '@id': 'https://employabilityos.pages.dev/employability#webpage',
+        'url': 'https://employabilityos.pages.dev/employability',
         'name': 'Employability | Your Complete Guide to Career Readiness & Job Skills',
         'description': 'Everything you need to know about employability — skills, assessment, gap analysis, career readiness, and AI-powered tools to become job-ready faster.',
-        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'isPartOf': { '@id': 'https://employabilityos.pages.dev/#website' },
         'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Employability', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability' },
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employabilityos.pages.dev/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability', 'item': 'https://employabilityos.pages.dev/employability' },
         ]},
       },
       {
@@ -32,9 +32,9 @@ export function EmployabilityHub() {
         'name': 'Employability Resources',
         'description': 'A complete hub of employability tools, guides, and resources for students, job seekers, universities, and employers.',
         'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Employability OS', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app' },
-          { '@type': 'ListItem', 'position': 3, 'name': 'Skill-Job Gap Guide', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap' },
+          { '@type': 'ListItem', 'position': 1, 'name': 'Employability OS', 'url': 'https://employabilityos.pages.dev/employability-os' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'url': 'https://employabilityos.pages.dev/employability-app' },
+          { '@type': 'ListItem', 'position': 3, 'name': 'Skill-Job Gap Guide', 'url': 'https://employabilityos.pages.dev/skill-job-gap' },
         ],
       },
     ],

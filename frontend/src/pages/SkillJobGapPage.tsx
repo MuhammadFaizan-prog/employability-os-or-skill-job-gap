@@ -10,7 +10,7 @@ export function SkillJobGapPage() {
   usePageMeta({
     title: 'Skill Job Gap | What It Is, Why It Matters & How to Close It',
     description: 'A skill–job gap is the measurable difference between your current skills and what employers require. Learn what causes it, how it is measured, and how to close it with AI.',
-    canonical: 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
+    canonical: 'https://employabilityos.pages.dev/skill-job-gap',
     noIndex: false,
   })
   useJsonLd({
@@ -18,21 +18,21 @@ export function SkillJobGapPage() {
     '@graph': [
       {
         '@type': 'WebPage',
-        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap#webpage',
-        'url': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
+        '@id': 'https://employabilityos.pages.dev/skill-job-gap#webpage',
+        'url': 'https://employabilityos.pages.dev/skill-job-gap',
         'name': 'Skill Job Gap | What It Is, Why It Matters & How to Close It',
         'description': 'A skill-job gap is the measurable difference between your current skills and what employers require. Learn what causes it, how it is measured, and how to close it.',
-        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'isPartOf': { '@id': 'https://employabilityos.pages.dev/#website' },
         'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Skill-Job Gap', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap' },
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employabilityos.pages.dev/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Skill-Job Gap', 'item': 'https://employabilityos.pages.dev/skill-job-gap' },
         ]},
       },
       {
         '@type': 'DefinedTerm',
         'name': 'Skill-Job Gap',
         'description': 'A skill-job gap is the measurable difference between the skills a candidate currently possesses and the skills an employer requires for a specific job role.',
-        'inDefinedTermSet': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
+        'inDefinedTermSet': 'https://employabilityos.pages.dev/skill-job-gap',
       },
       {
         '@type': 'FAQPage',

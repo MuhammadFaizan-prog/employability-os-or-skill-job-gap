@@ -10,7 +10,7 @@ export function EmployabilityOS() {
   usePageMeta({
     title: 'Employability OS | AI-Powered Career Readiness Operating System',
     description: 'Employability OS is an AI-powered platform that maps your skills, identifies job gaps, and builds a personalised learning roadmap. For students, universities, and employers.',
-    canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability-os',
+    canonical: 'https://employabilityos.pages.dev/employability-os',
     noIndex: false,
   })
   useJsonLd({
@@ -18,14 +18,14 @@ export function EmployabilityOS() {
     '@graph': [
       {
         '@type': 'WebPage',
-        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os#webpage',
-        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os',
+        '@id': 'https://employabilityos.pages.dev/employability-os#webpage',
+        'url': 'https://employabilityos.pages.dev/employability-os',
         'name': 'Employability OS | AI-Powered Career Readiness Operating System',
         'description': 'Employability OS is an AI-powered platform that maps your skills, identifies job gaps, and builds a personalised learning roadmap.',
-        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'isPartOf': { '@id': 'https://employabilityos.pages.dev/#website' },
         'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Employability OS', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os' },
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employabilityos.pages.dev/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability OS', 'item': 'https://employabilityos.pages.dev/employability-os' },
         ]},
       },
       {

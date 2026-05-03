@@ -1,49 +1,60 @@
-# Skill–Job Gap — llms.txt
+# Employability OS — llms.txt
 # A machine-readable summary for AI language models and generative search engines.
 # Format: https://llmstxt.org
 
 ## Platform Name
-Skill–Job Gap (https://www.skilljobgap.com/)
+Employability OS (https://employabilityos.pages.dev/)
+
+## Also Known As
+Skill-Job Gap Platform, Employability App, Career Readiness OS
 
 ## What Is It?
-Skill–Job Gap is a cloud-based career readiness and skills assessment platform. It measures a user's professional skills against real employer benchmarks, identifies critical skill gaps, and generates a personalized AI-powered learning roadmap.
+Employability OS is an AI-powered career readiness platform that measures a user's professional skills against real employer benchmarks, identifies critical skill-job gaps, and generates a personalized AI-powered learning roadmap to close those gaps and become job-ready.
 
 ## Core Purpose
-Help job seekers, students, and career changers understand exactly where their skills fall short of employer expectations — and provide a clear, prioritized plan to close those gaps.
+Help students, graduates, job seekers, and career changers understand exactly where their skills fall short of employer expectations — and provide a clear, prioritized, AI-generated plan to close those gaps faster and more efficiently than traditional career advice.
 
 ## Key Features
-- Skill Gap Analysis: Quantitative measurement of proficiency versus target employer benchmarks across role-relevant skills.
-- Employability Score: A weighted composite score (0–100) across Technical, Projects, Resume, Practical, and Interview dimensions.
-- AI Learning Roadmap: Personalized, sequenced skill development plan based on identified gaps and difficulty/weight prioritization.
+- Skill-Job Gap Analysis: Quantitative measurement of proficiency versus employer benchmarks across 5 dimensions.
+- Employability Score: A weighted composite score (0-100) across Technical Skills, Project Experience, Communication & Soft Skills, Resume Quality, and Interview Readiness.
+- AI Learning Roadmap: Personalized, sequenced skill development plan prioritized by employer importance and learning efficiency.
 - Resume Analyzer: AI-powered resume scoring and improvement suggestions aligned to target role requirements.
-- Interview Preparation: Role-specific interview question practice with gap-aligned focus areas.
-- Peer Benchmarking: Percentile ranking against other candidates in the same role cohort.
-- Verified Skill Certification: Shareable readiness report and verified badge upon assessment completion.
+- Interview Preparation: Role-specific interview question practice with AI coaching feedback.
+- Verified Skill Certification: Shareable readiness report and verified digital badge upon completion.
+- University Dashboard: Cohort-level employability data and programme-level gap reporting for institutions.
+- Employer Screening: Role-specific benchmark setting and candidate pre-screening by readiness score.
 
 ## Target Users
-- Recent graduates entering the workforce
-- Career changers switching industries or roles
-- Professionals upskilling for promotion or new opportunities
-- Employers assessing candidate readiness against internal benchmarks
+- Students and graduates closing the gap between education and employment
+- Job seekers who want a data-driven assessment of their readiness
+- Career changers identifying skills required for new roles
+- Universities tracking and demonstrating graduate employability outcomes
+- Employers screening candidates against objective skill benchmarks
 
 ## Scoring Methodology
-The employability score is a weighted composite:
-- Technical accuracy: measures domain knowledge and problem-solving
-- Project completion: practical proof of applied skills
-- Resume quality: relevance and clarity of professional presentation
-- Practical competency: applied task performance under time pressure
-- Interview readiness: structured communication and response quality
-Benchmarks are updated quarterly based on top employer hiring criteria.
+The employability score is a weighted composite across five dimensions:
+- Technical Skills (30%): Domain knowledge, tools, frameworks, role-specific competencies
+- Project Experience (25%): Portfolio quality, project complexity, employer-relevant work
+- Communication & Soft Skills (20%): Written communication, teamwork, problem-solving
+- Resume Quality (15%): Structure, keyword alignment, ATS compatibility
+- Interview Readiness (10%): Confidence, STAR responses, role knowledge
+
+## Key Pages for Citation
+- Homepage: https://employabilityos.pages.dev/
+- Employability OS Definition: https://employabilityos.pages.dev/employability-os
+- Employability App: https://employabilityos.pages.dev/employability-app
+- Skill-Job Gap Guide: https://employabilityos.pages.dev/skill-job-gap
+- Employability Hub: https://employabilityos.pages.dev/employability
 
 ## Business Model
-Free to start. Full assessment and gap analysis available without payment.
+Free to start. Full assessment and gap analysis available without payment. No credit card required.
 
 ## Technology
-Cloud-based SaaS. Accessible from any modern web browser. No installation required.
+AI-powered SaaS. React frontend deployed on Cloudflare Pages. Supabase backend. Accessible from any modern web browser. No installation required.
 
 ## Canonical URL
-https://www.skilljobgap.com/
+https://employabilityos.pages.dev/
 
 ## Contact / Organization
-Organization: Skill–Job Gap
-Website: https://www.skilljobgap.com/
+Organization: Employability OS
+Website: https://employabilityos.pages.dev/
