@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRoleData } from '../hooks/useRoleData'
 import { getStoredRole } from '../hooks/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 type FilterValue = 'all' | 'gap' | 'strength' | 'priority'
 type SortValue = 'default' | 'weight-desc' | 'proficiency-asc' | 'difficulty-asc' | 'gap-desc'
@@ -14,6 +15,11 @@ function computeStatus(proficiency: number, target: number, weight: number): 'st
 }
 
 export function Skills() {
+  usePageMeta({
+    title: 'Skill Gap Analysis | Skill–Job Gap',
+    description: 'Review and update your skill proficiency ratings to recalculate your gap analysis and get updated recommendations.',
+    noIndex: true,
+  })
   const navigate = useNavigate()
   const role = getStoredRole()
   const {

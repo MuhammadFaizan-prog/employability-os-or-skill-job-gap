@@ -1,0 +1,49 @@
+/*
+ * Netlify / Cloudflare Pages / Vercel production security headers.
+ * Place this file at: frontend/public/_headers
+ *
+ * These headers significantly improve:
+ *   - Security score (E-E-A-T trust signal)
+ *   - Google Search Console security audit
+ *   - Observatory.mozilla.org score
+ *   - Chrome Lighthouse best practices score
+ */
+
+/*
+  Matches all routes
+*/
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/*
+  Cache static assets aggressively — JS/CSS chunks have content hashes
+*/
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  HTML pages — must revalidate for fresh routing
+*/
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*
+  SEO files — moderate cache
+*/
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/llms.txt
+  Cache-Control: public, max-age=86400

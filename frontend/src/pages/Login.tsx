@@ -1,8 +1,15 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Login() {
+  usePageMeta({
+    title: 'Sign In | Skill–Job Gap',
+    description: 'Sign in to your Skill–Job Gap account to continue your career readiness assessment, view your skill gap analysis, and access your personalized learning roadmap.',
+    canonical: 'https://www.skilljobgap.com/login',
+    noIndex: false,
+  })
   const navigate = useNavigate()
   const location = useLocation()
   const { signIn, signInWithGoogle } = useAuth()

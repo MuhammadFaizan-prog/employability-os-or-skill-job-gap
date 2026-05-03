@@ -1,0 +1,62 @@
+# robots.txt — Skill–Job Gap
+# https://www.skilljobgap.com/robots.txt
+# Updated: 2026-05-03
+
+# ─── Default: Allow all crawlers ────────────────────────────────────────────
+User-agent: *
+Allow: /
+Allow: /signup
+Allow: /login
+
+# Block private/authenticated app routes from indexing
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /skills
+Disallow: /roadmap
+Disallow: /projects
+Disallow: /resume
+Disallow: /interview
+Disallow: /interview/
+Disallow: /profile
+Disallow: /verify
+
+# Block common build artifacts
+Disallow: /src/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /dist/
+
+# ─── AI Crawlers: Explicitly allow for GEO/AEO citation ─────────────────────
+# Allowing AI crawlers helps with generative engine optimization (GEO)
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /profile
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /profile
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /profile
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /profile
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# ─── Sitemap ─────────────────────────────────────────────────────────────────
+Sitemap: https://www.skilljobgap.com/sitemap.xml

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Google Fonts loaded via <link> preconnect in index.html for optimal LCP */
+
 
 :root {
   --bg: #ffffff;

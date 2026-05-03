@@ -1,7 +1,78 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Landing() {
+  usePageMeta({
+    title: 'Skill–Job Gap | AI-Powered Career Readiness & Skills Assessment Platform',
+    description:
+      'Measure your professional skills against real employer benchmarks, identify critical skill gaps, and get a personalized AI-powered learning roadmap. Start your free career readiness assessment today.',
+    canonical: 'https://www.skilljobgap.com/',
+    noIndex: false,
+  })
   const navigate = useNavigate()
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  const faqs = [
+    {
+      q: 'What is a skill–job gap?',
+      a: (
+        <>
+          A <strong>skill–job gap</strong> is the measurable difference between the skills a candidate currently holds and the skills an employer requires for a specific role. Our platform quantifies this gap by comparing your self-assessed proficiency ratings against a standardized benchmark built from real employer hiring requirements — giving you a precise, actionable score for each skill area.
+        </>
+      ),
+    },
+    {
+      q: 'How does the career readiness assessment work?',
+      a: (
+        <>
+          The process takes four steps:
+          <ol style={{ paddingLeft: '1.5rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <li><strong>Register</strong> — create a free account and select your target role.</li>
+            <li><strong>Assess</strong> — complete the 45-minute core competency evaluation covering technical, practical, and communication skills.</li>
+            <li><strong>Analyze</strong> — receive an instant AI-powered score with a detailed skill gap breakdown.</li>
+            <li><strong>Certify</strong> — get a verified readiness badge and a shareable PDF report to attach to your resume.</li>
+          </ol>
+        </>
+      ),
+    },
+    {
+      q: 'Is the skill gap assessment free?',
+      a: (
+        <><strong>Yes — it is free to start.</strong> Creating an account and completing the full skill gap assessment costs nothing. You receive a complete breakdown of your strengths, gaps, and priority focus areas immediately after the assessment. Advanced features such as AI roadmap generation, resume analysis, and interview preparation are available in the platform after onboarding.</>
+      ),
+    },
+    {
+      q: 'How is the employability score calculated?',
+      a: (
+        <>
+          Your <strong>employability score</strong> (0–100) is a weighted composite of five dimensions:
+          <ul style={{ paddingLeft: '1.5rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <li><strong>Technical accuracy</strong> — domain knowledge and problem-solving correctness.</li>
+            <li><strong>Projects</strong> — practical proof of applied skills through completed work.</li>
+            <li><strong>Resume quality</strong> — relevance and clarity of professional presentation.</li>
+            <li><strong>Practical competency</strong> — performance on timed, real-world scenarios.</li>
+            <li><strong>Interview readiness</strong> — structured communication and response quality.</li>
+          </ul>
+          Benchmarks are updated quarterly based on current employer hiring requirements.
+        </>
+      ),
+    },
+    {
+      q: 'Who should use this platform?',
+      a: (
+        <>
+          The Skill–Job Gap platform is designed for:
+          <ul style={{ paddingLeft: '1.5rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <li><strong>Recent graduates</strong> preparing to enter their first professional role.</li>
+            <li><strong>Career changers</strong> transitioning to a new industry or function.</li>
+            <li><strong>Experienced professionals</strong> upskilling for a promotion or competitive market.</li>
+            <li><strong>Employers and HR teams</strong> assessing candidate readiness against internal benchmarks.</li>
+          </ul>
+        </>
+      ),
+    },
+  ]
 
   return (
     <div className="fade-in landing-page" style={{ position: 'relative', overflowX: 'hidden' }}>
@@ -242,11 +313,105 @@ export function Landing() {
       <section className="cta-section section-spacer">
         <div className="container">
           <h2>Ready to prove your skills?</h2>
-          <button className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }} onClick={() => navigate('/onboarding')}>
-            Get Certified Now
+          <button className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }} onClick={() => navigate('/signup')}>
+            Get Started Free
           </button>
         </div>
       </section>
+
+      {/* ── AEO: FAQ Accordion ── Targets featured snippets + People Also Ask ── */}
+      <section className="section-spacer" id="faq" aria-labelledby="faq-heading" style={{ borderTop: '1px solid var(--border-color)' }}>
+        <div className="container" style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 id="faq-heading">Frequently Asked Questions</h2>
+            <p style={{ color: 'var(--gray-dark)', margin: '0 auto' }}>
+              Quick answers about how skill gap analysis and career readiness assessment works.
+            </p>
+          </div>
+
+          {/* Accessible accordion — dl/dt/dd preserved for SEO schema; button drives interaction */}
+          <dl style={{ display: 'flex', flexDirection: 'column', margin: 0, padding: 0 }}>
+            {faqs.map((item, i) => {
+              const isOpen = openFaq === i
+              return (
+                <div
+                  key={i}
+                  style={{
+                    borderBottom: '1px solid var(--border-color)',
+                  }}
+                >
+                  <dt style={{ margin: 0 }}>
+                    <button
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${i}`}
+                      id={`faq-question-${i}`}
+                      onClick={() => setOpenFaq(isOpen ? null : i)}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        background: 'none',
+                        border: 'none',
+                        padding: '1.25rem 0',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        fontWeight: 700,
+                        fontSize: '1.05rem',
+                        color: 'var(--fg)',
+                        fontFamily: 'inherit',
+                        gap: '1rem',
+                      }}
+                    >
+                      <span>{item.q}</span>
+                      {/* Animated chevron */}
+                      <svg
+                        aria-hidden="true"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{
+                          flexShrink: 0,
+                          transition: 'transform 0.25s ease',
+                          transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          color: 'var(--gray-dark)',
+                        }}
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
+                  </dt>
+                  <dd
+                    id={`faq-answer-${i}`}
+                    role="region"
+                    aria-labelledby={`faq-question-${i}`}
+                    style={{
+                      margin: 0,
+                      overflow: 'hidden',
+                      maxHeight: isOpen ? '600px' : '0px',
+                      transition: 'max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease',
+                      opacity: isOpen ? 1 : 0,
+                      paddingBottom: isOpen ? '1.5rem' : '0',
+                      color: 'var(--gray-dark)',
+                      fontSize: '1rem',
+                      lineHeight: 1.75,
+                    }}
+                  >
+                    {item.a}
+                  </dd>
+                </div>
+              )
+            })}
+          </dl>
+        </div>
+      </section>
+
+
     </div>
   )
 }

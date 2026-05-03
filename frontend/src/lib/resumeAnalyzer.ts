@@ -33,7 +33,10 @@ export async function extractTextFromFile(file: File): Promise<string> {
 
   if (isPdf) {
     try {
-      const { getDocument } = await import('pdfjs-dist')
+      const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist')
+      // Set worker source for pdfjs-dist v4
+      GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).href
+
       const arrayBuffer = await file.arrayBuffer()
       const pdf = await getDocument({ data: arrayBuffer }).promise
       const numPages = pdf.numPages

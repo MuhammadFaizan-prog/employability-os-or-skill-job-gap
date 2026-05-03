@@ -1,0 +1,49 @@
+# Skill–Job Gap — llms.txt
+# A machine-readable summary for AI language models and generative search engines.
+# Format: https://llmstxt.org
+
+## Platform Name
+Skill–Job Gap (https://www.skilljobgap.com/)
+
+## What Is It?
+Skill–Job Gap is a cloud-based career readiness and skills assessment platform. It measures a user's professional skills against real employer benchmarks, identifies critical skill gaps, and generates a personalized AI-powered learning roadmap.
+
+## Core Purpose
+Help job seekers, students, and career changers understand exactly where their skills fall short of employer expectations — and provide a clear, prioritized plan to close those gaps.
+
+## Key Features
+- Skill Gap Analysis: Quantitative measurement of proficiency versus target employer benchmarks across role-relevant skills.
+- Employability Score: A weighted composite score (0–100) across Technical, Projects, Resume, Practical, and Interview dimensions.
+- AI Learning Roadmap: Personalized, sequenced skill development plan based on identified gaps and difficulty/weight prioritization.
+- Resume Analyzer: AI-powered resume scoring and improvement suggestions aligned to target role requirements.
+- Interview Preparation: Role-specific interview question practice with gap-aligned focus areas.
+- Peer Benchmarking: Percentile ranking against other candidates in the same role cohort.
+- Verified Skill Certification: Shareable readiness report and verified badge upon assessment completion.
+
+## Target Users
+- Recent graduates entering the workforce
+- Career changers switching industries or roles
+- Professionals upskilling for promotion or new opportunities
+- Employers assessing candidate readiness against internal benchmarks
+
+## Scoring Methodology
+The employability score is a weighted composite:
+- Technical accuracy: measures domain knowledge and problem-solving
+- Project completion: practical proof of applied skills
+- Resume quality: relevance and clarity of professional presentation
+- Practical competency: applied task performance under time pressure
+- Interview readiness: structured communication and response quality
+Benchmarks are updated quarterly based on top employer hiring criteria.
+
+## Business Model
+Free to start. Full assessment and gap analysis available without payment.
+
+## Technology
+Cloud-based SaaS. Accessible from any modern web browser. No installation required.
+
+## Canonical URL
+https://www.skilljobgap.com/
+
+## Contact / Organization
+Organization: Skill–Job Gap
+Website: https://www.skilljobgap.com/

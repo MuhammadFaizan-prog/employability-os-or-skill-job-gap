@@ -2,12 +2,166 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- ===== Favicon & Theme ===== -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="theme-color" content="#1a1a1a" />
+
+    <!-- ===== Viewport & Robots ===== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- ===== Primary SEO ===== -->
+    <title>Skill–Job Gap | AI-Powered Career Readiness &amp; Skills Assessment Platform</title>
+    <meta name="description" content="Measure your professional skills against real employer benchmarks, identify critical skill gaps, and get a personalized AI-powered learning roadmap. Start your free career readiness assessment today." />
+    <meta name="keywords" content="skill gap analysis, career readiness assessment, job skill gap, employability platform, AI learning roadmap, professional skills benchmark, interview preparation, resume analyzer" />
+    <link rel="canonical" href="https://www.skilljobgap.com/" />
+
+    <!-- ===== Open Graph (Facebook, LinkedIn, WhatsApp) ===== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Skill–Job Gap" />
+    <meta property="og:title" content="Skill–Job Gap | AI-Powered Career Readiness &amp; Skills Assessment" />
+    <meta property="og:description" content="Measure your skills against employer benchmarks, close critical gaps, and build a personalized AI-powered roadmap to job readiness. Free to start." />
+    <meta property="og:url" content="https://www.skilljobgap.com/" />
+    <meta property="og:image" content="https://www.skilljobgap.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Skill–Job Gap platform — skills assessment dashboard showing score breakdown and learning roadmap" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ===== Twitter / X Card ===== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@skilljobgap" />
+    <meta name="twitter:title" content="Skill–Job Gap | AI-Powered Career Readiness Assessment" />
+    <meta name="twitter:description" content="Identify your skill gaps, benchmark against employers, and follow a personalized AI roadmap to land your next role." />
+    <meta name="twitter:image" content="https://www.skilljobgap.com/og-image.png" />
+    <meta name="twitter:image:alt" content="Skill–Job Gap — career readiness dashboard" />
+
+    <!-- ===== Fonts (Performance: preconnect first, then stylesheet) ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Skill–Job Gap</title>
+
+    <!-- ===== JSON-LD Structured Data ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.skilljobgap.com/#organization",
+          "name": "Skill–Job Gap",
+          "url": "https://www.skilljobgap.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.skilljobgap.com/vite.svg",
+            "width": 512,
+            "height": 512
+          },
+          "description": "AI-powered career readiness and skill gap analysis platform that benchmarks professional skills against real employer requirements.",
+          "foundingDate": "2024",
+          "sameAs": []
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.skilljobgap.com/#website",
+          "url": "https://www.skilljobgap.com/",
+          "name": "Skill–Job Gap",
+          "description": "Measure your professional skills against industry benchmarks and get an AI-powered learning roadmap.",
+          "publisher": { "@id": "https://www.skilljobgap.com/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://www.skilljobgap.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://www.skilljobgap.com/#app",
+          "name": "Skill–Job Gap Platform",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Web",
+          "url": "https://www.skilljobgap.com/",
+          "description": "A cloud-based career readiness platform offering skill gap analysis, AI-powered learning roadmaps, resume analysis, interview preparation, and verified skill certifications.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free to start with assessment and gap analysis"
+          },
+          "featureList": [
+            "Skill Gap Analysis",
+            "AI-Powered Learning Roadmap",
+            "Resume Analyzer",
+            "Interview Preparation",
+            "Skill Certification Badge",
+            "Peer Benchmarking",
+            "Project-Based Learning Tracks"
+          ],
+          "publisher": { "@id": "https://www.skilljobgap.com/#organization" }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.skilljobgap.com/#webpage",
+          "url": "https://www.skilljobgap.com/",
+          "name": "Skill–Job Gap | AI-Powered Career Readiness & Skills Assessment Platform",
+          "isPartOf": { "@id": "https://www.skilljobgap.com/#website" },
+          "about": { "@id": "https://www.skilljobgap.com/#app" },
+          "description": "Measure your professional skills against real employer benchmarks, identify critical skill gaps, and get a personalized AI-powered learning roadmap.",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.skilljobgap.com/"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is a skill–job gap?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A skill–job gap is the difference between the skills a candidate currently has and the skills required by employers for a specific role. The Skill–Job Gap platform measures this gap using standardized assessments and real employer benchmark data."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the career readiness assessment work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "After registering, you select your target role and complete a 45-minute core competency evaluation. Our AI engine scores your performance, identifies specific skill gaps, and generates a personalized learning roadmap with prioritized focus areas."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the skill gap assessment free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Creating an account and completing the initial skill gap assessment is free. You receive a full breakdown of your strengths, gaps, and priority focus areas at no cost."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is my employability score calculated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Your employability score is a weighted composite of five dimensions: Technical skills, Projects completed, Resume quality, Practical competency, and Interview readiness. Each dimension is benchmarked against top employer requirements for your target role."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>

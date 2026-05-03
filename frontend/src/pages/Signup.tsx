@@ -1,8 +1,15 @@
 import { useState, useCallback, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Signup() {
+  usePageMeta({
+    title: 'Create Free Account | Skill–Job Gap — Career Readiness Assessment',
+    description: 'Sign up free and start your career readiness assessment. Identify your skill gaps, benchmark against real employers, and get an AI-powered learning roadmap in minutes.',
+    canonical: 'https://www.skilljobgap.com/signup',
+    noIndex: false,
+  })
   const navigate = useNavigate()
   const { signUp, signInWithGoogle } = useAuth()
   const [name, setName] = useState('')

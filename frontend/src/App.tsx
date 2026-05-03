@@ -15,6 +15,8 @@ import { Interview } from './pages/Interview'
 import { CodingChallenge } from './pages/CodingChallenge'
 import { Profile } from './pages/Profile'
 import { Verify } from './pages/Verify'
+import { Privacy } from './pages/Privacy'
+import { Terms } from './pages/Terms'
 
 export default function App() {
   return (
@@ -22,7 +24,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* Public pages */}
           <Route index element={<Landing />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="terms" element={<Terms />} />
 
           {/* Auth pages: redirect to dashboard if already logged in */}
           <Route path="login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />

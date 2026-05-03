@@ -2,8 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useRoleData } from '../hooks/useRoleData'
 import { getStoredRole } from '../hooks/useAuth'
 import { SCORE_WEIGHTS } from '../constants/scoreWeights'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Dashboard() {
+  usePageMeta({
+    title: 'Your Dashboard | Skill–Job Gap',
+    description: 'View your career readiness score, skill gap breakdown, learning roadmap progress, and AI-powered next steps.',
+    noIndex: true,
+  })
   const navigate = useNavigate()
   const role = getStoredRole()
   const {
