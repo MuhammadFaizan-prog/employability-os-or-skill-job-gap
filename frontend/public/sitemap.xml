@@ -4,9 +4,9 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage — highest priority, most frequently updated -->
+  <!-- Homepage — highest priority -->
   <url>
-    <loc>https://www.skilljobgap.com/</loc>
+    <loc>https://employability-os-or-skill-job-gap.vercel.app/</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,31 +14,31 @@
 
   <!-- Signup — key conversion page -->
   <url>
-    <loc>https://www.skilljobgap.com/signup</loc>
+    <loc>https://employability-os-or-skill-job-gap.vercel.app/signup</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Login — important for returning users -->
+  <!-- Login -->
   <url>
-    <loc>https://www.skilljobgap.com/login</loc>
+    <loc>https://employability-os-or-skill-job-gap.vercel.app/login</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- Privacy Policy — E-E-A-T trust signal -->
+  <!-- Privacy Policy -->
   <url>
-    <loc>https://www.skilljobgap.com/privacy</loc>
+    <loc>https://employability-os-or-skill-job-gap.vercel.app/privacy</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
-  <!-- Terms of Service — E-E-A-T trust signal -->
+  <!-- Terms of Service -->
   <url>
-    <loc>https://www.skilljobgap.com/terms</loc>
+    <loc>https://employability-os-or-skill-job-gap.vercel.app/terms</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
