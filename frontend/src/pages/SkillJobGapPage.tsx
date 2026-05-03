@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 
 const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '1.5rem' }
 const wrap = { maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }
@@ -11,6 +12,39 @@ export function SkillJobGapPage() {
     description: 'A skill–job gap is the measurable difference between your current skills and what employers require. Learn what causes it, how it is measured, and how to close it with AI.',
     canonical: 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
     noIndex: false,
+  })
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap#webpage',
+        'url': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
+        'name': 'Skill Job Gap | What It Is, Why It Matters & How to Close It',
+        'description': 'A skill-job gap is the measurable difference between your current skills and what employers require. Learn what causes it, how it is measured, and how to close it.',
+        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Skill-Job Gap', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap' },
+        ]},
+      },
+      {
+        '@type': 'DefinedTerm',
+        'name': 'Skill-Job Gap',
+        'description': 'A skill-job gap is the measurable difference between the skills a candidate currently possesses and the skills an employer requires for a specific job role.',
+        'inDefinedTermSet': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap',
+      },
+      {
+        '@type': 'FAQPage',
+        'mainEntity': [
+          { '@type': 'Question', 'name': 'What is a skill job gap?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'A skill-job gap is the measurable difference between the skills a person currently possesses and the skills required by employers for a specific job role. It exists at the individual level and at the systemic level where the workforce lacks the skills employers need.' } },
+          { '@type': 'Question', 'name': 'What causes the skill-job gap?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'The skill-job gap is caused by rapid technological change, outdated degree programmes, lack of employer-aligned benchmarks, and limited access to practical experience such as internships and project work.' } },
+          { '@type': 'Question', 'name': 'How do I close my skill-job gap?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Closing a skill-job gap requires three steps: (1) Identify it precisely with a structured assessment; (2) Prioritise your gaps by employer importance using AI; (3) Close it systematically by following a personalised learning roadmap and building portfolio projects.' } },
+          { '@type': 'Question', 'name': 'How long does it take to close a skill-job gap?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Minor skill gaps can be closed in 2-4 weeks of focused learning. Larger gaps across multiple dimensions typically take 3-6 months of structured effort following a prioritised roadmap.' } },
+          { '@type': 'Question', 'name': 'Can employers use the skill-job gap platform?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes. Employers can set role-specific skill benchmarks, screen candidates against those benchmarks, and identify candidates whose gap scores meet their minimum thresholds.' } },
+        ],
+      },
+    ],
   })
   const [open, setOpen] = useState<number | null>(null)
 

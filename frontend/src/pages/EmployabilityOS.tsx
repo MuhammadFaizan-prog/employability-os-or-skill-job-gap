@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 
 const sectionStyle = { maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }
 const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '1.5rem' }
@@ -11,6 +12,34 @@ export function EmployabilityOS() {
     description: 'Employability OS is an AI-powered platform that maps your skills, identifies job gaps, and builds a personalised learning roadmap. For students, universities, and employers.',
     canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability-os',
     noIndex: false,
+  })
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os#webpage',
+        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os',
+        'name': 'Employability OS | AI-Powered Career Readiness Operating System',
+        'description': 'Employability OS is an AI-powered platform that maps your skills, identifies job gaps, and builds a personalised learning roadmap.',
+        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability OS', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os' },
+        ]},
+      },
+      {
+        '@type': 'FAQPage',
+        'mainEntity': [
+          { '@type': 'Question', 'name': 'What is Employability OS?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Employability OS (Employability Operating System) is an AI-powered digital platform that manages every layer of a person\'s career readiness journey — skill assessment, gap analysis, AI learning roadmap, resume analysis, interview preparation, and verified skill certification — in one unified system.' } },
+          { '@type': 'Question', 'name': 'Who is Employability OS for?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Employability OS is built for students and graduates, universities looking for data-driven employability reporting, and employers and HR teams who want to verify candidate skill readiness before hiring.' } },
+          { '@type': 'Question', 'name': 'How is Employability OS different from traditional career platforms?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Employability OS measures your actual skill profile against real employer benchmarks, quantifies the gap with a precise score, generates a prioritised AI learning roadmap, and issues a verified readiness badge — replacing guesswork with a systematic, data-backed approach.' } },
+          { '@type': 'Question', 'name': 'Is Employability OS free?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes. The full skill gap assessment and employability score are completely free. Advanced features including AI roadmap generation, resume analysis, and interview preparation are available after creating a free account.' } },
+          { '@type': 'Question', 'name': 'How is the employability score calculated?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'The score is a weighted composite: Technical Skills (30%), Project Experience (25%), Communication & Soft Skills (20%), Resume Quality (15%), and Interview Readiness (10%) — benchmarked against real employer requirements.' } },
+          { '@type': 'Question', 'name': 'Can universities use Employability OS?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes. Universities can track cohort-level employability scores, generate programme-level gap reports, demonstrate graduate outcomes to employers, and identify curriculum gaps by skill domain.' } },
+        ],
+      },
+    ],
   })
   const [open, setOpen] = useState<number | null>(null)
 

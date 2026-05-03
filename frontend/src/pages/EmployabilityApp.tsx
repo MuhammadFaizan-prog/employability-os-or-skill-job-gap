@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 
 const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '1.5rem' }
 const wrap = { maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }
@@ -11,6 +12,33 @@ export function EmployabilityApp() {
     description: 'The Employability App that measures your skills, identifies job gaps, and gives you a personalised AI roadmap. Free for students, job seekers, universities, and employers.',
     canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability-app',
     noIndex: false,
+  })
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app#webpage',
+        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app',
+        'name': 'Employability App | AI Career Readiness App for Students & Job Seekers',
+        'description': 'The Employability App that measures your skills, identifies job gaps, and gives you a personalised AI roadmap. Free for students, job seekers, universities, and employers.',
+        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app' },
+        ]},
+      },
+      {
+        '@type': 'FAQPage',
+        'mainEntity': [
+          { '@type': 'Question', 'name': 'What is an employability app?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'An employability app is a digital tool that helps individuals understand, measure, and improve their readiness for employment. The best employability apps assess your actual skill profile, benchmark it against employer requirements, identify your specific gaps, and provide a structured path to close them.' } },
+          { '@type': 'Question', 'name': 'Who is the employability app for?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'The app is designed for students and graduates, job seekers who want a data-backed assessment of their readiness, career changers identifying new role requirements, and universities tracking graduate employability outcomes.' } },
+          { '@type': 'Question', 'name': 'Is the employability app free?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes. The core features — including the full skill gap assessment, gap score, employability score, and personalised feedback — are completely free. Advanced tools are available to registered users at no initial cost.' } },
+          { '@type': 'Question', 'name': 'How does the employability app differ from a job board?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Job boards show you what roles are available. Our employability app tells you whether you are ready for those roles and exactly what to do if you are not, replacing speculative applications with systematic skill building.' } },
+          { '@type': 'Question', 'name': 'Can universities use this employability app?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes. Universities can access an institution dashboard showing cohort-level employability data, programme-specific gap reports, and graduate readiness trends for accreditation and employer engagement activities.' } },
+        ],
+      },
+    ],
   })
   const [open, setOpen] = useState<number | null>(null)
 

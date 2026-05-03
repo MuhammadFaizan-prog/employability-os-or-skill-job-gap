@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useJsonLd } from '../hooks/useJsonLd'
 
 const cardStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '1.5rem' }
 const wrap = { maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }
@@ -10,6 +11,33 @@ export function EmployabilityHub() {
     description: 'Everything you need to know about employability — skills, assessment, gap analysis, career readiness, and AI-powered tools to become job-ready faster.',
     canonical: 'https://employability-os-or-skill-job-gap.vercel.app/employability',
     noIndex: false,
+  })
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': 'https://employability-os-or-skill-job-gap.vercel.app/employability#webpage',
+        'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability',
+        'name': 'Employability | Your Complete Guide to Career Readiness & Job Skills',
+        'description': 'Everything you need to know about employability — skills, assessment, gap analysis, career readiness, and AI-powered tools to become job-ready faster.',
+        'isPartOf': { '@id': 'https://employability-os-or-skill-job-gap.vercel.app/#website' },
+        'breadcrumb': { '@type': 'BreadcrumbList', 'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability', 'item': 'https://employability-os-or-skill-job-gap.vercel.app/employability' },
+        ]},
+      },
+      {
+        '@type': 'ItemList',
+        'name': 'Employability Resources',
+        'description': 'A complete hub of employability tools, guides, and resources for students, job seekers, universities, and employers.',
+        'itemListElement': [
+          { '@type': 'ListItem', 'position': 1, 'name': 'Employability OS', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-os' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Employability App', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/employability-app' },
+          { '@type': 'ListItem', 'position': 3, 'name': 'Skill-Job Gap Guide', 'url': 'https://employability-os-or-skill-job-gap.vercel.app/skill-job-gap' },
+        ],
+      },
+    ],
   })
 
   const topics = [
